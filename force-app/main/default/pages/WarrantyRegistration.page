@@ -1,0 +1,1432 @@
+<!--
+ - Created by Slav on 18.12.2019.
+ -->
+ <apex:page id="WarrantyRegistration" standardController="Entitlement" extensions="WarrantyRegistrationController" standardStylesheets="true" showHeader="false" applyHtmlTag="false" applyBodyTag="false">
+
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"/>
+    <apex:includeScript value="{!$Resource.jMaskedInput}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.spinner_style)}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.WarrantyRegistrationStyle)}"/>
+
+    <apex:stylesheet value="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"  />
+    <apex:includeScript value="https://code.jquery.com/jquery-1.9.1.js" />
+    <apex:includeScript value="https://code.jquery.com/ui/1.10.3/jquery-ui.js" />
+    <script type='text/javascript'>
+        j$ = jQuery.noConflict();
+        var warning = "NOTE: After the Warranty Registration is submitted you can no longer make any changes to it\n\n" +
+                      "Please confirm that you want to proceed";
+
+        j$(window).scroll(function() {
+            sessionStorage.scrollTop = j$(this).scrollTop();
+        });
+
+         
+        const PRODUCT_TYPE_WAV         = 'WAV';
+        const PRODUCT_TYPE_LIFTS       = 'Lifts';
+        const PRODUCT_TYPE_CHAIRTOPPER = 'Chairtopper';
+        const PRODUCT_TYPE_SEATS       = 'Seats';
+
+        const CLIENT_CONSUMER ='Consumer';
+        const CLIENT_COMMERCIAL = 'Commercial';
+
+        function resetAccept() {
+            j$("[id$='accepted']").prop('checked', false);
+        }
+
+        // ------ highlight error fields ------
+        function highlightErrorFields() {
+            var errFields = "{!errorFields}";
+            var fields = errFields.split(',');
+            for (i=0; i<fields.length; i++) {
+                var field = fields[i];      
+                j$("[id$='"+fields[i]+"']").css('borderColor', 'red');
+            }
+        }
+
+        function setPhoneMasks() {
+            $("[id$='phone']").mask('(999) 999-9999');                      // customer phone
+            if ({!NOT(isInternational)}) {
+                $("[id$='servicingDealerPhone']").mask('(999) 999-9999');   // servicing dealer phone
+            }
+        }
+
+        function checkAccept() {
+            var accepted = j$("[id$='accepted']");
+            var fake   = j$("[id$='fake']");
+            var submit = j$("[id$='submit']");
+            if (accepted.is(':checked')) {
+                fake.css('display', 'none');
+                submit.css('display', 'inline');
+            } else {
+                fake.css('display', 'inline');
+                submit.css('display', 'none');
+            }
+        }
+
+        function keyCheck() {
+            if (window.event.keyCode == 13) return false;
+        }
+
+        function hideShowServiceConnected() {
+            j$("[id$='serviceConnected").css('display', j$("[id$='isVeteran").is(":checked") ? 'block' : 'none');
+        }
+
+        function hideShowBusinessOrganization(option) {
+            
+            var isBusinessUse = option.id.endsWith('useType:1') && option.checked;
+            j$("[id$='businessRow").css('display', isBusinessUse ? 'table-row' : 'none');
+            
+
+           
+        }
+
+        function hideShowCooSection(option) {
+            var isCooRequired = option.id.endsWith('cooRequired:0') && option.checked;
+            var visible = isCooRequired ? 'table-row' : 'none';
+            j$("[id$='cooRow1").css('display', visible);
+            j$("[id$='cooRow2").css('display', visible);
+            j$("[id$='cooRow3").css('display', visible);
+            j$("[id$='cooRow4").css('display', visible);
+        }
+
+        
+        function hideShowServicingDealerSectionExec( visible ){
+
+            j$("[id$='trServicingDealer").css('display', visible);
+            j$("[id$='trServicingDealerId").css('display', visible);
+            j$("[id$='trServicingDealerAddress").css('display', visible);
+            j$("[id$='trServicingDealerPhone").css('display', visible);
+            j$("[id$='trServicingSalesPerson").css('display', visible);
+        }
+
+        function hideShowServicingDealerSection(option) {
+            var isServicingDealer = option.id.endsWith('isServicingDealer:1') && option.checked;
+            var visible = isServicingDealer ? 'table-row' : 'none';
+            hideShowServicingDealerSectionExec( visible );
+        }
+
+        function lockAllInputs () {
+            var inputs = j$(":input");
+            for (i=0; i<inputs.length; i++) {
+                if (inputs[i].value == 'Close') continue;        // не блокируем кнопку Close
+                if (inputs[i].id.startsWith('com.salesforce.visualforce.')) continue;
+                j$("[id$='" + inputs[i].id + "']").prop('disabled', 'true');
+            }
+        }
+
+        j$(document).ready(function() {
+            checkAccept();
+            highlightErrorFields();
+            setPhoneMasks();
+            if ({!submitted}) lockAllInputs();
+            // ------ scroll to last position ------
+            if (sessionStorage.scrollTop) {
+                j$(window).scrollTop(sessionStorage.scrollTop);
+            }
+            j$("[id$='container']").css('opacity', 1);
+
+            renderAssetProductType('{!productType}');
+            showHideCustomerNames('{!productType}');
+        });
+
+        function renderAssetProductType( pType ) {
+            setPhoneMasks();
+             if( pType!='' && pType != PRODUCT_TYPE_WAV){
+                hideShowServicingDealerSectionExec = 'none';
+                showHideServiceAgreement('none');
+                showHideVehicleDelivery('none');
+                showHideServicingDealer('none');
+                showHideLegal('none');
+
+                if( PRODUCT_TYPE_SEATS != pType ){
+                    showHideSalesPerson('none');
+                }
+                //j$("[id$='dConversionUsedFor").css('display', 'none');
+                //j$("[id$='dBAFinance").css('display', 'none');
+                //j$("[id$='dCommercialConsumer").css('display', 'none');
+
+                showHideCpo('none');
+                showHideVa('none');
+/*
+                if( PRODUCT_TYPE_SEATS == pType ){
+                    j$("[id$='trCustomerZip").css('display', 'none');
+                }else{
+                    showHideCustomer('none');
+                }
+*/
+                var fake   = j$("[id$='fake']");
+                var submit = j$("[id$='submit']");
+                fake.css('display', 'none');
+                submit.css('display', 'inline');
+
+            
+                j$("[id$='trMileage").css('display', 'none');
+                if( pType == PRODUCT_TYPE_SEATS ){
+                    j$("[id$='trCycleCount").css('display', 'none');
+                }else{
+                    j$("[id$='trCycleCount").css('display', 'table-row');
+                }
+                
+            }else{
+              
+                j$("[id$='trCycleCount").css('display', 'none');
+            }
+        }
+
+        function showHideSalesPerson( visible ){
+            j$("[id$='tbSalesPerson").css('display', visible);
+        }
+
+        
+
+
+        function showHideCustomer(visible){
+            
+            //j$("[id$='trCustomerZip").css('display', 'none');
+            j$("[id$='trCustomerFirst").css('display', 'none');
+            j$("[id$='trCustomerLast").css('display', 'none');
+        }
+
+
+        function showHideCpo( visible ){
+            j$("[id$='tbCpo").css('display', visible);
+        }
+
+        function showHideVa( visible ){
+            j$("[id$='tbVa").css('display', visible);
+        }
+
+        function showHideServiceAgreement( visible ){
+            
+            j$("[id$='tbServiceAgreemet").css('display', visible);
+        }
+
+        function showHideVehicleDelivery( visible ){
+            
+            j$("[id$='tbVehicleDelivery").css('display', visible);
+        }
+
+        function showHideServicingDealer( visible){
+            
+            j$("[id$='tbServicingDealer").css('display', visible);
+        }
+
+        function showHideLegal( visible ){
+            
+            j$("[id$='tbLegal").css('display', visible);
+        }
+
+        function showHideCustomerNames(ptype){
+
+                //if( PRODUCT_TYPE_LIFTS == ptype &&  
+
+                    if(
+                        document.querySelector("input[id*=useType][value='Business']:checked") ||
+                            document.querySelector("input[id*=rCommercialOrConsumer][value='Commercial']:checked") 
+                    ){
+                   
+                    j$("[id$='trCustomerFirst").css('display', 'none');
+                    j$("[id$='trCustomerLast").css('display', 'none');
+
+                }else{
+                    j$("[id$='trCustomerFirst").css('display', 'table-row');
+                    j$("[id$='trCustomerLast").css('display', 'table-row');
+                }
+                
+         }
+        
+
+    </script>
+    
+    <div id="container" style="opacity:1" class="formHeader Section1">
+        <apex:form id="theForm">
+           
+            <div style="text-align:center;">
+                <apex:pageBlock id="account" mode="maindetail">
+                    <c:VF_Spinner />  
+
+                    <table class="formTable" style="width:50%" align="center" border="0">
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- L O G O ------------------------>
+                        <tr>
+                            <td colspan="2">
+                                <div style="float:left">
+                                    <apex:image id="logo" value="https://c.na54.content.force.com/servlet/servlet.ImageServer?id=0150a0000044Qb4&oid=00Dj0000000Jnkz&lastMod=1585761213000"/>
+                                </div>
+                            </td>
+                            <td align="right" colspan="2" style="font-size:50px; font-weight:bold; color:#000000; padding-top:6px; padding-right:50px; white-space:nowrap;">
+                                <div class="head">
+                                    Warranty Registration
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+                        <!---------------------- SPACER ------------------------>
+
+
+                        <!---------------------- MESSAGES ---------------------->
+                        <tr>
+                            <td colspan="4" style="text-align:left">
+                                <apex:pageMessages id="messageUpper" rendered="true" escape="false"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- ASSET LOOKUP ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Asset:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputField id="assetId" value="{!entitlement.AssetId}" required="false" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();">
+                                        <apex:actionSupport event="onchange" action="{!assetLookupHandler}" onSubmit="showSpinner();" onComplete="renderAssetProductType('{!productType}');" reRender="theForm"/>
+                                    </apex:inputField>
+                                    <script>
+                                        j$("[id$='assetId']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div id="dConversionUsedFor">
+                                    <span class="label" style="float:left; padding-top:8px; padding-right:30px;">
+                                        This conversion is being used for:
+                                    </span>
+                                    <div class="radio" id="useType" style="width:320px;">
+                                        <apex:selectRadio id="useType" value="{!useType}" layout="lineDirection" onChange="hideShowBusinessOrganization(this); showHideCustomerNames('{!productType}');" styleClass="radioOption" style="margin-left:-20px;">
+                                            <apex:selectOptions value="{!useTypeSelectOptions}"/>
+                                        </apex:selectRadio>
+                                        
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- BUSINESS/ORGANIZATION ------------------------>
+                        <tr id="businessRow" style="display:{!IF(isBusinessUse, 'table-row', 'none')}">
+                            <td colspan="2"/>
+                            <td>
+                                <div class="label">
+                                    Business/Organization:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="businessOrganization" value="{!businessOrganization}" styleClass="input"
+                                                    style="margin-left:-27px; width:320px;" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TYPE OF USE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Model:
+                                </div>
+                            </td>  
+                            <td>
+                                <div style="float:left;">
+                                    
+                                    <apex:inputText id="model" value="{!model}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();"/>
+                                    <script>
+                                        j$("[id$='model']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div id="dBAFinance">
+                                    <span class="label" style="float:left; padding-top:8px; padding-right:30px;">
+                                        SampleAbility Finance:
+                                    </span>
+                                    <div id="SampleFinance" class="radio" style="width:320px;">
+                                        <apex:selectRadio id="sSampleFinance" value="{!SampleFinance}" layout="lineDirection" styleClass="radioOption" style="margin-left:-20px;">
+                                            <apex:selectOptions value="{!financeSelectOptions}"/>
+                                        </apex:selectRadio>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TYPE OF USE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    VIN/Serial #:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="vin-serial" value="{!serialNumber}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();"/>
+                                    <script>
+                                        j$("[id$='vin-serial']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div id="dCommercialConsumer">
+                                    <span class="label" style="float:left; padding-top:8px; padding-right:30px;">
+                                        Commercial or Consumer:
+                                    </span>
+                                    <div id="commercialOrConsumer" class="radio" style="width:320px;">
+                                        <apex:selectRadio id="rCommercialOrConsumer" value="{!commercialOrConsumer}" layout="lineDirection" styleClass="radioOption" style="margin-left:-20px;" onchange="showHideCustomerNames('{!productType}')">
+                                            <apex:selectOptions value="{!commercialSelectOptions}"/>
+                                        </apex:selectRadio>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---==================================================================================---->
+                        <!---============== C U S T O M E R   I N F O R M A T I O N   B E G I N S =============---->
+                        <!---==================================================================================---->
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}"><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- FIRST NAME ------------------------>
+                        <tr id="trCustomerFirst" style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Customer:
+                                    <span style="float:right">First Name:</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="firstName" value="{!firstName}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- LAST NAME ------------------------>
+                        <tr id="trCustomerLast" style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    <span style="float:right">Last Name:</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="lastName" value="{!lastName}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- ADDRESS 1 ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Address Line 1:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="address1" value="{!address1}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- ADDRESS 2 ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Address Line 2:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="address2" value="{!address2}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- CITY ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    City:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="city" value="{!city}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- STATE / PROVINCE ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    State/Province:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:selectList id="state" value="{!state}" size="1" styleClass="input">
+                                        <apex:selectOptions value="{!stateSelectOptions}"/>
+                                    </apex:selectList>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- ZIP / POSTAL CODE ------------------------>
+                        <tr id="trCustomerZip" style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Zip/Postal Code:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="zip" value="{!zip}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- COUNTRY ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Country:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:selectList id="country" value="{!country}" size="1" styleClass="input">
+                                        <apex:selectOptions value="{!countrySelectOptions}"/>
+                                    </apex:selectList>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- PHONE ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Customer Phone:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="phone" value="{!phone}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- EMAIL ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Customer Email:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="email" value="{!email}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---==================================================================================---->
+                        <!---============== C U S T O M E R   I N F O R M A T I O N   E N D S =================---->
+                        <!---==================================================================================---->
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+<tbody id="tbSalesPerson">
+                        <!---------------------- SALES PERSON NAME ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Sales Person Name:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="salesPersonName" value="{!salesPersonName}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- SALES PERSON EMAIL ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Sales Person Email:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="salesPersonEmail" value="{!salesPersonEmail}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SECONDARY EMAIL ------------------------>
+                        <tr  style="display:{!IF(productType == 'WAV' || productType == '', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Secondary Email:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="secondaryEmail" value="{!secondaryEmail}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+</tbody>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+
+
+                        <!---------------------- DEALER NAME ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Dealer Name:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputField id="dealer" value="{!entitlement.Dealer__c}" required="false" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();">
+                                        <apex:actionSupport onComplete="renderAssetProductType('{!productType}');"  event="onchange" action="{!dealerLookupHandler}" onSubmit="showSpinner();" reRender="theForm"/>
+                                    </apex:inputField>
+                                    <script>
+                                            j$("[id$='dealer']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+
+                        <!---------------------- DEALER ID ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Dealer ID:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="dealerId" value="{!dealerId}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();"/>
+                                    <script>
+                                            j$("[id$='dealerId']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- MILEAGE ------------------------>
+                        <tr id="trMileage">
+                            <td>
+                                <div class="label">
+                                    Mileage at Time of Sale:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="mileage" value="{!mileage}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- Cycle Count ------------------------>
+                        <tr id="trCycleCount">
+                            <td>
+                                <div class="label">
+                                    Cycle Count:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="cycleCount" value="{!cycleCount}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- PURCHASE DATE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Purchase Date:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="purchaseDate" value="{!purchaseDate}" styleClass="input" onKeyPress="return keyCheck();" />
+                                    <script>
+                                        j$("[id$='purchaseDate']").datepicker({
+                                            defaultDate: "-1w",
+                                            changeMonth: true,
+                                            changeYear: true,
+                                            numberOfMonths: 1,
+                                            dateFormat:"yy-mm-dd",
+                                            showAnim: "slide"
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- COMMENTS ------------------------>
+                        <tr>
+                            <td style="vertical-align:top">
+                                <div class="label" style="margin-top:5px">
+                                    Comments:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="width:100%">
+                                    <apex:inputTextarea id="comments" value="{!comments}" styleClass="textarea"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!--------------------------------------------------------->
+                        <!------------------------- PAGE 2 ------------------------>
+                        <!--------------------------------------------------------->
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+<tbody id="tbCpo">
+                        <!---------------------- IS THIS A CPO ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Is this a CPO?:
+                                </div>
+                            </td>
+                            <td>
+                                <div id="isCPO" class="radio" style="margin:2px 0px 2px 2px;">
+                                    <apex:selectRadio value="{!isCPO}" layout="lineDirection" styleClass="radioOption">
+                                        <apex:selectOptions value="{!yesnoSelectOptions}"/>
+                                    </apex:selectRadio>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div>
+                                    <span class="label" style="float:left; padding-right:10px;">
+                                        First Accessible Vehicle?:
+                                    </span>
+                                    <span style="float:left">
+                                        <apex:inputCheckbox id="firstVehicle" selected="{!firstVehicle}" onKeyPress="return keyCheck();"/>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O REQUIRED ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    C of O Form Required?:
+                                </div>
+                            </td>
+                            <td>
+                                <div id="cooRequired" class="radio" style="margin:2px 0px 2px 2px;">
+                                    <apex:selectRadio id="cooRequired" value="{!cooRequired}" layout="lineDirection" onChange="hideShowCooSection(this);" styleClass="radioOption">
+                                        <apex:selectOptions value="{!yesnoSelectOptions}"/>
+                                    </apex:selectRadio>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div>
+                                    <span class="label" style="float:left; padding-right:10px;">
+                                        Rental?:
+                                    </span>
+                                    <span style="float:left">
+                                        <apex:inputCheckbox id="rental" selected="{!rental}" onKeyPress="return keyCheck();"/>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O SENDS MSO TO ------------------------>
+                        <tr id="cooRow1" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Send MSO to (Address):
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="float:left; width:100%;">
+                                    <apex:inputText id="cooSendMsoTo" value="{!cooSendMsoTo}" styleClass="input" style="width:100%" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O PAPERWORK CONTACT ------------------------>
+                        <tr id="cooRow2" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Paperwork Contact:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="cooPaperworkContact" value="{!cooPaperworkContact}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O OPTIONAL EMAIL ------------------------>
+                        <tr id="cooRow3" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Optional Email:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="cooOptionalEmail" value="{!cooOptionalEmail}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O VEHICLE PRICE ------------------------>
+                        <tr id="cooRow4" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Vehicle Price:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="cooVehiclePrice" value="{!cooVehiclePrice}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TOTAL SELLING PRICE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Total Selling Price:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="float:left;">
+                                    <apex:inputText id="totalPrice" value="{!totalPrice}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+</tbody>
+<tbody id="tbVa">
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- CUSTOMER IS VETERAN ------------------------>
+                        <tr>
+                            <td colspan="2">
+                                <div>
+                                    <span class="label" style="float:left; padding-right:10px;">
+                                        Customer is a Veteran:
+                                    </span>
+                                    <span style="float:left">
+                                        <apex:inputCheckbox id="isVeteran" selected="{!isVeteran}" onChange="hideShowServiceConnected();" onKeyPress="return keyCheck();"/>
+                                    </span>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div id="serviceConnected" style="display:{!IF(isVeteran, 'block', 'none')}">
+                                    <span class="label" style="float:left; padding-top:8px;">
+                                        Service Connected?:
+                                    </span>
+                                    <div id="serviceConnected" class="radio" style="width:400px; margin-left:-50px;">
+                                        <apex:selectRadio value="{!serviceConnected}" layout="lineDirection" styleClass="radioOption" style="margin-left:-20px;">
+                                            <apex:selectOptions value="{!serviceConnectedSelectOptions}"/>
+                                        </apex:selectRadio>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- THIS IS A VA SALE ------------------------>
+                        <tr>
+                            <td colspan="2">
+                                <div>
+                                    <span class="label" style="float:left; padding-right:10px;">
+                                        This is a VA Sale:
+                                    </span>
+                                    <span style="float:left">
+                                        <apex:inputCheckbox id="isVASale" selected="{!isVASale}" onKeyPress="return keyCheck();"/>
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+</tbody>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ----------------------->
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <tbody id="tbServiceAgreemet">
+                        <!----------------- SERVICE AGREEMENT -------------------->
+                        <tr>
+                            <td align="center" colspan="4">
+                                <div class="title">
+                                    THE Sample CORPORATION MOBILITY CONVERSION SERVICE AGREEMENT
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- ------------------ LEGAL TOP ---------------------- -->
+                        <tr>
+                            <td colspan="4">
+                                <div class="legal" style="border:0px">
+                                    <p>
+                                        This agreement is intended to clarify the service responsibilities to the Sample mobility conversion after the initial
+                                        delivery of the vehicle. <b>This agreement shall be executed and electronically submitted to Sample with each
+                                        conversion sale.</b>
+                                    </p>
+                                    <p>
+                                        Listed below is the identification of the Sample authorized selling Mobility Retailer, and the Sample authorized local
+                                        servicing Mobility Retailer who has agreed to service the mobility conversion portion of this vehicle per the applicable
+                                        Sample service manuals and guidelines.
+                                    </p>
+                                    <p>
+                                        By signing below, the purchaser of the mobility conversion acknowledges the adoption of the local servicing Mobility
+                                        Retailer as the primary provider of service for the mobility conversion portion of this vehicle. All local servicing
+                                        retailers must be an authorized Sample Mobility Service excellence Retailer (MSE-certified in vehicle conversions).
+                                    </p>
+                                    <p>
+                                        Should the owner of the mobility conversion require service outside the local servicing area, they may take the
+                                        mobility conversion to any Sample authorized mobility conversion retailer located within the United States. If the
+                                        owner needs assistance in identifying a local servicing mobility retailer, they may either call 1-800-THE-LEFT, or
+                                        check the Sample website at: <a href="https://www.Sampleability.com/" target="_blank" style="color:blue">www.Sampleability.com</a>.
+                                    </p>
+                                    <p>
+                                        Note: This agreement only applies to the servicing of the Sample mobility conversion. Ancillary equipment, such as
+                                        tie downs or hand controls, will be the responsibility of the mobility retailer that installed those products and will not
+                                        be covered under the Sample mobility conversion warranty. If there are issues relating to the vehicle and/or
+                                        conversion, it would be in the best interest of the mobility vehicle owner to contact the Sample authorized local
+                                        servicing Mobility Retailer listed below before taking the vehicle to their local car dealer.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody id="tbServicingDealer">
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- ARE YOU SERVICING DEALER ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Will you be the Servicing Dealer?:
+                                </div>
+                            </td>
+                            <td>
+                                <div id="isServicingDealer" class="radio" style="width:271px; margin: 2px 2px 2px 30px;">
+                                    <apex:selectRadio id="isServicingDealer" value="{!isServicingDealer}" onChange="hideShowServicingDealerSection(this);" layout="lineDirection" styleClass="radioOption">
+                                        <apex:selectOptions value="{!yesnoSelectOptions}"/>
+                                    </apex:selectRadio>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        <!---------------------- SERVICING DEALER NAME ------------------------>
+                        <tr id="trServicingDealer" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Servicing Dealer:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="servicingDealer" value="{!servicingDealer}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+                        <!---------------------- ADDRESS ------------------------>
+                        <tr id="trServicingDealerAddress" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Address:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="float:left;">
+                                    <apex:inputText id="servicingDealerAddress" value="{!servicingDealerAddress}" styleClass="input" style="width:600px" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- PHONE ------------------------>
+                        <tr id="trServicingDealerPhone" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Phone:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="servicingDealerPhone" value="{!servicingDealerPhone}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SERVICING SALES PERSON ------------------------>
+                        <tr id="trServicingSalesPerson" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Sales Person:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="servicingSalesPerson" value="{!servicingSalesPerson}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ----------------------->
+<!--                        <tr><td colspan="4"><div class="divider"/></td></tr>-->
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+<tbody id="tbVehicleDelivery">
+                        <!----------------- SERVICE AGREEMENT -------------------->
+                        <tr>
+                            <td align="center" colspan="4">
+                                <div class="title">
+                                    VEHICLE DELIVERY CHECKLIST
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!----------------------- CHECKBOX ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div>
+                                    <span style="font-size:15px; font-weight:bold; float:left;">Exterior:</span>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div>
+                                    <span style="font-size:15px; font-weight:bold; float:left;">Additional:</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkDamageFree" selected="{!chkDamageFree}" onKeyPress="return keyCheck();"/>
+                                    Exterior clean and damage-free
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkReviewManuals" selected="{!chkReviewManuals}" onKeyPress="return keyCheck();"/>
+                                    Review both OEM and Sample owner's manuals
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkSpareTireJack" selected="{!chkSpareTireJack}" onKeyPress="return keyCheck();"/>
+                                    Spare tire and jack location
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkToyotaExchange" selected="{!chkToyotaExchange}" onKeyPress="return keyCheck();"/>
+                                    Explain the Toyota Service Exchange Information Program (Toyota Vehicle Only)
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkRemoteControl" selected="{!chkRemoteControl}" onKeyPress="return keyCheck();"/>
+                                    Operation of remote control
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkServiceSchedule" selected="{!chkServiceSchedule}" onKeyPress="return keyCheck();"/>
+                                    Explain recommended preventive maintenance and service schedules
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkMagneticEntry" selected="{!chkMagneticEntry}" onKeyPress="return keyCheck();"/>
+                                    Magnetic entry (if applicable)
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkWarrantyRepair" selected="{!chkWarrantyRepair}" onKeyPress="return keyCheck();"/>
+                                    Explain procedures for warranty repair work
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkPowerDoor" selected="{!chkPowerDoor}" onKeyPress="return keyCheck();"/>
+                                    Exterior activation of power door, kneeling and ramp
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkServiceHours" selected="{!chkServiceHours}" onKeyPress="return keyCheck();"/>
+                                    Inform customer of dealership service hours
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkDoorAndRampExt" selected="{!chkDoorAndRampExt}" onKeyPress="return keyCheck();"/>
+                                    Manual operation of door and ramp from exterior
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkSignedRecord" selected="{!chkSignedRecord}" onKeyPress="return keyCheck();"/>
+                                    Advise customer to receive and maintain a signed record of all service work performed
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div>
+                                    <span style="font-size:15px; font-weight:bold; float:left;">Interior:</span>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkCompleteWarranty" selected="{!chkCompleteWarranty}" onKeyPress="return keyCheck();"/>
+                                    Complete and return warranty registration to activate warranty
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkGauges" selected="{!chkGauges}" onKeyPress="return keyCheck();"/>
+                                    Gauges and instrumentation
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkAfterMarket" selected="{!chkAfterMarket}" onKeyPress="return keyCheck();"/>
+                                    List all aftermarket equipment. Use brand names and model numbers where possible
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkInteriorSwitches" selected="{!chkInteriorSwitches}" onKeyPress="return keyCheck();"/>
+                                    Location of interior switches to operate accessible features
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div>
+                                    <span style="font-size:15px; font-weight:bold; float:left;">
+                                        Vehicle Delivery Checklist Comments:
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkDoorAndRampInt" selected="{!chkDoorAndRampInt}" onKeyPress="return keyCheck();"/>
+                                    Manual operation of door and ramp from interior
+                                </div>
+                            </td>
+                            <td colspan="2" rowspan="5" style="margin-top:0px; margin-bottom:0px;">
+                                <apex:inputTextarea id="chkComments" value="{!chkComments}" styleClass="checklist-comments"/>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkTieDowns" selected="{!chkTieDowns}" onKeyPress="return keyCheck();"/>
+                                    Operation of tie-downs
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkRollTumble" selected="{!chkRollTumble}" onKeyPress="return keyCheck();"/>
+                                    Operation of roll &amp; tumble seating (if applicable)
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkSeatBelts" selected="{!chkSeatBelts}" onKeyPress="return keyCheck();"/>
+                                    Operation of seat belts
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:inputCheckbox id="chkSampleController" selected="{!chkSampleController}" onKeyPress="return keyCheck();"/>
+                                    Location of Sample controller
+                                </div>
+                            </td>
+                        </tr>
+</tbody>
+<tbody id="tbLegal">
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+
+                        <!-------------------- LEGAL TOP ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="legal" style="border:0px">
+                                    <p style="text-indent:30px;">
+                                        I hereby acknowledge that the mobility devices applicable to my vehicle have been demonstrated for me, and I fully
+                                        understand and can operate this equipment. I have been advised that wheelchairs may not maintain their integrity
+                                        in the event of a collision. I hereby release and hold harmless the Original Vehicle Manufacturer, The Sample
+                                        Corporation, and its independent dealers from any liability associated with injury to my person and property as a
+                                        result of my use of a wheelchair during a collision. I have read and understand this entire form, including all
+                                        disclaimers and the Sample factory Limited Warranty. All of the information I have provided is correct.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="legal" style="border:0px">
+                                    <p style="text-indent:30px;">
+                                        <span style="font-size:18px; font-weight:bold;">Customer Signature:</span>
+                                        <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        I acknowledge that all items checked have been reviewed with me.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Type Full Name:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:inputText id="custSignName" value="{!custSignName}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Date:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:inputText id="custSignDate" value="{!custSignDate}" styleClass="input" onKeyPress="return keyCheck();" />
+                                    <script>
+                                        j$("[id$='custSignDate']").datepicker({
+                                            defaultDate: "+1w",
+                                            changeMonth: true,
+                                            changeYear: true,
+                                            numberOfMonths: 1,
+                                            dateFormat:"yy-mm-dd",
+                                            showAnim: "slide"
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div style="width:100% height:60px;">
+                                    <apex:inputTextarea id="custComments" value="{!custComments}" disabled="true" styleClass="textarea" style="height:60px; width:100%;"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="legal" style="border:0px">
+                                    <p style="text-indent:30px;">
+                                        <span style="font-size:18px; font-weight:bold;">Sales Consultant Signature:</span>
+                                        <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        I acknowledge that all Items checked have been reviewed with the customer.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Type Full Name:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:inputText id="dealerSignName" value="{!dealerSignName}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Date:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:inputText id="dealerSignDate" value="{!dealerSignDate}" styleClass="input" onKeyPress="return keyCheck();" />
+                                    <script>
+                                        j$("[id$='dealerSignDate']").datepicker({
+                                            defaultDate: "+1w",
+                                            changeMonth: true,
+                                            changeYear: true,
+                                            numberOfMonths: 1,
+                                            dateFormat:"yy-mm-dd",
+                                            showAnim: "slide"
+                                        });
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div style="width:100% height:60px;">
+                                    <apex:inputTextarea id="dealerComments" value="{!dealerComments}" disabled="true" styleClass="textarea" style="height:60px"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER -------------------------->
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+                        <!-------------------- LEGAL BOTTOM ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="legal" style="border:0px">
+                                    <p style="text-indent:30px;">
+                                        The dealer agrees to electronically submit this completed Mobility Conversion Service Agreement to SampleMobility
+                                        immediately after the customer review takes place. Additionally, the dealer agrees to maintain a copy of this
+                                        executed document, with the appropriate signatures affixed, for a period of six (6) years.
+                                    </p>
+                                    <p style="text-indent:30px;">
+                                        To ensure that complated records are maintained by the dealer, SampleMobility shall periodically audit the applicable
+                                        records to determine dealer conformance. The dealer agrees top cooperate with SampleAbility in providing copies of
+                                        these records. Failure to comply with these terms may nullify any obligation that SampleAbility may have to pay
+                                        warranty claims submitted by the dealer.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <div style="width:100%; white-space:nowrap; display:{!IF(submitted, 'none', 'block')}">
+                                    <apex:inputCheckbox id="accepted" selected="{!accepted}" onClick="checkAccept();" onKeyPress="return keyCheck();"/>
+                                    I acknowledge the above agreement.
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ----------------------->
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- MESSAGES ---------------------->
+                        <tr>
+                            <td colspan="4" style="text-align:left">
+                                <apex:pageMessages id="messageLower" rendered="true" escape="false"/>
+                            </td>
+                        </tr>
+</tbody>
+                        <tr>
+                            <td colspan="4">
+                               
+                                <apex:commandButton id="fake" value="Submit" disabled="true" rendered="{!NOT(submitted)}" styleClass="button" style="display:inline;"/>
+                                <apex:commandButton id="submit" value="Submit" action="{!submit}" rendered="{!NOT(submitted)}"
+                                                    onClick="showSpinner(true);" styleClass="button" style="display:none;"/>
+                                <span style="display:{!IF(submitted, 'none', 'inline')}">&nbsp;</span>
+                                <apex:commandButton id="cancel" value="{!IF(submitted, 'Close', 'Cancel')}" action="{!cancel}" reRender="theForm" styleClass="button"/>
+                                &nbsp;
+                                <apex:commandLink value="Preview PDF" action="{!previewPDF}" target="_blank" rendered="{!submitted}" styleClass="btn" style="text-decoration:none; padding:4px 12px 4px 12px; margin-left:-2px; font-size:12px;"/>
+                                <apex:commandLink value="Download PDF" action="{!downloadPDF}" target="_blank" rendered="{!submitted}" styleClass="btn" style="text-decoration:none; padding:4px 12px 4px 12px; margin-left:-2px; font-size:12px;"/>
+                              
+                             
+                            </td>
+                        </tr>
+                    </table>
+                </apex:pageBlock>
+            </div>
+        </apex:form>
+    </div>
+</apex:page>

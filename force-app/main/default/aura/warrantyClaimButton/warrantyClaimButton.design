@@ -1,0 +1,6 @@
+
+<design:component>
+  <design:attribute label="Record Id" name="recordId" default="{!recordId}"></design:attribute>
+  <design:attribute label="Button Label" name="buttonLabel" default=""></design:attribute>
+  <design:attribute label="Modal Title" name="modalTitle" default=""></design:attribute>
+</design:component>

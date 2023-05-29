@@ -1,0 +1,13 @@
+
+
+
+@media(max-width: 468px) {
+    .checkout-section-header-button {
+        margin-top: 0.5rem;
+        display: block;
+    }
+
+    .checkout-section-header-button:first-child {
+        margin-top: 0;
+    }
+}

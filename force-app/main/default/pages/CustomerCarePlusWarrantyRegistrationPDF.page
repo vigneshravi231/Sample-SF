@@ -1,0 +1,469 @@
+<!--
+ - Created by user on 04.03.2020.
+ -->
+
+<apex:page id="WarrantyRegistrationPDF" renderAs="pdf" contentType="" standardController="Entitlement" extensions="WarrantyRegistrationControllerPDF" standardStylesheets="false" showHeader="false" applyBodyTag="false" applyHtmlTag="false">
+
+    <apex:variable value="{!0}" var="count"/>
+    <apex:repeat value="{!warranties}" var="warranty">
+        <apex:variable value="{!count+1}" var="count"/>
+        <div style="{!IF(warranties.size == count, 'font-family:sans-serif;', 'font-family:sans-serif; page-break-after: always;')}">
+            
+            <table style="width: 100%" border="0">
+                                          
+                <tr>
+                    <td colspan="1" align="center">
+                        <div>
+                            <apex:image id="logo" value="/sfc/servlet.shepherd/version/download/0680n000000i4TD" height="45"/>
+                        </div>
+                    </td>
+                    <td colspan="3">
+                        <div style="font-size: 28px; font-weight:bold; color:#000000; white-space:nowrap; margin-left: 10px">
+                            Warranty Registration
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr><td colspan="4" style="height: 4px"></td></tr>
+                <tr><td colspan="4" style="height: 8px; background-color: #0062be;"></td></tr>
+                <tr><td colspan="4" style="height: 8px"></td></tr>
+                
+                <tr><td colspan="4" style="font-size: 20px; padding: 6px; background-color: #f3f3f3; margin: 4px 0;">Warranty Information</td></tr>
+                <tr><td colspan="4" style="height: 8px"></td></tr>
+                
+                <tr width="100%" style="font-size: 12px;">
+                    <td style="padding-bottom: 6px;" width="25%">
+                        Warranty Name:
+                    </td>
+                    <td style="padding-bottom: 6px;" width="25%">
+                        <apex:outputText value="{!warranty.Name}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;" width="25%">
+                        Asset ID:
+                    </td>
+                    <td style="padding-bottom: 6px;" width="25%">
+                        <apex:outputText id="assetId" value="{!warranty.Asset.Name}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Account ID:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Account.Name}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        VIN / Serial Number:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="N/A" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Customer Signature Date:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Customer_Signature_Date__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Product Type
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.ProductType__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Commericial or Consumer?
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Commercial_or_Consumer__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        SampleAbility Finance
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.SampleAbility_Finance__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Agreement Acknowledgement:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.Agreement_Acknowledgement__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Total Selling Price:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.Total_Selling_Price__c == null, 'N/A', warranty.Total_Selling_Price__c)}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Dealer:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Dealer__r.Name}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Mileage at Time of Sale:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.Mileage_at_Time_of_Sale__c == null, 'N/A', warranty.Mileage_at_Time_of_Sale__c)}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Dealer ID:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Dealer__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Start Date:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.StartDate}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Signatures Completed and On File
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.Signatures_Completed_and_On_File__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        End Date
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.EndDate}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr><td colspan="4" style="height: 8px"></td></tr>
+                <tr><td colspan="4" style="font-size: 20px; padding: 6px; background-color: #f3f3f3; margin: 4px 0">Additional Information</td></tr>
+                <tr><td colspan="4" style="height: 8px"></td></tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Is this a CPO?
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.CPO__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        First Accessible Vehicle:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.First_Accessible_Vehicle__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        C of O Form Required?
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.C_of_O_Form_Required__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Rental:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.Rental__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Customer is a Veteran:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.Customer_is_a_Veteran__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        This is a VA Sale:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.VA_Sale__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Is Servicing Dealer:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!IF(warranty.Is_Servicing_Dealer__c, 'Yes', 'No')}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Extended Warranty End Date:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Extended_Warranty_End_Date__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr><td colspan="4" style="height: 8px"></td></tr>
+                <tr><td colspan="4" style="font-size: 20px; padding: 6px; background-color: #f3f3f3; margin: 4px 0">Customer Information</td></tr>
+                <tr><td colspan="4" style="height: 8px"></td></tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        First Name:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Customer_First_Name__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Last Name:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Customer_Last_Name__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Email:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Customer_Email__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Phone Number:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Customer_Phone__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Address 1:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Address_1__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Address 2:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Address_2__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        City:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.City__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        State/Province
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.State_Province__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 12px">
+                    <td style="padding-bottom: 6px;">
+                        Zip/Postal Code:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Zip_Postal_Code__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        Country:
+                    </td>
+                    <td style="padding-bottom: 6px;">
+                        <apex:outputText value="{!warranty.Country__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+            </table>
+            <table style="width: 100%" border="0">
+                
+                <tr><td colspan="12" style="height: 8px"></td></tr>
+                <tr><td colspan="12" style="font-size: 20px; padding: 6px; background-color: #f3f3f3; margin: 4px 0">Vehicle Delivery Checklist</td></tr>
+                <tr><td colspan="12" style="height: 8px"></td></tr>
+                
+                <tr>
+                    <th colspan="4" style="font-size: 16px; color: #0063be;">
+                        Exterior
+                    </th>
+                    <th colspan="4" style="font-size: 16px; color: #0063be;">
+                        Interior
+                    </th>
+                    <th colspan="4" style="font-size: 16px; color: #0063be;">
+                        Additional
+                    </th>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4">
+                        <span>Exterior Clean and Damage-Free</span>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!warranty.chkDamageFree__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!!warranty.chkDamageFree__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Gauges and instrumentation</span>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!warranty.chkGauges__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!!warranty.chkGauges__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Review OEM/Sample owners manuals</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkReviewManuals__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkReviewManuals__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4">
+                        <span>Spare Tire and Jack Location</span>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!warranty.chkSpareTireJack__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!!warranty.chkSpareTireJack__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Location of interior switches</span>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!warranty.chkInteriorSwitches__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!!warranty.chkInteriorSwitches__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Explain the Toyota Service Exchange Info</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkToyotaExchange__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkToyotaExchange__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4">
+                        <span>Operation of Remote Control</span>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!warranty.chkRemoteControl__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!!warranty.chkRemoteControl__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Exterior activation of power door</span>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!warranty.chkPowerDoor__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!!warranty.chkPowerDoor__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Explain Maintenance and Service Schedule</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkServiceSchedule__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkServiceSchedule__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4">
+                        <span>Magnetic entry (if applicable)</span>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!warranty.chkMagneticEntry__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!!warranty.chkMagneticEntry__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Operation of tie-downs</span>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!warranty.chkTieDowns__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!!warranty.chkTieDowns__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Explain procedures for warranty repair</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkWarrantyRepair__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkWarrantyRepair__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4">
+                        <span>Exterior activation of power door</span>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!warranty.chkPowerDoor__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!!warranty.chkPowerDoor__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Operation of roll &amp; tumble seating</span>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!warranty.chkRollTumble__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!!warranty.chkRollTumble__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Inform customer of service hours</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkServiceHours__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkServiceHours__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4">
+                        <span>Manual operation of door from exterior</span>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!warranty.chkDoorAndRampExt__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 20px" rendered="{!!warranty.chkDoorAndRampExt__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Operation of seat belts</span>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!warranty.chkSeatBelts__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!!warranty.chkSeatBelts__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Advise to maintain signed records</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkSignedRecord__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkSignedRecord__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4"></td>
+                    <td colspan="4">
+                        <span>Location of Sample controller</span>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!warranty.chkSampleController__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 10px;" rendered="{!!warranty.chkSampleController__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                    <td colspan="4">
+                        <span>Complete and return warranty registration</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkCompleteWarranty__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkCompleteWarranty__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px;">
+                    <td colspan="4"></td>
+                    <td colspan="4"></td>
+                    <td colspan="4">
+                        <span>List all aftermarket equipment</span>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!warranty.chkAfterMarket__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                        <apex:image style="float: right; margin-right: 50px;" rendered="{!!warranty.chkAfterMarket__c}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2"></td>
+                    <td colspan="8"></td>
+                </tr>
+                
+                <tr style="font-size: 10px">
+                    <td colspan="12">
+                        Vehicle Delivery Checklist Comments:
+                    </td>
+                </tr>
+                
+                <tr style="font-size: 10px">
+                    <td colspan="12">
+                        <apex:outputText value="{!warranty.chkComments__c}" style="font-weight: bold; color: #0063be;"/>
+                    </td>
+                </tr>
+                
+            </table>
+        </div>
+    </apex:repeat>
+</apex:page>

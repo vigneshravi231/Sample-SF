@@ -1,0 +1,32 @@
+
+<!-- Add Account Relation Modal -->
+<template>
+	<lightning-spinner variant="brand" if:true={isLoading}></lightning-spinner>
+
+	<c-modal-dialog>
+		<header slot="header">Setup related accounts</header>
+
+		<main slot="body">
+			<lightning-dual-listbox
+				label="Select accounts to share"
+				source-label="Available"
+				selected-label="Selected"
+				options={availableOptions}
+				value={selectedOptions}
+				onchange={handleSelection}
+			></lightning-dual-listbox>
+		</main>
+
+		<footer slot="footer">
+			<lightning-button variant="brand" type="button" label="Cancel" onclick={closeModal}></lightning-button>
+
+			<lightning-button
+				class="slds-m-left_medium"
+				variant="brand"
+				type="button"
+				label="Save"
+				onclick={saveSharing}
+			></lightning-button>
+		</footer>
+	</c-modal-dialog>
+</template>

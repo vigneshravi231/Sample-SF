@@ -1,0 +1,203 @@
+
+<!-- Seatbase Configurator -->
+<template>
+
+    <div class="slds-box">
+        <c-customer-care-box-header title="Configure Transfer Seat"></c-customer-care-box-header>
+        <div class="slds-form">
+            <template if:true={isInitialized}>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.year.selectedValue}
+                                disabled={componentData.year.isDisabled}
+                                name="year"
+                                label="Year"
+                                options={availableValues.years}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.make.selectedValue}
+                                disabled={componentData.make.isDisabled}
+                                name="make"
+                                label="Make"
+                                options={availableValues.makes}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.model.selectedValue}
+                                disabled={componentData.model.isDisabled}
+                                name="model"
+                                label="Model"
+                                options={availableValues.models}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.converter.selectedValue}
+                                disabled={componentData.converter.isDisabled}
+                                name="converter"
+                                label="Converter"
+                                options={availableValues.converters}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.rampConversion.selectedValue}
+                                disabled={componentData.rampConversion.isDisabled}
+                                name="rampConversion"
+                                label="Ramp Conversion"
+                                options={availableValues.rampConversions}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.position.selectedValue}
+                                disabled={componentData.position.isDisabled}
+                                name="position"
+                                label="Position"
+                                options={availableValues.positions}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.controller.selectedValue}
+                                disabled={componentData.controller.isDisabled}
+                                name="controller"
+                                label="Controller"
+                                options={availableValues.controllers}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.transferHeight.selectedValue}
+                                disabled={componentData.transferHeight.isDisabled}
+                                name="transferHeight"
+                                label="Transfer Height"
+                                options={availableValues.transferHeights}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.seatOption.selectedValue}
+                                disabled={componentData.seatOption.isDisabled}
+                                name="seatOption"
+                                label="Seat Option"
+                                options={availableValues.seatOptions}
+                                onchange={handleLastFieldValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <div class="slds-p-top_medium">
+        <div class="slds-box">
+            <c-customer-care-box-header title="Available Transfer Seats"></c-customer-care-box-header>
+            <template if:true={showProductList}>
+                <div>
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer" >
+                        <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">
+                                <div class="slds-truncate">Product Code</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Price</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="slds-hint-parent" for:each={availableProducts} for:item="product" key={product.id}>
+                            <td>
+                                <div class="slds-truncate">{product.name}</div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">
+                                    <template if:false={product.isSeatbaseNotAvailable}>
+                                        <div>
+                                            <lightning-formatted-number
+                                                format-style="currency"
+                                                currency-code="USD"
+                                                value={product.price}>
+                                            </lightning-formatted-number>
+                                        </div>
+                                    </template>
+                                    <template if:true={product.isSeatbaseNotAvailable}>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </template>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right">
+                                <div class="slds-truncate">
+                                    <lightning-button
+                                        name={product.name}
+                                        label="Add To Cart"
+                                        disabled={product.isSeatbaseNotAvailable}
+                                        type="submit"
+                                        onclick={handleAddToCart}>
+                                    </lightning-button>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_center">
+                                <div>
+                                    <lightning-button-menu alternative-text="Show menu">
+                                        <lightning-menu-item value={product.seatbase}
+                                                             label="View Transfer Seat Details"
+                                                             disabled={product.isSeatbaseNotAvailable}
+                                                             onclick={gotoProductDetailPage}>
+                                        </lightning-menu-item>
+                                    </lightning-button-menu>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+            <template if:false={showProductList}>
+                <div class="slds-text-body_medium slds-m-around_xx-large slds-text-align_center">No Transfer Seats available for current configuration.</div>
+            </template>
+        </div>
+    </div>
+
+    <div if:true={showSpinner} class="slds-m-around_medium spinner-height">
+        <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+    </div>
+
+</template>

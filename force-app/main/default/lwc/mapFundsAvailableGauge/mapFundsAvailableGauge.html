@@ -1,0 +1,52 @@
+
+<!-- Graph Gauge -->
+<template>
+    <div class="container">
+        <div class="gauge">
+            <!-- Canvas added by JS methods -->
+            <div class="header slds-p-bottom_medium">
+                <c-customer-care-box-header title="MAP Funds Available">
+                    <lightning-button label="View Unregistered Assets"
+                                      title="View Assets without Warranty Registrations"
+                                      onclick={navigateToAssetsWithoutWarranties}
+                                      slot="actions">
+                    </lightning-button>
+                </c-customer-care-box-header>
+            </div>
+            <div class="chart slds-var-m-around_medium halfWidth" lwc:dom="manual"></div>
+            <template if:true={error}>
+                <div class="slds-text-align_center">{error}</div>
+            </template>
+        </div>
+        <lightning-layout class="slds-align_absolute-center" pull-to-boundary="medium">
+            <lightning-layout-item padding="horizontal-medium">
+                <span class="key">
+                    <div class="square slds-m-right_small" style="background-color: rgb(0, 99, 190)">
+                    </div>
+                    Registered
+                </span>
+            </lightning-layout-item>
+            <lightning-layout-item padding="horizontal-medium">
+                <span class="key">
+                    <div class="square slds-m-right_small" style="background-color: #f48249">
+                    </div>
+                    Unregistered
+                </span>
+            </lightning-layout-item>
+        </lightning-layout>
+        <div class="info slds-p-top_large slds-text-heading_small slds-text-align_center">
+            <lightning-formatted-number value={fundsRedeemed}
+                                        format-style="currency"
+                                        currency-code="USD">
+            </lightning-formatted-number>
+            &nbsp;of&nbsp;
+            <lightning-formatted-number value={totalPotentialFunds}
+                                        format-style="currency"
+                                        currency-code="USD">
+            </lightning-formatted-number>
+            &nbsp;Registered
+            <br/>
+            <span class="slds-text-body_regular subheader slds-m-top_small">{cardSubTitle}</span>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,20 @@
+
+<aura:component implements="forceCommunity:availableForAllPageTypes">
+    
+    <aura:html tag="style">
+        
+        .forceCommunityEmbeddedServiceHelpButton {
+            display: block !important;
+            width: 100%;
+            text-align: center;
+            position: initial;
+        }
+        
+        .forceCommunityEmbeddedServiceHelpButton > .flatButton {
+            border-radius: 8px !important;
+            width: 100%;
+        }
+        
+    </aura:html>
+
+</aura:component>

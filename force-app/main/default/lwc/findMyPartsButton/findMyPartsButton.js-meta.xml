@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <description>The button that opens up a modal to let the user use the find my parts feature</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Find My Parts Button</masterLabel>
+</LightningComponentBundle>

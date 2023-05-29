@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Configuration_ID__c</fullName>
+    <description>BC-251 if on application hold this will be populated with the ID from webconfigurator</description>
+    <externalId>false</externalId>
+    <inlineHelpText>BC-251 if on application hold this will be populated with the ID from webconfigurator</inlineHelpText>
+    <label>Configuration ID</label>
+    <length>255</length>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

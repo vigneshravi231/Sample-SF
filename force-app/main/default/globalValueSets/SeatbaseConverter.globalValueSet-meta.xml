@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ALLEGIANT</fullName>
+        <default>false</default>
+        <label>ALLEGIANT</label>
+    </customValue>
+    <customValue>
+        <fullName>AMS</fullName>
+        <default>false</default>
+        <label>AMS</label>
+    </customValue>
+    <customValue>
+        <fullName>AT CONVERSIONS</fullName>
+        <default>false</default>
+        <label>AT CONVERSIONS</label>
+    </customValue>
+    <customValue>
+        <fullName>SampleABILITY</fullName>
+        <default>false</default>
+        <label>SampleABILITY</label>
+    </customValue>
+    <customValue>
+        <fullName>CENTER CUT</fullName>
+        <default>false</default>
+        <label>CENTER CUT</label>
+    </customValue>
+    <customValue>
+        <fullName>ECLIPSE</fullName>
+        <default>false</default>
+        <label>ECLIPSE</label>
+    </customValue>
+    <customValue>
+        <fullName>ELDORADO</fullName>
+        <default>false</default>
+        <label>ELDORADO</label>
+    </customValue>
+    <customValue>
+        <fullName>FULL LOWERED FLOOR</fullName>
+        <default>false</default>
+        <label>FULL LOWERED FLOOR</label>
+    </customValue>
+    <customValue>
+        <fullName>IMS</fullName>
+        <default>false</default>
+        <label>IMS</label>
+    </customValue>
+    <customValue>
+        <fullName>NON LOWERED FLOOR</fullName>
+        <default>false</default>
+        <label>NON LOWERED FLOOR</label>
+    </customValue>
+    <customValue>
+        <fullName>NORCAL</fullName>
+        <default>false</default>
+        <label>NORCAL</label>
+    </customValue>
+    <customValue>
+        <fullName>NOT LISTED / UNIVERSAL</fullName>
+        <default>false</default>
+        <label>NOT LISTED / UNIVERSAL</label>
+    </customValue>
+    <customValue>
+        <fullName>REVABILITY</fullName>
+        <default>false</default>
+        <label>REVABILITY</label>
+    </customValue>
+    <customValue>
+        <fullName>ROLLX</fullName>
+        <default>false</default>
+        <label>ROLLX</label>
+    </customValue>
+    <customValue>
+        <fullName>RYNO</fullName>
+        <default>false</default>
+        <label>RYNO</label>
+    </customValue>
+    <customValue>
+        <fullName>SAVARIA</fullName>
+        <default>false</default>
+        <label>SAVARIA</label>
+    </customValue>
+    <customValue>
+        <fullName>TEMPEST</fullName>
+        <default>false</default>
+        <label>TEMPEST</label>
+    </customValue>
+    <customValue>
+        <fullName>TRIPLE S</fullName>
+        <default>false</default>
+        <label>TRIPLE S</label>
+    </customValue>
+    <customValue>
+        <fullName>VAN ACTION</fullName>
+        <default>false</default>
+        <label>VAN ACTION</label>
+    </customValue>
+    <customValue>
+        <fullName>VMI</fullName>
+        <default>false</default>
+        <label>VMI</label>
+    </customValue>
+    <masterLabel>Seatbase Converter</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

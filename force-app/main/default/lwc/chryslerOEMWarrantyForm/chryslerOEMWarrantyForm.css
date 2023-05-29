@@ -1,0 +1,9 @@
+
+
+.color-brand {
+    color: var(--lwc-colorBrand);
+}
+
+.mediumLargePadding {
+    padding: 1.25rem 0;
+}

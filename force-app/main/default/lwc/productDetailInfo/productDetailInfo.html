@@ -1,0 +1,119 @@
+
+<!-- Product Detail Info -->
+<template>
+	<lightning-spinner variant="brand" if:true={isLoading}></lightning-spinner>
+	<div class="product" if:true={product}>
+		<div class="slds-m-bottom_small">
+			<h1 class="slds-text-heading_medium">{product.name}</h1>
+			<div class="slds-p-top_x-small">
+				<strong>Product:&nbsp;</strong>
+				{product.description}
+			</div>
+			<div class="slds-p-top_x-small">
+				<strong>SKU#:&nbsp;</strong>
+				{product.fields.ProductCode}
+			</div>
+			<div class="slds-p-top_x-small">
+				<strong>Description: {productDescription}</strong>
+			</div>
+			<template if:true={isWav}>
+				<template if:true={isConvertedWav}>
+					<div class="slds-p-top_x-small">
+						<strong>Conversion Part Number:&nbsp;</strong>
+						{inventory.ConversionPart}
+					</div>
+					<div class="slds-p-top_x-small">
+						<strong>Conversion Type:&nbsp;</strong>
+						{inventory.Conversion_Type__c}
+					</div>
+				</template>
+				<div class="slds-p-top_x-small">
+					<strong>Miles:&nbsp;</strong>
+					{inventory.Miles__c}
+				</div>
+			</template>
+			<div class="slds-p-top_x-small slds-m-bottom_small">{stockInfo}</div>
+		</div>
+
+		<c-accordion
+			style="margin-top: 0"
+			class="slds-m-top_x-small slds-m-bottom_small"
+			if:true={hasFeatures}
+			for:each={features}
+			for:item="feature"
+			key={feature.type}
+			title={feature.type}
+		>
+			<ol style="margin-top: -12px; margin-left: 25px; list-style-type: disc" class="slds-m-top_xxx-small" slot="body">
+				<li for:each={feature.descriptions} for:item="description" key={description}>{description}</li>
+			</ol>
+		</c-accordion>
+
+		<div>
+			<div class="slds-text-heading_small slds-m-top_medium slds-m-bottom_large">
+				{productPriceLabel}:
+				<b>
+					<lightning-formatted-number value={price} format-style="currency" currency-code="USD"></lightning-formatted-number>
+				</b>
+			</div>
+
+			<div class="slds-text-heading_small slds-m-top_small" if:true={isConvertedWav}>
+				Conversion Price:&nbsp;
+				<b>
+					<lightning-formatted-number
+						value={inventory.Conversion_Price__c}
+						format-style="currency"
+						currency-code="USD"
+					></lightning-formatted-number>
+				</b>
+			</div>
+
+			<div class="slds-text-heading_small slds-m-top_large slds-m-bottom_large">
+				Total:&nbsp;
+				<b>
+					<lightning-formatted-number value={totalPrice} format-style="currency" currency-code="USD"></lightning-formatted-number>
+				</b>
+			</div>
+			<div style="display: flex; flex-direction: row; align-items: center" if:true={hasAvailableStock}>
+				QTY:
+				<div class="slds-form-element slds-p-horizontal_small">
+					<div class="slds-form-element__control" style="display: flex; flex-direction: row">
+						<lightning-button-icon
+							icon-name="utility:dash"
+							onclick={decrementQuantity}
+							disabled={minimumQuantity}
+						></lightning-button-icon>
+						<lightning-input
+							label=""
+							type="number"
+							variant="label-hidden"
+							onchange={onQuantityChange}
+							onblur={checkValidQuantity}
+							value={quantity}
+							class="slds-text-align_center"
+						></lightning-input>
+						<lightning-button-icon
+							icon-name="utility:add"
+							onclick={incrementQuantity}
+							disabled={maximumQuantity}
+						></lightning-button-icon>
+					</div>
+				</div>
+				<lightning-button if:true={isUnconvertedWav} label="CONFIGURE" onclick={configure}></lightning-button>
+				<lightning-button if:false={isUnconvertedWav} label="ADD TO CART" onclick={addToCart} disabled={invalidQuantity}></lightning-button>
+
+			</div>
+
+			<div if:false={hasAvailableStock}>Currently Unavailable for Purchases</div>
+		</div>
+
+		<c-user-supplied-form-modal
+			show-modal={caseModalIsOpen}
+			full-vin={firstInventoryVIN}
+			flooring={product.fields.Flooring__c}
+			seating={product.fields.Seating_Type__c}
+			conversion={product.fields.Conversion_Type__c}
+			onclosemodal={closeCaseModal}
+		></c-user-supplied-form-modal>
+	</div>
+</template>

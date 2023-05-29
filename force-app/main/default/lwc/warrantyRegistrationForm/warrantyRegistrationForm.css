@@ -1,0 +1,15 @@
+
+
+p {
+    padding-bottom: 10px;
+}
+
+.color-brand {
+    color: var(--lwc-colorBrand);
+}
+
+.checkbox-element {
+    display: inline-block;
+    float: left;
+    white-space: nowrap !important;
+}

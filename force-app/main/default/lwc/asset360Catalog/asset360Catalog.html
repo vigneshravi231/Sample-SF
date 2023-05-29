@@ -1,0 +1,109 @@
+
+<!-- Asset 360 Catalog -->
+<template>
+	<div class="topmost-div"></div>
+	<lightning-layout multiple-rows="true" class="app-height">
+		<lightning-layout-item size="2" small-device-size="12" medium-device-size="2">
+			<div class="slds-m-right_medium mobile-margin">
+				<div class="filterHeader slds-m-right_small slds-p-bottom_x-small top-margin">
+					<span class="slds-text-title_bold">Search Parts List</span>
+				</div>
+				<lightning-input
+					class="slds-p-right_small slds-p-vertical_small"
+					label=""
+					value={searchQuery}
+					placeholder="Search"
+					onchange={handleSearchQueryChange}
+				></lightning-input>
+				<hr />
+				<div class="filterHeader slds-m-right_small slds-m-top_medium">
+					<span class="slds-m-bottom_small"><strong>Filters</strong></span>
+					<a href="#" onclick={clearAllCategoryFilters} if:true={filterCategoriesSelected}>Clear All</a>
+				</div>
+				<ul class="slds-m-right_small">
+					<li class="slds-m-left_small" for:each={filterCategories} for:item="category" key={category.sfid}>
+						<a href="#" onclick={removeCategoryFilter} data-id={category.sfid}>x&nbsp;&nbsp;{category.name}</a>
+					</li>
+				</ul>
+				<hr if:true={filterCategoriesSelected} />
+				<div class="slds-m-right_small slds-m-vertical_small">Category</div>
+				<ul class="slds-m-left_medium slds-m-right_small">
+					<li for:each={categories} for:item="category" key={category.sfid}>
+						<a href="#" onclick={addCategoryFilter} data-id={category.sfid}>{category.name}</a>
+					</li>
+				</ul>
+			</div>
+		</lightning-layout-item>
+		<lightning-layout-item size="10" small-device-size="12" medium-device-size="10">
+			<div class="catalog text-center slds-m-left_medium mobile-margin">
+				<template for:each={paginatedParts} for:item="part">
+					<div class="catalog-row slds-p-top_small" key={part.sfid}>
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item
+								padding="around-small"
+								flexibility="auto"
+								size="2"
+								small-device-size="12"
+								medium-device-size="2"
+							>
+								<div class="image-area">
+									<div class="product-image-container">
+										<img src={part.imageUrl} alt="Product Image" class="product-image" />
+									</div>
+								</div>
+							</lightning-layout-item>
+							<lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+								<div class="color-brand slds-text-heading_small slds-brand">{part.name}</div>
+								<div>{part.description}</div>
+								<lightning-formatted-number
+									format-style="currency"
+									currency-code="USD"
+									class="slds-p-bottom_small"
+									value={part.price}
+								></lightning-formatted-number>
+							</lightning-layout-item>
+							<template if:true={displayAddToCart}>
+								<lightning-layout-item padding="around-small" size="2" small-device-size="12" medium-device-size="2">
+									<div if:true={part.hasPrice} class="slds-form-element slds-form-element_horizontal text-center">
+										<lightning-input
+											class="uiLabel-hidden qty-input margin-auto"
+											type="number"
+											label=""
+											value={part.quantity}
+											data-id={part.sfid}
+											onchange={handleProductQuantityChange}
+											min="0"
+										></lightning-input>
+									</div>
+								</lightning-layout-item>
+								<lightning-layout-item
+									padding="around-small"
+									size="2"
+									small-device-size="12"
+									medium-device-size="2"
+									class="col-pad"
+								>
+									<lightning-button
+										label="Add To Cart"
+										data-id={part.sfid}
+										class="mar-5"
+										disabled={part.cannotAdd}
+										onclick={addToCart}
+									></lightning-button>
+									<div class="spacer">&nbsp;</div>
+								</lightning-layout-item>
+							</template>
+						</lightning-layout>
+					</div>
+				</template>
+			</div>
+			<div class="slds-m-vertical_x-large"></div>
+			<div class="slds-m-around_medium">
+				<c-pagination-bar pagination={pagination} onpaginationchange={handlePaginationChange}></c-pagination-bar>
+			</div>
+			<div if:true={showSpinner} class="slds-m-around_medium spinner-height">
+				<lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+			</div>
+		</lightning-layout-item>
+	</lightning-layout>
+</template>

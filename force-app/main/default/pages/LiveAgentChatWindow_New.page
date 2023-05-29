@@ -1,0 +1,398 @@
+<apex:page showHeader="false" controller="LiveAgentChatWindowUtility"><!-- Added controller="LiveAgentChatWindowUtility" by Najma Ateeq for Story #S-470333 -->
+    <!--START : Added by Purnima for Story S-506526-->
+    <head>
+    <!-- Test For Adobe Analytics-->
+    <script src="//assets.adobedtm.com/launch-EN1ade3e330bb641aeb38de2483a42d18e-development.min.js" async="async"></script>
+    <!-- Google Tag Manager -->
+    <script>
+
+    </script>
+    <!-- End Google Tag Manager -->
+    <!-- END : Added by Purnima for Story S-506526-->
+    
+    <script type='text/javascript'>
+        liveagent.addEventListener(liveagent.chasitor.Events.CHAT_REQUEST_SUCCESSFUL,myCallBack);
+        liveagent.addEventListener(liveagent.chasitor.Events.CHAT_ESTABLISHED,newagent);
+        liveagent.addEventListener(liveagent.chasitor.Events.AGENT_CHAT_TRANSFERRED,newagent);
+        function myCallBack() {
+            var details = liveagent.chasitor.getDetails();
+         }
+        function newagent() {
+            var details = liveagent.chasitor.getDetails();
+            getAgentPhoto(details);//Added by Najma Ateeq for Story #S-470333
+        }
+        //Start - Added by Najma Ateeq for Story #S-470333
+        function getAgentPhoto(details){
+            var newagentId;
+            for(var key in details) {                       
+                if (key == 'agent'){                    
+                    newagentId = details[key].userId;
+                }
+            }
+            console.log('newagentId>>'+newagentId);
+            if (newagentId != null ){               
+                Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.LiveAgentChatWindowUtility.getPhoto}',
+                newagentId, 
+                function(result, event){
+                    console.log(event.status);
+                    if (event.status) {
+                            console.log(result);
+                            if(document.getElementById(result) != null){
+                                document.getElementById("AgentImage").style.display = "none";   
+                                document.getElementById(result).style.display = "block";
+                            }
+                            //document.getElementById("AgentImage").src = result;                           
+                            //$("#AgentImage").attr("src",result);
+                    } else if (event.type === 'exception') {                        
+                            console.log(event.message);
+                    } else {
+                        console.log(event.message);
+                    }
+                }
+             );         
+            }
+        }
+        //End - Added by Najma Ateeq for Story #S-470333
+        
+    </script>
+    
+    <style>
+        body {
+            background-color: #193E6D;
+            overflow: scroll;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        .liveAgentAlert{
+        	color: white;
+        	font-family:Montserrat;
+        	font-size: 20px;
+        }
+        #waitingMessage {
+            height: 100%;
+            width: 100%;
+            vertical-align: middle;
+            text-align: center;
+            display: none;
+        	font-family:Montserrat;
+        	font-size: 20px;
+        }
+        #liveAgentClientChat.liveAgentStateWaiting #waitingMessage { display: table; }
+        #liveAgentSaveButton{ 
+            display: block;
+            width: 100px;
+            height: 31px;
+            float: right; 
+        
+        	color: white;
+            margin: 1px;
+            padding: 2px 3px;
+            border: 1px solid white;
+            border-bottom-color: white;
+            background: #0063BE;
+            font-weight: bold;
+            border-radius: 0px;
+        	font-family:Montserrat;
+        	font-size:20px;
+        }
+        button.liveAgentChatElement.liveAgentEndButton {
+            display: block;
+        	width: 100px;
+            height: 31px;
+            float: right;
+        
+        	color: white;
+            margin: 5px;
+            padding: 2px 3px;
+            border: 1px solid white;
+            border-bottom-color: white;
+            background: #0063BE;
+            font-weight: bold;
+            border-radius: 0px;
+        	font-family:Montserrat;
+        	font-size:20px;
+        }
+        .liveAgentChatInput {
+            height: 25px;
+            width: 75%;
+            border-width: 1px;
+            border-style: solid;
+            background: #fff;
+        //border-radius: 10px;
+        }
+        .liveAgentSendButton {
+            width: 15%;
+            height: 31px;
+        
+        	color: white;
+            margin: 1px;
+            padding: 2px 3px;
+            border: 1px solid white;
+            border-bottom-color: white;
+            background: #0063BE;
+            font-weight: bold;
+            border-radius: 0px;
+        	font-family:Montserrat;
+        	font-size:20px;
+        }
+        #liveAgentChatLog {
+            border-color: #A7A9AD;
+            background-color: #FFFFFF;
+        //border-radius: 4px;
+            padding: 10px;
+            height: 200px;
+            width: auto;
+            overflow-y: scroll;
+        }
+        .AgentImage{
+            text-align: center;
+            background-color: white;
+            margin: 5px;
+        //border-radius: 10px;
+        }
+        #AgentImage{
+        //border-radius: 4px;
+        }
+        .ButtonsDiv{
+            height: 45px;
+        }
+        #liveAgentClientChat {
+            margin: 15px;
+        }
+        .ChatInputs{
+            margin-top: 5px;
+        }
+        button#fileCancelButton {
+            border-radius: 10px;
+            margin-top: 16px;
+            height: 20px;
+            width: 19px;
+        }
+        span#fileDragLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #E2F3FB;
+            height: 18px;
+            width: 88%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+        }
+        span#fileDropLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #D4F5FF;
+            height: 18px;
+            width: 88%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+        }
+        .transferDiv {
+            display: block;
+            border: 2px solid #d1d2d3;
+            border-radius: 10px;
+            margin-top: 5px;
+            height: 20px;
+            background-color: white;
+            padding: 10px;
+        }
+        span#fileNameLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #BFFFB9;
+            height: 18px;
+            width: 70%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+            color: green;
+        }
+        body button{
+        	color: white;
+            padding: 2px 3px;
+            border: 1px solid white;
+            border-bottom-color: white;
+            background: #0063BE;
+            font-weight: bold;
+            border-radius: 0px;
+        	font-family:Montserrat;
+        	font-size:20px;
+        }
+        .liveAgentMessage{
+        	color: white;
+        	font-family:Montserrat;
+        	font-size:20px;
+        }
+        .shiftRight{
+        	float:right;
+        }
+        
+    </style>
+    
+    <!--START : Added by Purnima for Story S-506526-->
+    </head>
+    <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-57PL2V"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!--END : Added by Purnima for Story S-506526-->
+    <div >
+        <liveAgent:clientchat >
+            <div class="ButtonsDiv">
+                <liveAgent:clientChatEndButton label="End Chat" />
+            </div>
+
+            <div class="AgentImage" style="height: 200px;">
+                <!-- Added style by Najma Ateeq for Story #S-470333 -->
+                <img id="AgentImage" src="{!$Resource.CEGWindowImg}" height="200px" style="display:block;"/>
+                <!-- Start - Added by Najma Ateeq for Story #S-470333 -->
+                <img id="carrieray" src="{!$Resource.carrieray}" height="200px" width="370px" style="display:none;" class="shiftRight"/>
+                <img id="kristinebinkley" src="{!$Resource.kristinebinkley}" height="200px" width="370px" style="display:none;" class="shiftRight"/>
+                <img id="lindseywinter" src="{!$Resource.lindseywinter}" height="200px" width="370px" style="display:none;" class="shiftRight"/>
+                <img id="matthewsteininger" src="{!$Resource.matthewsteininger}" height="200px" width="370px" style="display:none;" />
+                <img id="patrickpitcher" src="{!$Resource.patrickpitcher}" height="200px" width="370px" style="display:none;" />
+                <img id="terricrippin" src="{!$Resource.terricrippin}" height="200px" width="370px" style="display:none;" />
+                <img id="margaretreid" src="{!$Resource.margaretreid}" height="200px" width="370px" style="display:none;" class="shiftRight"/>
+        		<img id="elainehaschel" src="{!$Resource.elainehaschel}" height="200px" width="370px" style="display:none;" />
+        
+        	<!-- End - Added by Najma Ateeq for Story #S-470333 -->
+            </div>
+
+            <div class="ButtonsDiv">
+                <div style="text-align: center;">
+                    <img src="/resource/1443718598000/toggleButton" style="height:10px;" onclick="toggleImage();" />
+                </div>
+                <liveAgent:clientChatSaveButton label="Save Chat" />
+
+            </div>
+
+            <div id="prechatdata"></div>
+            <div style="font-family:Montserrat; font-size:15px;">
+                <liveAgent:clientChatAlertMessage />
+                <liveAgent:clientChatStatusMessage />
+                <table id="waitingMessage" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <!-- commented by Najma Ateeq for Story #S-470333
+                        <td>Please wait while you are connected to an available agent.</td> -->
+                        <!-- Added below two lines by Najma Ateeq for Story #S-470333 -->
+                        <td style="display: none; color: #FFFFFF;" id="bcmTD">Please wait while we connect you to a SampleAbility Case Manager.</td>
+                        <td style="display: none; color: #FFFFFF;" id="bpsTD">Please wait while we connect you to a SampleAbility Product Specialist.</td>
+                    
+                    </tr>
+                </table>
+                <div>
+                    <liveAgent:clientChatLog />
+                </div>
+                <div class="ChatInputs">
+                    <liveagent:clientChatInput />
+                    <liveAgent:clientChatSendButton label="Send"/>
+                </div>
+                <div id="fileTransfer">
+                    <liveAgent:clientChatFileTransfer />
+                </div>
+            </div>
+        </liveAgent:clientchat>
+    </div>
+    </body>     <!--Added by Purnima for Story S-506526-->
+    
+    <script type="text/javascript">
+        document.getElementById("fileCancelButton").innerHTML = "X";
+        var toggle = false;
+        function toggleImage(){
+            if(!toggle){
+                //Added below line by Najma Ateeq for Story #S-470333
+                if(document.getElementById("AgentImage").style.display == "block")
+                document.getElementById("AgentImage").style.height = "0px";
+                //Start - Added below line by Najma Ateeq for Story #
+                else if(document.getElementById("carrieray").style.display == "block")
+                document.getElementById("carrieray").style.height = "0px";
+                
+                else if(document.getElementById("kristinebinkley").style.display == "block")
+                document.getElementById("kristinebinkley").style.height = "0px";
+                
+                else if(document.getElementById("lindseywinter").style.display == "block")
+                document.getElementById("lindseywinter").style.height = "0px";
+                
+                else if(document.getElementById("matthewsteininger").style.display == "block")
+                document.getElementById("matthewsteininger").style.height = "0px";
+                
+                else if(document.getElementById("patrickpitcher").style.display == "block")
+                document.getElementById("patrickpitcher").style.height = "0px";
+                
+                else if(document.getElementById("terricrippin").style.display == "block")
+                document.getElementById("terricrippin").style.height = "0px";
+                
+                //End - Added below line by Najma Ateeq for Story #S-470333
+                toggle = true;
+            }
+            else{
+                //Added below line by Najma Ateeq for Story #S-470333
+                if(document.getElementById("AgentImage").style.display == "block")
+                document.getElementById("AgentImage").style.height = "200px";
+                
+                //Start - Added below line by Najma Ateeq for Story #S-470333
+                else if(document.getElementById("carrieray").style.display == "block")
+                document.getElementById("carrieray").style.height = "200px";
+                
+                else if(document.getElementById("kristinebinkley").style.display == "block")
+                document.getElementById("kristinebinkley").style.height = "200px";
+                
+                else if(document.getElementById("lindseywinter").style.display == "block")
+                document.getElementById("lindseywinter").style.height = "200px";
+                
+                else if(document.getElementById("matthewsteininger").style.display == "block")
+                document.getElementById("matthewsteininger").style.height = "200px";
+                
+                else if(document.getElementById("patrickpitcher").style.display == "block")
+                document.getElementById("patrickpitcher").style.height = "200px";
+                
+                else if(document.getElementById("terricrippin").style.display == "block")
+                document.getElementById("terricrippin").style.height = "200px";
+                
+                //End - Added below line by Najma Ateeq for Story #S-470333
+                
+                toggle = false;
+            }
+        }
+
+        window.onbeforeunload = bunload;
+        function bunload(){
+            dontleave="This page is asking you to confirm that you want to leave - data you have entered may not be saved.";
+            return dontleave;
+        }
+
+        // document.getElementById("fileCancelButton").onclick = function(){
+        //  document.getElementById("fileTransfer").visibility = false;
+        // }
+        //Start - Added by Najma Ateeq for Story #S-470333
+        function getParameterByName(name, url) {
+        if (!url) {
+          url = window.top.location.href;
+        }
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+        } 
+        var endpoint = getParameterByName('endpoint');
+        var buttonid = getParameterByName('button_id',endpoint);
+        if(buttonid == "{!$Label.Customer_Support_Chat_Button_Id}")
+            document.getElementById("bcmTD").style.display = "block";
+        if(buttonid == "{!$Label.Customer_Support_Chat_Button_Potential_Lead_Id}")
+            document.getElementById("bpsTD").style.display = "block";
+        //End - S-470333    
+        </script>
+
+</apex:page>

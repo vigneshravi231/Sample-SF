@@ -1,0 +1,137 @@
+
+<!-- Wav Configurator Table -->
+<template>
+	<div class="slds-box">
+		<c-customer-care-box-header title="Wav Configuration"></c-customer-care-box-header>
+
+		<c-wizard variant="base" show-tabs="true" current-step="configuration">
+			<c-wizard-step label="Configuration" name="configuration">
+				<div class="slds-form">
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Exterior"
+									label="Exterior"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Interior"
+									label="Interior"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Incomplete"
+									label="Incomplete"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Load Leveling"
+									class="slds-m-left_large"
+									label="Load Leveling"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Conversion"
+									label="Conversion"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Floor Type"
+									label="Floor Type"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Seat Color"
+									label="Seat Color"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="Seat Texture"
+									label="Seat Texture"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+					<div class="slds-form-element slds-form-element_horizontal">
+						<lightning-layout multiple-rows="true">
+							<lightning-layout-item size="6">
+								<lightning-combobox
+									name="HVAC"
+									label="HVAC"
+									options={configuration.option}
+									onchange={handleChange}
+								></lightning-combobox>
+							</lightning-layout-item>
+						</lightning-layout>
+					</div>
+				</div>
+			</c-wizard-step>
+
+			<c-wizard-step label="Seating" name="seating">Step 2</c-wizard-step>
+
+			<c-wizard-step label="Ramp" name="ramp">Step 3</c-wizard-step>
+
+			<c-wizard-step label="Spare Tire" name="spare-tire">Step 4</c-wizard-step>
+
+			<c-wizard-step label="Securement" name="securement">Step 5</c-wizard-step>
+
+			<c-wizard-step label="Flooring" name="flooring">Step 6</c-wizard-step>
+
+			<c-wizard-step label="Part Search" name="kits">Step 7</c-wizard-step>
+
+			<c-wizard-step label="Notes" name="notes" before-change={validate} hide-next-button="false">
+				<lightning-input label="Name"></lightning-input>
+				<lightning-input label="Title"></lightning-input>
+				<lightning-button slot="actions" label="Skip" onclick={skipCreateContact}></lightning-button>
+			</c-wizard-step>
+		</c-wizard>
+	</div>
+</template>

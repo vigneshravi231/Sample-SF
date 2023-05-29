@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>A custom dependent input field fo the recall form</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Recall Form Custom Field</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="assetId" label="Asset Id" type="String" description="The unique asset Id" role="inputOnly"/>
+            <property name="layoutVertical" label="Is Layout Vertical?" type="Boolean" description="Should the lookup field be above the display field? Or next to it?" role="inputOnly"/>
+
+            <property name="inputLookupValue" label="Input Lookup Value" type="String" description="Initial value for the lookup field" role="inputOnly"/>
+            <property name="inputDisplayValue" label="Input Display Value" type="String" description="Initial value for the display field" role="inputOnly"/>
+
+            <property name="lookupFieldName" label="Lookup Field Name" type="String" description="The name of the lookup field according the object" role="inputOnly"/>
+            <property name="lookupFieldLabel" label="Lookup Field Label" type="String" description="The label that will be display above the lookup field" role="inputOnly"/>
+            <property name="displayObjectName" label="Displayed Object Name" type="String" description="The object name of the lookup field" role="inputOnly"/>
+            <property name="displayFieldName" label="Displayed Field Name" type="String" description="The field on the object that you want to display" role="inputOnly"/>
+            <property name="displayFieldLabel" label="Displayed Field Label" type="String" description="The label that will be display above the displayed field" role="inputOnly"/>
+
+            <property name="outputLookupValue" label="Output Lookup Value" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputDisplayValue" label="Output Display Value" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+
+
+            <property name="initialRepairTechId" label="Initial Repairing Tech Id" type="String" description="Initial ID for the Repairing Tech Contact" role="inputOnly"/>
+            <property name="initialRepairTechEmail" label="Initial Dealer Email" type="String" description="Initial Email for the Dealer" role="inputOnly"/>
+            <property name="repairTechId" label="Repairing Tech Id" type="String" description="ID for the Repairing Tech Contact" role="outputOnly"/>
+            <property name="repairTechEmail" label="Dealer Email" type="String" description="Email for the Dealer" role="outputOnly"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

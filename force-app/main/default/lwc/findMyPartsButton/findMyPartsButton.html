@@ -1,0 +1,39 @@
+
+<!-- Find My Parts Button -->
+<template>
+	<lightning-spinner if:true={isLoading}></lightning-spinner>
+
+	<lightning-button label="Find My Parts" onclick={openModal}></lightning-button>
+
+	<c-modal-dialog size="small">
+		<div slot="header">Find My Parts</div>
+
+		<div slot="body">
+			<lightning-input label="Part Number" value={query} onchange={handleQueryChange} onkeydown={handleSearchEnter}></lightning-input>
+
+			<table if:true={hasReplacements} class="slds-table slds-m-top_medium" aria-label="Replacements">
+				<thead class="slds-p-bottom_small">
+					<tr class="slds-line-height_reset">
+						<th scope="col">Part</th>
+						<th scope="col">Replacement</th>
+					</tr>
+				</thead>
+
+				<tbody class="item-table">
+					<tr for:each={replacements} for:item="replacement" key={replacement.RowIdent}>
+						<td>{replacement.HistoricalPartsList_PartNum}</td>
+						<td>
+							<a
+                href="#"
+								onclick={handleReplacementClick}
+								data-part-number={replacement.HistoricalPartsList_ReplacementPart_c}
+							>
+								{replacement.HistoricalPartsList_ReplacementPart_c}
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</c-modal-dialog>
+</template>

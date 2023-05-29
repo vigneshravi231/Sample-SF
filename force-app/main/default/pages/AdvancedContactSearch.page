@@ -1,0 +1,88 @@
+<apex:page sidebar="false" standardStylesheets="true" showHeader="false" controller="CallScreenPopController" readOnly="true">
+    <apex:form >
+        <apex:PageBlock >
+            <apex:pageblockButtons >
+                <apex:commandButton value="Search" action="{!searchAllContacts}"></apex:commandButton>
+                <apex:commandButton value="Cancel" action="{!backToCallScreen}"></apex:commandButton>
+            </apex:pageblockButtons>
+            <apex:pageMessages ></apex:pageMessages> 
+            <apex:pageMessage summary="Multiple Contacts found for this Phone Number: {!callerId}" rendered="{!foundMultipleContacts.size > 1}" severity="warning"/>
+
+            <!--Contact Search Section-->
+            <apex:pageBlockSection title="Contacts Search" columns="2">
+                <apex:inputText value="{!fName}" label="First Name" />
+                <apex:inputText value="{!lName}" label="Last Name" />
+                <apex:inputText value="{!sEmail}" label="Email" />
+                <apex:inputText value="{!sPhone}" label="Phone"/>
+            </apex:pageBlockSection>
+            <br/> <!-- -->
+            <!--Contact List-->
+            <apex:outputPanel rendered="{!NOT(foundAllContacts.size > 0)}">
+                <h1 style="color:red;padding-left:20px;">No Contacts Found</h1>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!foundAllContacts.size > 0}">
+                <table class="list" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                   <tbody>
+                        <tr class="headerRow">
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Fax</th>
+                            <th>Mobile Phone</th>
+                            <th>Assistant Phone</th>
+                            <th>Home Phone</th>
+                            <th>Other Phone</th>
+                            <!--Start--Added by Anirudh for Story S-544179 on 6/27/18 to add Other Phone 2,3,4 fields to work on CallScreenPop -->
+                            <th>Other Phone 2</th>
+                            <th>Other Phone 3</th>
+                            <th>Other Phone 4</th>
+                            <!--END--Modified by Anirudh for Story S-544179 on 6/27/18 to add Other Phone 2,3,4 fields to work on CallScreenPop-->
+                            <th></th>
+                        </tr>
+                         <apex:repeat value="{!foundAllContacts}" var="contact">
+                            <tr class="dataRow even first" onmouseover="if (window.hiOn){hiOn(this);}" onmouseout="if (window.hiOff){hiOff(this);}">
+                                <td><apex:outputText >
+                                        <apex:outputLink value="/{!contact.Id}" rendered="{!contact.Id != null}" 
+                                        target="_blank">{!contact.FirstName + ' ' + contact.LastName}</apex:outputLink>
+                                    </apex:outputText>
+                                </td>
+                                <td><apex:outputText >{!contact.Email}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.Phone}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.Fax}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.MobilePhone}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.AssistantPhone}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.HomePhone}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.OtherPhone}</apex:outputText></td>
+                                <!--START--Added by Anirudh for Story S-544179 on 6/27/18 to add Other Phone 2,3,4 fields to work on CallScreenPop-->
+                                <td><apex:outputText >{!contact.Other_Phone_2__c}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.Other_Phone_3__c}</apex:outputText></td>
+                                <td><apex:outputText >{!contact.Other_Phone_4__c}</apex:outputText></td>
+                                <!--END--Added by Anirudh for Story S-544179 on 6/27/18 to add Other Phone 2,3,4 fields to work on CallScreenPop-->
+                                <td>
+                                    <apex:commandLink value="Select" action="{!selectNewContact}">
+                                        <apex:param name="selectedContact" value="{!contact.Id}" assignTo="{!selectedContactId}"/>
+                                    </apex:commandLink>
+
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                    </tbody>
+                </table>
+            </apex:outputPanel>
+            
+        </apex:pageBlock>
+    </apex:form>
+    <style>
+        .simulate_button {
+          font: bold 11px Arial;
+          text-decoration: none;
+          background-color: #EEEEEE;
+          color: #333333;
+          padding: 2px 6px 2px 6px;
+          border-top: 1px solid #CCCCCC;
+          border-right: 1px solid #333333;
+          border-bottom: 1px solid #333333;
+          border-left: 1px solid #CCCCCC;
+        }
+    </style>
+</apex:page>

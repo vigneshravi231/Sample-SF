@@ -1,0 +1,56 @@
+
+
+.qty-input {
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.qty-input .max-width {
+    max-width: 150px;
+}
+.name-link {
+    cursor: pointer;
+    justify-self: flex-start;
+    align-self: flex-start;
+}
+
+.qty-input .box-text {
+    margin: 0 0 8px 0;
+}
+
+.justify {
+    display: flex;
+}
+
+.total-line-price {
+    font-size: 1.75rem;
+}
+
+.image-height {
+    text-align: center;
+}
+
+.product-name {
+    color: var(--lwc-colorBrand);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 921px) {
+    .qty-input,
+    .total-line-price {
+        margin-bottom: 20px;
+        margin-top: 20px;
+    }
+
+    .image-height {
+        margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .qty-input .box-text {
+        margin: 8px 0 0 0;
+    }
+}

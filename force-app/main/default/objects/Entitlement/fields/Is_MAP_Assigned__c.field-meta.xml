@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_MAP_Assigned__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>BC-193 indicates if credit amounts were assigned</description>
+    <externalId>false</externalId>
+    <inlineHelpText>BC-193 indicates if credit amounts were assigned</inlineHelpText>
+    <label>Is MAP Assigned</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

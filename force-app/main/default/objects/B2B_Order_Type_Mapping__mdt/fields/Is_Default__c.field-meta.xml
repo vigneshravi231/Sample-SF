@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Default__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>will be used when no exact part class matches found</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>will be used when no exact part class matches found</inlineHelpText>
+    <label>Is Default</label>
+    <type>Checkbox</type>
+</CustomField>

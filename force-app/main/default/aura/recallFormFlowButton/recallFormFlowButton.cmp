@@ -1,0 +1,202 @@
+
+<aura:component implements="forceCommunity:availableForAllPageTypes, lightning:availableForFlowScreens" access="global">
+
+  <!-- Handlers -->
+
+  <!-- Attributes -->
+  <aura:attribute name="isOpen" type="Boolean" default="false" access="private"/>
+  <aura:attribute name="caseModalOpen" type="Boolean" default="false" access="private"/>
+  <aura:attribute name="caseIsLift" type="Boolean" default="true" access="private"/>
+  <aura:attribute name="prepopulatedValues" type="Object" default="{}" access="private"/>
+  <aura:attribute name="caseLoading" type="Boolean" default="true" access="private"/>
+
+  <aura:attribute name="recordId" type="String"/>
+
+  <c:asset360Header recordId="{!v.recordId}" startFlow="{!c.initFlow}" onnewliftcase="{!c.createLift}" onnewvehiclecase="{!c.createVehicle}"></c:asset360Header>
+  <!-- Body -->
+  <aura:if isTrue="{!v.isOpen}">
+    <div>
+      <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <lightning:buttonIcon variant="bare-inverse" iconName="utility:close" class="slds-modal__close" onclick="{!c.closeFlowModal}"/>
+            <h2 class="slds-modal__title slds-hyphenate">Warranty Claim Form</h2>
+          </header>
+          <div class="slds-modal__content slds-p-bottom_medium slds-is-relative">
+            <lightning:flow aura:id="flowData" onstatuschange="{!c.closeModalOnFinish}" />
+          </div>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{!v.caseModalOpen}">
+    <div>
+      <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+        <div class="slds-modal__container">
+
+          <header class="slds-modal__header">
+            <lightning:buttonIcon variant="bare-inverse" iconName="utility:close" class="slds-modal__close" onclick="{!c.closeCaseModal}"/>
+            <h2 class="slds-modal__title slds-hyphenate">Create Case Form</h2>
+          </header>
+
+          <div class="slds-modal__content slds-p-around_medium slds-is-relative">
+            <aura:if isTrue="{!v.caseIsLift}">
+
+              <aura:if isTrue="{!v.caseLoading}">
+                <lightning:spinner variant="brand"></lightning:spinner>
+              </aura:if>
+
+              <lightning:recordEditForm objectApiName="Case"
+                                        recordTypeId="0120a000000LR4YAAW"
+                                        density="comfy"
+                                        onsubmit="{!c.submitLift}"
+                                        onsuccess="{!c.onSuccess}"
+                                        onerror="{!c.onError}"
+                                        onload="{!c.onLoad}"
+                                        aura:id="liftCase">
+                <lightning:messages />
+                <lightning:layout multipleRows="true" pullToBoundary="medium">
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Lift_Model__c" value="{!v.prepopulatedValues.Lift_Model__c}"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Lift_Cycle_Count__c"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Lift_Serial__c" value="{!v.prepopulatedValues.Lift_Serial__c}"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Lift_Series_or_REV__c"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Status"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="OEM_Manufacturer__c"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Subject"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="6" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Aftermarket_items__c"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="12" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Topic_1__c"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="12" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Topic_2__c"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="12" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Topic_3__c"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="12" padding="horizontal-medium">
+                    <lightning:inputField fieldName="Description"></lightning:inputField>
+                  </lightning:layoutItem>
+
+                  <lightning:layoutItem size="12" padding="horizontal-medium">
+                    <div class="slds-float_right">
+                      <lightning:button label="Submit" type="submit"></lightning:button>
+                    </div>
+                  </lightning:layoutItem>
+
+                </lightning:layout>
+              </lightning:recordEditForm>
+
+              <aura:set attribute="else">
+                <lightning:recordEditForm objectApiName="Case"
+                                          recordTypeId="0120a000000LR4ZAAW"
+                                          density="comfy"
+                                          onsubmit="{!c.submitVehicle}"
+                                          onsuccess="{!c.onSuccess}"
+                                          onerror="{!c.onError}"
+                                          onload="{!c.onLoad}"
+                                          aura:id="vehicleCase">
+                  <lightning:messages />
+                  <lightning:layout multipleRows="true" pullToBoundary="medium">
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="AssetId" value="{!v.prepopulatedValues.AssetId}"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Vehicle_Mileage__c"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Vehicle_VIN__c" value="{!v.prepopulatedValues.Vehicle_VIN__c}"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Aftermarket_items__c"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Subject"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Status"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Topic_1__c"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Department__c"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Topic_2__c"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Owner"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Topic_3__c"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="6" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Warranty_Entitlement__c"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="12" padding="horizontal-medium">
+                      <lightning:inputField fieldName="Description"></lightning:inputField>
+                    </lightning:layoutItem>
+
+                    <lightning:layoutItem size="12" padding="horizontal-medium">
+                      <div class="slds-float_right">
+                        <lightning:button label="Submit" type="submit"></lightning:button>
+                      </div>
+                    </lightning:layoutItem>
+
+                  </lightning:layout>
+                </lightning:recordEditForm>
+              </aura:set>
+            </aura:if>
+          </div>
+        </div>
+      </section>
+
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+  <!-- /Body -->
+
+</aura:component>

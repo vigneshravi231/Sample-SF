@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fieldUpdates>
+        <fullName>Update_Short_VIN</fullName>
+        <description>Updates Short VIN with an indexable value</description>
+        <field>Short_VIN__c</field>
+        <formula>RIGHT(VIN_Serial_Number__c, 8)</formula>
+        <name>Update Short VIN</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>Asset Searchable Short VIN</fullName>
+        <actions>
+            <name>Update_Short_VIN</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <description>To allow to for searching an asset by their Short VIN</description>
+        <formula>TRUE</formula>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+</Workflow>

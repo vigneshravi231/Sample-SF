@@ -1,0 +1,105 @@
+
+
+<!-- Chrysler OEM Warranty Form -->
+<template>
+    
+    <template if:true={success}>
+        <div style="min-height: 350px;">
+            <div class="slds-text-heading_large slds-align_absolute-center">
+                Chrysler OEM Warranty Form successfully submitted!&nbsp;
+            </div>
+            <lightning-layout class="slds-align_absolute-center mediumLargePadding">
+                <lightning-layout-item padding="horizontal-medium">
+                    <lightning-button label="Submit Another Form" onclick={newForm}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item padding="horizontal-medium">
+                    <lightning-button label="View Open Cases" onclick={navigateToOpenCases}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+    
+    <template if:true={isLoading}>
+        <lightning-spinner variant="brand" size="medium" alternative-text="Loading..."></lightning-spinner>
+    </template>
+    
+    <template if:false={success}>
+        <lightning-record-edit-form object-api-name="Case"
+                                    onsubmit={onSubmit}
+                                    onsuccess={onSuccess}
+                                    onload={onLoad}
+                                    onerror={onError}
+                                    density="comfy"
+                                    record-type-id={recordTypeId}>
+            
+            <div class="slds-box slds-m-bottom_large">
+                <lightning-layout multiple-rows pull-to-boundary="medium">
+                    <lightning-layout-item size="12" padding="horizontal-medium">
+                        <div class="color-brand slds-text-heading_large slds-brand">
+                            Warranty Start Date Information
+                        </div>
+                        <div class="slds-p-bottom_small" style="font-size: 11px">This form must be filled electronically. Hand written forms will not be accepted.</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="3" small-device-size="6" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_In_Service_Date__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" large-device-size="4" medium-device-size="4" small-device-size="6" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_Mileage__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_VIN__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+            
+            <div class="slds-box slds-m-bottom_large">
+                <c-customer-care-box-header title="Retail Customer (End User) Information">
+                    <lightning-layout slot="body" multiple-rows pull-to-boundary="medium">
+                        <lightning-layout-item size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="Customer_Name__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="Address__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="7" large-device-size="7" medium-device-size="6" small-device-size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="City__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="2" large-device-size="2" medium-device-size="2" small-device-size="6"  padding="horizontal-medium">
+                            <lightning-input-field field-name="State__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="3" large-device-size="3" medium-device-size="4" small-device-size="6"  padding="horizontal-medium">
+                            <lightning-input-field field-name="ZipPostCode__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="Customer_Email__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </c-customer-care-box-header>
+            </div>
+            
+            <div class="slds-box slds-m-bottom_large">
+                <c-customer-care-box-header title="Dealer Information">
+                    <lightning-layout slot="body" multiple-rows pull-to-boundary="medium">
+                        <lightning-layout-item size="6" padding="horizontal-medium">
+                            <lightning-input-field field-name="Selling_Dealer_Rep_Name__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-medium">
+                            <lightning-input-field field-name="Selling_Dealer_Name__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-medium">
+                            <lightning-input-field field-name="Selling_Dealer_Email__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="horizontal-medium">
+                            <lightning-input-field field-name="Selling_Dealer_Phone__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </c-customer-care-box-header>
+            </div>
+            
+            <div class="slds-align_absolute-center">
+                <lightning-button label="Submit Chrysler OEM Warranty Form" type="submit"></lightning-button>
+            </div>
+            
+        </lightning-record-edit-form>
+    </template>
+</template>

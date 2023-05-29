@@ -1,0 +1,60 @@
+<apex:page showHeader="true" sidebar="true" controller="usaiConfigurationController" tabStyle="usaiConfig__c">
+    <div class="bPageTitle">
+       <div class="ptBody">
+          <div class="content">
+             <img src="/img/icon/custom51_100/gears32.png" alt="USAI Integration" style="background-image:none;" class="pageTitleIcon" title="USAI Integration"/>
+             <h1 class="pageType">USAI Integration<span class="titleSeparatingColon">:</span></h1>
+             <h2 class="pageDescription"> Integration Settings</h2>
+             <div class="blank">&nbsp;</div>
+          </div>
+        </div>
+    </div>
+    <apex:form id="settingsForm">
+        <apex:outputPanel id="errorMessages">
+          <apex:pageMessages ></apex:pageMessages>
+       </apex:outputPanel>
+        <apex:pageBlock title="Integration Configuration ">
+                <apex:pageblockButtons >
+                    <!-- <apex:commandButton value="Send Outbound Request" /> -->
+                    <!-- <apex:commandButton value="Refresh Inbound Request" /> -->
+                    <apex:commandButton value="Load Default Mappings" action="{!loadDefaultMappings}" reRender="errorMessages" />
+                    <apex:commandButton value="Cancel" action="{!URLFOR($Page.usaiConfiguration)}" immediate="true" />                                  
+                    <c:LevStatusComponent />               
+                </apex:pageblockButtons>
+
+               <!--  <apex:pageblockSection title="Outbound Test" columns="2" >
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >End Point (TODO: turn to picklist)</apex:outputLabel>
+                        <apex:inputText />
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem />
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Sample XML</apex:outputLabel>
+                        <apex:inputTextarea value="{!sampleXML}" rows="20" cols="80"/>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Result XML</apex:outputLabel>
+                        <apex:inputTextarea rows="20" cols="80"/>
+                    </apex:pageBlockSectionItem>
+                </apex:pageblockSection>
+
+                <apex:pageblockSection title="Inbound Test" columns="2">
+                <apex:pageBlockSectionItem >
+                        <apex:outputLabel >End Point (TODO: turn to picklist)</apex:outputLabel>
+                        <apex:inputText />
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem />
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Sample XML</apex:outputLabel>
+                        <apex:inputTextarea value="{!sampleXML}" rows="20" cols="80"/>
+                    </apex:pageBlockSectionItem>
+                      <apex:pageBlockSectionItem >
+                        <apex:outputLabel >Result XML</apex:outputLabel>
+                        <apex:inputTextarea rows="20" cols="80"/>
+                    </apex:pageBlockSectionItem>
+                </apex:pageblockSection> -->
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,17 @@
+
+
+
+
+p {
+    padding-bottom: 10px;
+}
+
+.color-brand {
+    color: var(--lwc-colorBrand);
+}
+
+.disclaimer {
+    font-size: 11px;
+}
+
+

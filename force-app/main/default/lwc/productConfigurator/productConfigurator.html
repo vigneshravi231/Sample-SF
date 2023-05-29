@@ -1,0 +1,26 @@
+
+<!-- Product Configurator -->
+<template>
+  <lightning-spinner if:true={isLoading}></lightning-spinner>
+  <div class="slds-p-around_small">
+    <template for:each={sections} for:item="section">
+      <div class="section" key={section.section}>
+        <div class="slds-text-heading_small">
+          {section.label}
+        </div>
+        <div class="slds-grid slds-m-bottom_small slds-p-bottom_small">
+          <template for:each={section.fields} for:item="field">
+            <div class="slds-col slds-p-right_small section-field" key={field.name}>
+              <c-product-configurator-input
+                key={field.name}
+                field={field}
+                onfilterchange={handleFilterChange}
+              >
+              </c-product-configurator-input>
+            </div>
+          </template>
+        </div>
+      </div>
+    </template>
+  </div>
+</template>

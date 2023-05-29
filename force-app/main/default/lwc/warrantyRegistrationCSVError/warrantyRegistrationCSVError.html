@@ -1,0 +1,54 @@
+
+<!-- Warranty Registration Csv Error -->
+<template>
+	<div class="slds-box slds-m-bottom_medium" if:true={hasInvalidWarranties}>
+		<div>
+			<div class="color-brand slds-text-heading_large slds-p-bottom_large slds-brand">Resolve CSV Errors</div>
+			<div class="slds-text-color_error slds-m-bottom_medium">
+				Errors were detected in your CSV. Edit your CSV and&nbsp;
+				<a onclick={reload}>reload</a>&nbsp;the page and resubmit - or remove below to continue.
+			</div>
+			<table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_large">
+				<thead>
+					<tr class="slds-line-height_reset">
+						<th scope="col">
+							<div class="slds-truncate">Line Number</div>
+						</th>
+						<th scope="col">
+							<div class="slds-truncate">Error Message</div>
+						</th>
+						<th scope="col">
+							<div class="slds-truncate slds-text-align_right">Remove</div>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="slds-hint-parent" for:each={props.invalidWarranties} for:item="warranty" key={warranty.uuid}>
+						<td>
+							<div class="slds-truncate">{warranty.csvLineNumber}</div>
+						</td>
+						<td>
+							<div class="slds-truncate" for:each={warranty.errors} for:item="error" key={error.apiName}>
+								{error.csvName}:&nbsp;{error.message}
+							</div>
+						</td>
+						<td data-label="Remove Button" class="slds-text-align_right">
+							<div class="slds-truncate" title="Remove Button">
+								<div class="slds-truncate" title="Remove Button">
+									<lightning-button-icon
+										icon-name="utility:close"
+										variant="bare"
+										alternative-text="Remove"
+										value={warranty.uuid}
+										onclick={handleRemove}
+										title="Remove">
+									</lightning-button-icon>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</template>

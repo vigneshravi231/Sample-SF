@@ -1,0 +1,176 @@
+<aura:component
+  implements="lightningsnapin:prechatUI"
+  controller="liveAgentHelper"
+  description="Sample custom pre-chat component for Embedded Chat. Implemented using Aura."
+>
+ <!-- Contains a method for fetching Chat settings -->
+ <lightningsnapin:settingsAPI aura:id="settingsAPI"/>
+
+  <!-- You must implement "lightningsnapin:prechatUI" for this component to appear in the "Pre-chat Component" customization dropdown in the Embedded Service setup -->
+
+  <!-- Pre-chat field components to render -->
+  <aura:attribute
+    name="prechatFieldComponents"
+    type="List"
+    description="An array of objects representing the pre-chat fields specified in pre-chat setup."
+  />
+
+  <!-- Handler for when this component is initialized -->
+  <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+  <!-- For Aura performance -->
+  <aura:locator
+    target="startButton"
+    description="Pre-chat form submit button."
+  />
+  <aura:attribute name="isLead" type="boolean" default="false" />
+  <aura:attribute name="showFields" type="boolean" default="true" />
+  <aura:attribute name="isAgree" type="boolean" default="false" />
+  <aura:attribute name="firstNameError" type="boolean" default="false" />
+  <aura:attribute name="lastNameError" type="boolean" default="false" />
+  <aura:attribute name="emailError" type="boolean" default="false" />
+  <aura:attribute name="countryError" type="boolean" default="false" />
+  <aura:attribute name="checkBoxError" type="boolean" />
+  <aura:attribute name="showImg" type="boolean" default="true" />
+  <aura:attribute name="options" type="List" default="[]"/>
+  <!-- Contains methods for getting pre-chat fields, starting a chat, and validating fields -->
+  <lightningsnapin:prechatAPI aura:id="prechatAPI" />
+
+  <ltng:require styles="{!($Resource.fontAwesome + '/css/fontawesome.min.css'  )}" />
+  <aura:if isTrue="{!v.showFields}">
+      
+    <div class="prechatUI">
+      <aura:if isTrue="{!v.isLead}">
+                <div class="shoppingClss promo">Ask about NO PAYMENTS FOR 6 MONTHS!</div>
+      </aura:if>
+      <div class="shoppingClss"
+        >Please complete the form to start your chat!
+      </div>
+      <div class="prechatContent">
+        <table class="fieldsList">
+          <tr>
+            <td>
+              <div class="requiredFirstName">*Required</div>
+              <aura:if isTrue="{!v.firstNameError}">
+                <div class="firstNameIcon">
+                    <i class="fas fa-exclamation-circle" style="font-size:15px;color:red"></i>
+                </div>
+                <div class="warningTextFirstName">
+                  Please enter your first name
+                </div>
+              </aura:if>
+
+              <div class="requiredLastName">*Required</div>
+              <div class="requiredEmail">*Required</div>
+              <div class="requiredCountry" style="padding-left:80px;">*Required</div>
+              
+              
+              {!v.prechatFieldComponents}
+
+              <aura:if isTrue="{!v.lastNameError}">
+                  <div class="LastNameIcon">
+                      <i class="fas fa-exclamation-circle" style="font-size:15px;color:red"></i>
+                  </div>
+                <div class="warningTextLastName">
+                  Please enter your last name
+                </div>
+              </aura:if>
+
+              <aura:if isTrue="{!v.emailError}">
+                  <div class="emailIcon">
+                      <i class="fas fa-exclamation-circle" style="font-size:15px;color:red"></i>
+                  </div>
+                <div class="warningTextEmail">
+                  Please enter a valid email address
+                </div>
+              </aura:if>
+              
+              <aura:if isTrue="{!v.countryError}">
+                  <div class="countryIcon">
+                      <i class="fas fa-exclamation-circle" style="font-size:15px;color:red"></i>
+                  </div>
+                <div class="warningTextCountryName">
+                  Please select your country
+                </div>
+              </aura:if>
+            </td>
+          </tr>
+
+          <!-- Look in the controller's onInit function. This component dynamically creates the pre-chat field components -->
+        </table>
+      </div>
+      <br />
+      <div class="NextBtn">
+        <lightning:button
+          variant="base"
+          label="Next"
+          title="Next"
+          onclick="{! c.handleStartButtonClick }"
+        />
+      </div>
+    </div>
+    <aura:set attribute="else">
+      <div id="privacyPolicy" class="policy">
+        <p>
+          In connection with use of this chat function, SampleAbility generally
+          obtains personal data. This personal data will be transferred to the
+          United States, and will be processed in accordance with (the from time
+          to time) applicable data protection laws and SampleAbility’s
+          <a
+            href="https://www.Sampleability.com/us/en/privacy-policy.html"
+            target="_blank"
+            class="aTag"
+            >Privacy Policy</a
+          >.
+        </p>
+      </div>
+     
+      <div class="checkBoxCss">
+        <div class="check">
+          <lightning:input
+            type="checkbox"
+            name="Agree"
+            checked="{!v.isAgree}"
+            onchange="{! c.checkBox}"
+            class="CheckBoxClss"
+          />
+        </div>
+        <div class="agree">
+          <span>
+            <h1 style="font-family:Montserrat">I Agree</h1>
+          </span>
+        </div>
+      </div>
+
+      <div class="chatCmdContainer" style="clear:both">
+        <div class="checkBoxWrapper">
+        <aura:if isTrue="{!v.checkBoxError}">
+            <div class="checkBoxIcon">
+                <i class="fas fa-exclamation-circle" style="font-size:15px;color:red"></i>
+            </div>
+            <div class="warningcheckBox">
+              Please check the "I Agree" box to start chating
+            </div>
+          </aura:if>
+        </div>
+
+
+        <div class="startButtonWrapper">
+          <span>
+            <lightning:button
+              variant="base"
+              label="{!$Label.LiveAgentPrechat.StartChat}"
+              title="Next"
+              onclick="{! c.handleNext }"
+              aura:id="startButton"
+            />
+            <!-- <ui:button aura:id="startButton" class="startButton" label="{!$Label.LiveAgentPrechat.StartChat}" press="{!c.handleStartButtonClick}"/> -->
+          </span>
+          </div>
+      </div>
+
+
+
+    </aura:set>
+  </aura:if>
+</aura:component>

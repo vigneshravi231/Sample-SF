@@ -1,0 +1,26 @@
+
+<!-- Recall Form Custom Field -->
+<template>
+  <lightning-record-edit-form object-api-name="Case">
+    <lightning-messages></lightning-messages>
+    <lightning-layout multiple-rows pull-to-boundary={pullToBoundaryValue}>
+      <lightning-layout-item size={sizeValue} padding={paddingValue}>
+        <div class="slds-p-bottom_xx-small">
+          <label for="lookupField" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">{lookupFieldLabel}</span></label>
+          <lightning-input-field
+            id="lookupField"
+            field-name={lookupFieldName}
+            variant="label-hidden"
+            onchange={onLookupFieldChange}
+            required
+            value={lookupFieldValue}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+      <lightning-layout-item size={sizeValue} padding={paddingValue}>
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input label={displayFieldLabel} value={displayFieldValue} required read-only></lightning-input>
+        </div>
+      </lightning-layout-item>
+    </lightning-layout>
+  </lightning-record-edit-form>
+</template>

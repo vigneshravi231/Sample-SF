@@ -1,0 +1,87 @@
+<!--
+ - Created by Slav on 24.12.2019.
+ -->
+
+<apex:page id="WarrantyRegistrationList" standardController="Entitlement" extensions="WarrantyRegistrationListController" recordSetVar="registrationList" docType="html-5.0" standardStylesheets="true" showHeader="false">
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"/>
+    <apex:stylesheet value="{!URLFOR($Resource.spinner_style)}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.WarrantyClaimListStyle)}"/>
+    <script>
+        var warning = "Are you sure you want to delete this Warranty Registration?\n\nDeleted Registration cannot be restored";
+
+        function keyCheck(component) {
+            console.log(component);
+            if (window.event.keyCode == 13) {
+                showSpinner();
+                setFilter();
+                return false;
+            }
+        }
+    </script>
+
+    <div class="topContainer" style="opacity:1">
+        <apex:form id="theForm">
+            <apex:actionFunction name="setFilter" action="{!setFilter}"/>
+            <apex:pageBlock mode="maindetail">
+                <c:VF_Spinner />
+                <apex:pageBlockSection id="setup" columns="1">
+                    <apex:commandButton value="New" action="{!createWarrantyRegistration}" onClick="showSpinner();" reRender="theForm" styleClass="button" style="float:right;"/>
+
+                    <apex:pageBlockTable value="{!registrationList}" var="registration" id="table" rowClasses="even,odd" headerClass="header">
+                        <apex:column headerValue="Asset Name" styleClass="output">
+                            <apex:outputField value="{!registration.Asset.Name}" style="width:10px"/>
+                        </apex:column>
+
+                        <apex:column headerValue="VIN/Serial Number" styleClass="output">
+                            <apex:outputField value="{!registration.VIN_Serial_Number__c}" style="width:10px"/>
+                        </apex:column>
+
+                        <apex:column headerValue="Account Name" styleClass="output">
+                            <apex:outputField value="{!registration.Account.Name}" style="width:10px"/>
+                        </apex:column>
+
+                        <apex:column headerValue="Dealer Account" styleClass="output">
+                            <apex:outputField value="{!registration.Dealer__r.Name}" style="width:10px"/>
+                        </apex:column>
+
+                        <apex:column headerValue="Dealer Number" styleClass="output">
+                            <apex:outputField value="{!registration.Dealer__r.DealerNumberId__c}" style="width:10px"/>
+                        </apex:column>
+
+                        <apex:column headerValue="Created By" styleClass="output">
+                            <apex:outputField value="{!registration.CreatedBy.Contact.Name}" style="width:10px"/>
+                        </apex:column>
+
+                        <apex:column style="width:5px; text-align:center; vertical-align:top;">
+                            <apex:commandButton image="{!URLFOR($Resource.SampleAbilityIcons, 'view.png')}" title="View" action="{!editWarrantyRegistration}" onClick="showSpinner();" reRender="theForm" style="vertical-align:middle; padding:0px; border:1px solid transparent; float:left;">
+                                <apex:param name="recordId" value="{!registration.Id}" assignTo="{!recordId}"/>
+                            </apex:commandButton>
+                        </apex:column>
+
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+
+            <apex:pageMessages id="message" rendered="true" escape="false"/>
+
+            <div align="center" style="white-space:nowrap;">
+                <table class="bottom" width="100%" align="center" border="0">
+                    <tr>
+                        <td width="25%" style="white-space:nowrap!important; display: table-cell; vertical-align:middle;">
+                            <apex:outputText value="Filter by VIN/Serial Number:" style="font-weight:bold; float:left; padding-top:10px;"/>
+                            <img align="left" title="Type in any part of the VIN or Serial number and press Enter" class="helpOrb" src="/s.gif" style="margin-top:10px;"/>
+                            <apex:inputText id="searchVin" value="{!filterByVIN}" onKeyPress="return keyCheck(this);" styleClass="input" style="float:left;"/>
+                        </td>
+                        <td style="text-align:center">
+                            <apex:commandButton value="First" action="{!first}" disabled="{!NOT hasPrevious}" onClick="showSpinner();" reRender="theForm" styleClass="button" style="float:center;"/>
+                            <apex:commandButton value="Previous" action="{!previous}" disabled="{!NOT hasPrevious}" onClick="showSpinner();" reRender="theForm" styleClass="button" style="float:center;"/>
+                            <apex:commandButton value="Next" action="{!next}" disabled="{!NOT hasNext}" onClick="showSpinner();" reRender="theForm" styleClass="button" style="float:center;"/>
+                            <apex:commandButton value="Last" action="{!last}" disabled="{!NOT hasNext}" onClick="showSpinner();" reRender="theForm" styleClass="button" style="float:center;"/>
+                        </td>
+                        <td width="25%"/>
+                    </tr>
+                </table>
+            </div>
+        </apex:form>
+    </div>
+</apex:page>

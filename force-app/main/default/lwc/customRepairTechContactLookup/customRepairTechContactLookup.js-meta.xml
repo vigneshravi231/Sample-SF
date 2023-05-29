@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <description>Used to access contacts based on the account Id</description>
+    <isExposed>false</isExposed>
+    <masterLabel>Custom Repair Tech Contact Lookup</masterLabel>
+</LightningComponentBundle>

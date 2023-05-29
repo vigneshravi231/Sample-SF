@@ -1,0 +1,142 @@
+
+.item-table tr:first-child td {
+    /*padding-top: 18px;*/
+}
+
+.image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image {
+    /*max-width: 35px;*/
+}
+
+.product-col {
+    text-align: center;
+    color: #000;
+    padding-left: 0;
+    width: 132px;
+}
+
+.overflow-hidden[c-checkoutSection_checkoutSection] {
+    overflow: unset;
+    overflow-x: auto;
+}
+
+.fixed {
+    table-layout: fixed;
+}
+
+.qty-col {
+    width: 100px;
+}
+
+.total-col {
+    width: 120px;
+}
+
+.expanded {
+    background-color: #efefef;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+/* Quantity */
+
+.quantity-action {
+    padding: 0.25rem;
+    border: none;
+    cursor: pointer;
+}
+
+.quantity-input {
+    padding: 0.25rem;
+    width: 3rem;
+    text-align: center;
+    outline: 0;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Mobile */
+
+.mobile-show {
+    display: none;
+}
+
+.mobile-hide {
+    display: table;
+}
+
+.product-container-mobile .product-box:nth-child(1) div .image-container {
+    margin-top: 0;
+}
+
+.product-container-mobile .product-box:last-child > .main-cart-item {
+    border-bottom: 0;
+}
+
+.product-container-mobile .product-box:last-child > .split-item {
+    margin-top: 0.75rem;
+    margin-bottom: -1rem;
+    border-bottom: none;
+    border-radius: 0.25rem;
+}
+
+.product-container-mobile .product-box:last-child > .main-cart-item > .mobile-cart-item-container {
+    padding-bottom: 0;
+}
+
+.product-container-mobile .product-box:first-child > .main-cart-item > .mobile-cart-item-container {
+    padding-top: 0;
+}
+
+.product-container-mobile .product-box:first-child > .main-cart-item > .mobile-cart-item-container .mobile-split-item-container {
+    margin-top: 0;
+}
+
+.remove-box-padding-h-1 {
+    margin-left: -1rem;
+    margin-right: -1rem;
+}
+
+@media only screen and (max-width: 925px) {
+
+    .mobile-show {
+        display: initial;
+    }
+
+    .mobile-hide {
+        display: none;
+    }
+
+    .order-review-layout {
+        padding: 0;
+    }
+
+}
+
+@media only screen and (max-width: 400px) {
+    .mobile-image-container {
+        margin: auto;
+        width: 100px;
+    }
+}

@@ -1,0 +1,37 @@
+
+
+<!-- Payment Options -->
+<template>
+
+  <div if:false={loaded}>
+    <lightning-spinner alternative-text="Loading"
+                       size="medium">
+    </lightning-spinner>
+  </div>
+
+  <template if:true={loaded}>
+    <lightning-tabset if:true={hasPaymentMethod}>
+
+      <lightning-tab label="Payment Options"
+                     onactive={handlePaymentMethodSelection}>
+
+        <lightning-radio-group name="Payment Options"
+                               label=""
+                               onchange={handlePaymentMethodSelection}
+                               options={options}
+                               type="radio"></lightning-radio-group>
+      </lightning-tab>
+
+    </lightning-tabset>
+
+    <div>
+      <c-payment-purchase-order>
+      </c-payment-purchase-order>
+    </div>
+
+    <div if:false={hasPaymentMethod}>
+      No payment methods found.
+    </div>
+
+  </template>
+</template>

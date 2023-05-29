@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Approval_Notification_Author__c</fullName>
+    <description>BC-410 username of sf user that should be listed as the author of approval notifications</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>BC-410 username of sf user that should be listed as the author of approval notifications</inlineHelpText>
+    <label>Approval Notification Author</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

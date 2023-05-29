@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>creator</type>
+    </allowedSubmitters>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Owner</field>
+        <field>CaseNumber</field>
+        <field>Account</field>
+        <field>Asset</field>
+        <field>VIN_Serial_Number__c</field>
+        <field>Warranty_Registration__c</field>
+        <field>Recalled_Asset__c</field>
+        <field>Concern__c</field>
+        <field>Cause__c</field>
+        <field>Correction__c</field>
+        <field>Total_Labor_Amount__c</field>
+        <field>Total_Parts_Amount__c</field>
+        <field>Total_Claim_Amount__c</field>
+        <field>Claim_Denial_Reason__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>true</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Warranty_Claim_Approval_Process_Lift</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Queue</label>
+        <name>Queue</name>
+    </approvalStep>
+    <emailTemplate>DMI_Email_Templates/Warranty_Claim_Approval_Lift</emailTemplate>
+    <enableMobileDeviceAccess>true</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>OR(
+Asset.Product_Group__r.Name  = &quot;LDPACEN&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAESR&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAGBL&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAMIL&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAQLD&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAVIS&quot;,
+Asset.Product_Group__r.Name  = &quot;LMCIRAMP&quot;,
+Asset.Product_Group__r.Name  = &quot;LMTRCH&quot;,
+Asset.Product_Group__r.Name  = &quot;LRAMP&quot;,
+Asset.Product_Group__r.Name  = &quot;LSWING&quot;,
+Asset.Product_Group__r.Name  = &quot;LUVL&quot;,
+Asset.Product_Group__r.Name  = &quot;LVNGTR&quot;,
+Asset.Product_Group__r.Name  = &quot;OEXECSTP&quot;
+)</formula>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>Update_Claim_Disposition_to_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Status_to_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>Update_Claim_Disposition_to_Denied</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Status_to_Rejected</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Warrranty_Claim_Rejection</name>
+            <type>Alert</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Update_Status_to_Submitted</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Warranty Claim Approval Process - Lift</label>
+    <processOrder>3</processOrder>
+    <recallActions>
+        <action>
+            <name>Update_Status_to_New</name>
+            <type>FieldUpdate</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOrCurrentApprover</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

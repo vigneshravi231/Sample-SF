@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pre_Reqs_Met__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>This field is selected whenever the Pre-Req criteria are met by the candidate. This field is automatically updated by a process flow.</description>
+    <externalId>false</externalId>
+    <label>Pre Reqs Met</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

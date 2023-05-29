@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Hold__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>BC-341 indicate if the part is reserved as part of WAV configuration</description>
+    <externalId>false</externalId>
+    <inlineHelpText>BC-341 indicate if the part is reserved as part of WAV configuration</inlineHelpText>
+    <label>Application Hold</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

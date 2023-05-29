@@ -1,0 +1,225 @@
+<!-- Warranty Registration Edit Asset -->
+<template>
+
+    <!-- ADDING FIELDS  -->
+
+    <!--
+      Adding fields to this form requires that they also be added
+      to the WarrantyRegistrationHelper.assetSchema this will allow
+      fields that are added to automatically be loaded back into the
+      modal edit interface for editing. Two hidden fields for uniqueId and index
+      are generated for each asset entry so editing is possible.
+    -->
+
+    <lightning-record-edit-form object-api-name="Entitlement" onsubmit={onSubmit} onload={hideSpinner}>
+        <c-modal-dialog show-modal={showModal} ontogglemodal={handleModalToggle} size="large" onclosemodal={closeModal}>
+            <span slot="header">Add Asset</span>
+            <span slot="body">
+                <lightning-messages></lightning-messages>
+                <div if:true={showSpinner} class="slds-m-around_medium spinner-height">
+                    <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                </div>
+                <div class="slds-box slds-m-vertical_medium" if:false={showSpinner}>
+                    <div>
+                        <div class="color-brand slds-text-heading_large slds-p-bottom_medium slds-brand">Asset Information</div>
+                    </div>
+                    <!-- Asset Form Fields -->
+                    <lightning-layout multiple-rows>
+                        <!-- Left Column -->
+                        <lightning-layout-item padding="horizontal-small" size="6">
+                            <div class="slds-p-top_small">
+                                <lightning-input-field value={record.AssetId}
+                                                       field-name="AssetId"
+                                                       onchange={handleAssetSelection}></lightning-input-field>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- Right Column -->
+                        <lightning-layout-item padding="horizontal-small" size="6">
+                            <div class="slds-form_horizontal slds-p-top_small">
+                                <lightning-input label="Vin/Serial Number" value={record.VIN_Serial_Number__c}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item padding="horizontal-small" size="6">
+                            <div class="slds-p-bottom_small">
+                                <lightning-input-field field-name="Model__c" value={record.Model__c}></lightning-input-field>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <!-- /Asset Form Fields -->
+                    <hr />
+                    <!-- Customer -->
+                    <div class="color-brand slds-text-heading_small slds-p-bottom_medium slds-brand">Asset Customer Information</div>
+                    <lightning-layout>
+                        <!-- Left Column -->
+                        <lightning-layout-item padding="around-small" size="6">
+                            <!-- Filled by the asset lookup? -->
+                            <lightning-input-field field-name="Customer_First_Name__c" value={record.Customer_First_Name__c}
+                                                   required></lightning-input-field>
+                            <lightning-input-field field-name="Customer_Last_Name__c" value={record.Customer_Last_Name__c}
+                                                   required></lightning-input-field>
+                            <lightning-input-field value={record.Business_Organization__c}
+                                                   field-name="Business_Organization__c" if:true={isLift}></lightning-input-field>
+                            <lightning-input-field field-name="Address_1__c" value={record.Address_1__c}
+                                                   required></lightning-input-field>
+                            <lightning-input-field field-name="Address_2__c" value={record.Address_2__c}></lightning-input-field>
+                            <lightning-input-field field-name="City__c" value={record.City__c}
+                                                   required></lightning-input-field>
+                        </lightning-layout-item>
+                        <!-- Right Column -->
+                        <lightning-layout-item padding="around-small" size="6">
+                            <lightning-input-field field-name="State_Province__c" value={record.State_Province__c}
+                                                   required></lightning-input-field>
+                            <lightning-input-field field-name="Zip_Postal_Code__c" value={record.Zip_Postal_Code__c}
+                                                   required></lightning-input-field>
+                            <lightning-input-field field-name="Country__c" value={record.Country__c}
+                                                   required></lightning-input-field>
+                            <lightning-input-field field-name="Customer_Phone__c" value={record.Customer_Phone__c}></lightning-input-field>
+                            <lightning-input-field field-name="Customer_Email__c" value={record.Customer_Email__c}></lightning-input-field>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <!-- /Customer Form Fields -->
+                    <hr />
+                    <!-- Dealer Form Fields -->
+                    <div class="color-brand slds-text-heading_small slds-p-bottom_medium slds-brand">Asset Dealer Information</div>
+                    <lightning-layout>
+                        <!-- Left Column -->
+                        <lightning-layout-item padding="around-small" size="6">
+                            <lightning-input-field value={record.Dealer__c} onchange={handleDealerSelection}
+                                                   field-name="Dealer__c"></lightning-input-field>
+                          <lightning-input-field value={record.Dealer_ID__c}
+                                                 field-name="Dealer_ID__c"></lightning-input-field>
+                            <lightning-input-field value={record.Purchase_Date__c}
+                                                   field-name="Purchase_Date__c"
+                                                   required></lightning-input-field>
+                            <lightning-input-field value={record.Comments__c}
+                                                   field-name="Comments__c"></lightning-input-field>
+                            <!-- Dependent Field Section -->
+                            <template if:true={isWAV}>
+                                <div class="slds-border_top slds-m-top_x-small slds-m-bottom_x-small" if:true={showDependentFieldState.C_of_O_Form_Required__c}></div>
+                                <lightning-input-field value={record.C_of_O_Form_Required__c}
+                                                       onchange={handleShowDependentField}
+                                                       data-controllingfieldapiname="C_of_O_Form_Required__c"
+                                                       field-name="C_of_O_Form_Required__c"></lightning-input-field>
+
+                                <div if:true={showDependentFieldState.C_of_O_Form_Required__c}>
+                                    <lightning-input-field value={record.CoO_Send_MSO_to__c}
+                                                           required="true"
+                                                           field-name="CoO_Send_MSO_to__c"></lightning-input-field>
+                                    <lightning-input-field value={record.CoO_Paperwork_Contact__c}
+                                                           required="true"
+                                                           field-name="CoO_Paperwork_Contact__c"></lightning-input-field>
+                                    <lightning-input-field value={record.CoO_Vehicle_Price__c}
+                                                           required="true"
+                                                           field-name="CoO_Vehicle_Price__c"></lightning-input-field>
+                                    <lightning-input-field value={record.CoO_Optional_Email__c}
+                                                           required="true"
+                                                           field-name="CoO_Optional_Email__c"></lightning-input-field>
+                                </div>
+                                <div class="slds-border_bottom slds-m-bottom_x-small" if:true={showDependentFieldState.C_of_O_Form_Required__c}></div>
+                                <!-- /Dependent Field Section -->
+                                <lightning-input-field value={record.Total_Selling_Price__c}
+                                                       field-name="Total_Selling_Price__c"></lightning-input-field>
+                                <lightning-input-field value={record.Mileage_at_Time_of_Sale__c}
+                                                       field-name="Mileage_at_Time_of_Sale__c"
+                                                       required></lightning-input-field>
+                            </template>
+                            <lightning-input-field field-name="Cycle_Count__c" if:false={isSeat}></lightning-input-field>
+                        </lightning-layout-item>
+                        <!-- Right Column -->
+                        <lightning-layout-item padding="around-small" size="6" if:true={isWAV}>
+                            <!-- Dependent Field Section -->
+                            <div class="slds-border_top slds-m-top_x-small slds-m-bottom_x-small" if:true={showDependentFieldState.Customer_is_a_Veteran__c}></div>
+                            <lightning-input-field value={record.Customer_is_a_Veteran__c}
+                                                   onchange={handleShowDependentField}
+                                                   data-controllingfieldapiname="Customer_is_a_Veteran__c"
+                                                   field-name="Customer_is_a_Veteran__c"></lightning-input-field>
+                            <div if:true={showDependentFieldState.Customer_is_a_Veteran__c}>
+                                <lightning-input-field value={record.Service_Connected__c}
+                                                       field-name="Service_Connected__c"
+                                                       required="true"></lightning-input-field>
+                            </div>
+                            <div class="slds-border_bottom slds-m-bottom_x-small" if:true={showDependentFieldState.Customer_is_a_Veteran__c}></div>
+                            <!-- /Dependent Field Section -->
+                            <lightning-input-field value={record.VA_Sale__c}
+                                                   field-name="VA_Sale__c"></lightning-input-field>
+                            <lightning-input-field value={record.First_Accessible_Vehicle__c}
+                                                   field-name="First_Accessible_Vehicle__c"></lightning-input-field>
+                            <lightning-input-field value={record.Rental__c}
+                                                   field-name="Rental__c"></lightning-input-field>
+                            <lightning-input-field value={record.CPO__c}
+                                                   field-name="CPO__c"></lightning-input-field>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <!-- /Dealer Form Fields -->
+                </div>
+                <div class="slds-grid slds-wrap slds-gutters parent-container">
+                    <div class="slds-col full-height slds-p-bottom_medium">
+                        <div class="slds-box slds-m-bottom_medium full-height">
+                            <div>
+                                <div class="color-brand slds-text-heading_large slds-p-bottom_medium slds-brand">Sales Person Info</div>
+                            </div>
+                            <lightning-input-field value={record.Sales_Person_Name__c}
+                                                   field-name="Sales_Person_Name__c"
+                                                   required></lightning-input-field>
+                            <lightning-input-field value={record.Sales_Person_Email__c}
+                                                   field-name="Sales_Person_Email__c"
+                                                   required></lightning-input-field>
+                            <lightning-input-field value={record.Sales_Person_Secondary_Email__c}
+                                                   field-name="Sales_Person_Secondary_Email__c"></lightning-input-field>
+                        </div>
+                    </div>
+                    <div class="slds-col full-height slds-p-bottom_medium">
+                        <div class="slds-box slds-m-bottom_medium full-height">
+                            <div>
+                                <div class="color-brand slds-text-heading_large slds-p-bottom_medium slds-brand">Use Information</div>
+                            </div>
+                            <!-- Dependent Field Section -->
+                            <div class="slds-border_top slds-m-top_x-small slds-m-bottom_x-small" if:true={showDependentFieldState.Conversion_Use__c}></div>
+                            <lightning-input-field value={record.Conversion_Use__c}
+                                                   onchange={handleShowDependentField}
+                                                   data-controllingfieldapiname="Conversion_Use__c"
+                                                   field-name="Conversion_Use__c"
+                                                   required></lightning-input-field>
+                            <div if:true={showDependentFieldState.Conversion_Use__c}>
+                                <lightning-input-field value={record.Business_Organization__c}
+                                                       required="true"
+                                                       field-name="Business_Organization__c"></lightning-input-field>
+                            </div>
+                            <div class="slds-border_bottom slds-m-bottom_x-small" if:true={showDependentFieldState.Conversion_Use__c}></div>
+                            <!-- /Dependent Field Section -->
+                            <lightning-input-field value={record.SampleAbility_Finance__c}
+                                                   field-name="SampleAbility_Finance__c"></lightning-input-field>
+                            <lightning-input-field value={record.Commercial_or_Consumer__c}
+                                                   field-name="Commercial_or_Consumer__c"
+                                                   class="slds-m-bottom_medium"
+                                                   required></lightning-input-field>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-p-bottom_medium" if:true={isWAV}>
+                        <div class="slds-box slds-m-bottom_medium full-height">
+                            <div class="color-brand slds-text-heading_large slds-p-bottom_medium slds-brand">Signatures</div>
+                            <!-- Signature Statement -->
+                            <c-warranty-registration-signature-statement></c-warranty-registration-signature-statement>
+                            <div>
+                                <div class="slds-m-top_large">
+                                    <div class="slds-text-heading_small">A copy of both signatures are on record on site at dealer location</div>
+                                    <div class="slds-m-top_small required-fix">
+                                        <lightning-input-field value={record.Signatures_Completed_and_On_File__c}
+                                                               field-name="Signatures_Completed_and_On_File__c"
+                                                               required="true"></lightning-input-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <span slot="footer">
+                <lightning-button variant="brand" type="button" label="Cancel" onclick={closeModal}></lightning-button>
+                <lightning-button variant="brand" label={buttonLabel} type="submit" class="slds-m-left_medium"></lightning-button>
+            </span>
+        </c-modal-dialog>
+    </lightning-record-edit-form>
+
+</template>

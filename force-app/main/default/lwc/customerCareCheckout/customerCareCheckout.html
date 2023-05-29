@@ -1,0 +1,124 @@
+
+<!-- Customer Care Checkout -->
+<template>
+	<div class="top-most-div"></div>
+	<lightning-spinner if:true={showSpinner}></lightning-spinner>
+	<c-provider oninit={initialize} store={store}>
+		<template if:true={loaded}>
+			<!--  General Info Screen  -->
+			<template if:true={isGeneralInfoScreen}>
+				<div class="slds-text-heading_large color-brand slds-m-bottom_medium">Review your order and confirm</div>
+
+				<!-- Payment Method -->
+				<c-checkout-section step-number="1" step-title="Select your method of payment">
+					<c-co-payment-options slot="body"></c-co-payment-options>
+				</c-checkout-section>
+
+				<!-- Select addresses -->
+				<c-checkout-section step-number="2" step-title={addressCheckoutHeader}>
+					<c-co-addresses slot="body"></c-co-addresses>
+					<span slot="action">
+						<lightning-button
+							if:true={canUseLineLevelShipping}
+							label={lineLevelShippingLabel}
+							onclick={handleLineLevelShippingClick}
+							class="checkout-section-header-button"
+							variant="brand"
+						></lightning-button>
+					</span>
+				</c-checkout-section>
+
+				<!-- Review Order -->
+				<c-checkout-section step-number="3" step-title={orderReviewHeader} allow-overflow="true">
+					<c-co-order-review slot="body"></c-co-order-review>
+					<span slot="action">
+						<lightning-button
+							class="checkout-section-header-button"
+							label="Edit Cart"
+							onclick={gotoCart}
+							variant="brand"
+						></lightning-button>
+					</span>
+				</c-checkout-section>
+
+				<!-- Confirm Order -->
+				<c-checkout-section step-number="4" step-title="Place Your Order">
+					<c-co-summary slot="body" onorderconfirmed={handleOrderConfirmed}></c-co-summary>
+				</c-checkout-section>
+			</template>
+
+			<!-- Shipping Screen -->
+			<template if:true={isShippingScreen}>
+				<c-checkout-section step-number="5" allow-overflow="true" step-title="Select your shipping option">
+					<c-co-shipping-options slot="body" splits={simulateSplit} oncomplete={handleShippingSelection}></c-co-shipping-options>
+
+					<div slot="action" class="slds-m-bottom_medium">
+						<lightning-button
+							label="Expand All"
+							class="slds-m-left_small"
+							onclick={expandAll}
+							variant="brand"
+						></lightning-button>
+
+						<lightning-button
+							class="slds-m-left_small"
+							label="Collapse All"
+							onclick={collapseAll}
+							variant="brand"
+						></lightning-button>
+
+						<lightning-button
+							label="Back"
+							class="slds-m-left_small"
+							onclick={handleShippingScreenBackClick}
+							variant="brand"
+						></lightning-button>
+					</div>
+				</c-checkout-section>
+			</template>
+
+			<!-- Misc Charges Screen -->
+			<template if:true={isMiscChargesScreen}>
+				<c-checkout-section step-number="6" step-title="Miscellaneous Charges" hide-box="true">
+					<div slot="action" class="slds-m-bottom_medium">
+						<lightning-button
+							label="Expand All"
+							class="slds-m-left_small"
+							onclick={expandAll}
+							variant="brand"
+						></lightning-button>
+
+						<lightning-button
+							class="slds-m-left_small"
+							label="Collapse All"
+							onclick={collapseAll}
+							variant="brand"
+						></lightning-button>
+
+						<lightning-button
+							label="Back"
+							class="slds-m-left_small"
+							onclick={handleMiscChargesBackClick}
+							variant="brand"
+						></lightning-button>
+					</div>
+					<c-co-misc-charges slot="body" splits={splits}></c-co-misc-charges>
+				</c-checkout-section>
+
+				<!-- Place Order -->
+				<c-checkout-section step-number="7" step-title="Place Your Order">
+					<div slot="body" class="slds-text-align_right">
+						<lightning-button
+							if:true={canRequestQuote}
+							label="Request Quote"
+							onclick={handleRequestQuote}
+							variant="brand"
+							class="slds-m-right_medium"
+						></lightning-button>
+						<lightning-button label={placeOrderLabel} onclick={handleOrderPlace} variant="brand"></lightning-button>
+					</div>
+				</c-checkout-section>
+			</template>
+		</template>
+	</c-provider>
+</template>

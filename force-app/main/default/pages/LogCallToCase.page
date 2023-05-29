@@ -1,0 +1,192 @@
+<apex:page showHeader="true" standardController="Task" sidebar="true" title="Log a Call to Case" extensions="CalltoCaseController" docType="html-5.0" action="{!CommunityUser}">
+    <apex:form id="CallForm" >
+
+        <div class="content">
+            <img src="/s.gif" alt="Home" class="pageTitleIcon" title="Home"/>
+            <h1 class="noSecondHeader pageType" style="margin-top:9px;margin-bottom:0;color:#000;font-size:2em;font-weight:normal;">Log a Call</h1>
+            <div class="blank">&nbsp;</div>
+        </div>
+
+        <apex:pageBlock title="Task Edit" mode="edit">
+
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!saveTask}" value="Save" reRender="CallForm"/>
+                <apex:commandButton action="{!save}" value="Save and Transfer to Case" reRender="CallForm"/>
+                <apex:commandButton action="{!cancel}" value="Cancel" reRender="CallForm"/>
+            </apex:pageBlockButtons>
+
+            <apex:pageBlockSection title="Task Information">
+            <!--START- Modified by Sajal for S-595548-->
+            <apex:repeat value="{!$ObjectType.Task.FieldSets.Task_Information}" var="tsk">
+                <apex:inputField value="{!Task1[tsk]}" />
+                <!--<apex:inputField value="{!Task1[tsk.WhatId]}" />
+                <apex:inputField value="{!Task1[tsk.Department__c]}" />
+                <apex:inputField value="{!Task1[tsk.WhoId]}" />
+                <apex:inputField value="{!Task1[tsk.Subject]}" />
+                <apex:inputField value="{!Task1[tsk.ActivityDate]}" />
+                <apex:inputField value="{!Task1[tsk.Call_Category__c]}" />-->
+            </apex:repeat>
+            <!--END for S-595548-->
+                <apex:pageBlockSectionItem />
+            </apex:pageBlockSection>
+
+            <!--Added by Mandeep for Case# 00205403(Start)-->
+            <apex:pageBlockSection columns="2">
+            <apex:inputTextArea value="{!Task1.B_D_Call_Description__c}" rows="3" cols="65" />
+            </apex:pageBlockSection>
+            <!--Case# 00205403(Start)-->
+
+            <apex:pageBlockSection columns="2">
+                <apex:inputTextarea value="{!Task1.Description}" rows="5" cols="90"/>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Vehicle Information">
+            <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Vehicle_Information}" var="tsk">
+                <apex:inputField value="{!Task1[tsk]}"/>
+                <!--<apex:inputField value="{!Task1.Vehicle_Mileage__c}"/>
+                <apex:inputField value="{!Task1.CPO__c}"/>-->
+                </apex:repeat>
+            <!--END for S-595548-->
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Lift Information">
+            <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Lift_Information}" var="tsk">
+                <apex:inputField value="{!Task1[tsk]}"/>
+                <!--<apex:inputField value="{!Task1.Lift_Cycle_Count__c}"/>
+                <apex:inputField value="{!Task1.Lift_Serial__c}"/>-->
+                </apex:repeat>
+            <!--END for S-595548-->
+            </apex:pageBlockSection>
+
+            <!-- START NSINGH S-547750 [4/17/2018] Added the section   -->
+            <apex:pageBlockSection title="Consumer Interest">
+            <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Consumer_Interest}" var="tsk">
+                    <apex:inputField value="{!Task1[tsk]}"/>
+                    <!--<apex:inputField value="{!Task1.Inventory_Locate__c}"/>
+                    <apex:inputField value="{!Task1.Conversion_Features__c}"/>
+                    <apex:inputField value="{!Task1.Financing__c}"/>
+                    <apex:inputField value="{!Task1.Chassis_Features__c}"/>
+                    <apex:inputField value="{!Task1.Grants_Funds__c}"/>
+                    <apex:inputField value="{!Task1.Dimensions__c}"/>
+                    <apex:inputField value="{!Task1.Dealer_Look_Up__c}"/>-->
+                    </apex:repeat>
+            <!--END for S-595548-->
+                </apex:pageBlockSection>
+                <!-- END NSINGH S-547750 -->
+
+            <apex:pageBlockSection title="Additional Information">
+                <apex:outputField value="{!Task1.Status}" />
+                <apex:outputField value="{!WhoContact.Phone}" />
+                <apex:outputField value="{!Task1.Priority}" />
+                <apex:outputField value="{!WhoContact.Email}" />
+                <!--START- Added by Sajal for S-595548-->
+                <apex:inputField value="{!Task1.Did_Not_Have__c}"/> <!--Modified by Ankit Sharma for c-00255663  -->
+                <!--END for S-595548-->
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="System Information">
+            <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.System_Information}" var="tsk">
+                <apex:outputField value="{!Task1[tsk]}" />
+                <!--<apex:outputField value="{!Task1.LastModifiedById}" />-->
+                </apex:repeat>
+            <!--END for S-595548-->
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Task Reminder" columns="1">
+                <apex:outputPanel id="Reminder">
+                    <apex:outputLabel styleClass="labelCol" value="Reminder"/>
+                <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Task_Reminder}" var="tsk">
+                    <apex:inputField value="{!Task1[tsk]}"/>
+                </apex:repeat>
+                <!--END for S-595548-->
+                    <apex:inputText id="remiderDate" size="10" onfocus="DatePicker.pickDate(false,'remiderDate',false);" value="{!ReminderDate}"/>
+                    <apex:selectList value="{!ReminderTime}" multiselect="false" size="1">
+                        <apex:selectOptions value="{!timeOptions}"/>
+                    </apex:selectList>
+                </apex:outputPanel>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockSection title="Follow-up Task">
+                <apex:inputCheckbox value="{!FollowUpTask}" label="Create a follow up Task">
+                    <apex:pageBlockSectionItem />
+                    <apex:actionSupport event="onchange" action="{!AddFollowUp}" reRender="CallForm"/>
+                </apex:inputCheckbox>
+            </apex:pageBlockSection>
+
+            <apex:pageBlock id="FollowUp" title="Schedule follow-up task" mode="edit" rendered="{!FollowUpTask}">
+                <apex:pageBlockSection title="Task Information">
+                <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Task_Information_FollowUp_Task}" var="tsk">
+                    <apex:inputField value="{!Task2[tsk]}" />
+                    <!--<apex:inputField value="{!Task2.WhatId}" />
+                    <apex:inputField value="{!Task2.Department__c}" />
+                    <apex:inputField value="{!Task2.WhoId}" />
+                    <apex:inputField value="{!Task2.Subject}" />
+                    <apex:inputField value="{!Task2.ActivityDate}" />
+                    <apex:inputField value="{!Task2.Call_Category__c}" />-->
+                </apex:repeat>
+                <!--END for S-595548-->
+                </apex:pageBlockSection>
+
+                <apex:pageBlockSection columns="2">
+                    <apex:inputTextarea value="{!Task2.Description}" rows="5" cols="90"/>
+                </apex:pageBlockSection>
+
+                <apex:pageBlockSection title="Vehicle Information">
+                <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Vehicle_Information_FollowUpTask}" var="tsk">
+                    <apex:inputField value="{!Task2[tsk]}"/>
+                    <!--<apex:inputField value="{!Task2.Vehicle_Mileage__c}"/>
+                    <apex:inputField value="{!Task2.CPO__c}"/>-->
+                </apex:repeat>
+                <!--END for S-595548-->
+                </apex:pageBlockSection>
+
+                <apex:pageBlockSection title="Lift Information">
+                <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Lift_Information_FollowUp_Task}" var="tsk">
+                    <apex:inputField value="{!Task2[tsk]}"/>
+                    <!--<apex:inputField value="{!Task2.Lift_Cycle_Count__c}"/>
+                    <apex:inputField value="{!Task2.Lift_Serial__c}"/>-->
+                </apex:repeat>
+                <!--END for S-595548-->
+                </apex:pageBlockSection>
+                <!-- START NSINGH S-547750 [4/17/2018] Added the section   -->
+                <apex:pageBlockSection title="Consumer Interest">
+                <!--START- Modified by Sajal for S-595548-->
+                <apex:repeat value="{!$ObjectType.Task.FieldSets.Consumer_Interest_FollowUp_Task}" var="tsk">
+                    <apex:inputField value="{!Task2[tsk]}"/>
+                    <!--<apex:inputField value="{!Task2.Inventory_Locate__c}"/>
+                    <apex:inputField value="{!Task2.Conversion_Features__c}"/>
+                    <apex:inputField value="{!Task2.Financing__c}"/>
+                    <apex:inputField value="{!Task2.Chassis_Features__c}"/>
+                    <apex:inputField value="{!Task2.Grants_Funds__c}"/>
+                    <apex:inputField value="{!Task2.Dimensions__c}"/>
+                    <apex:inputField value="{!Task2.Dealer_Look_Up__c}"/>-->
+                </apex:repeat>
+                <!--END for S-595548-->
+                </apex:pageBlockSection>
+                <!-- END NSINGH S-547750 -->
+
+                <apex:pageBlockSection title="Additional Information">
+                    <apex:inputField value="{!Task2.Status}" />
+                    <apex:inputField value="{!Task2.Who.Phone}" />
+                    <apex:inputField value="{!Task2.Priority}" />
+                    <apex:inputField value="{!Task2.Who.Email}" />
+                    <!--START- Added by Sajal for S-595548-->
+                    <apex:inputField value="{!Task2.Did_Not_Have__c}"/>
+                    <!--END for S-595548-->
+                </apex:pageBlockSection>
+
+            </apex:pageBlock>
+
+
+        </apex:pageBlock>
+
+    </apex:form>
+</apex:page>

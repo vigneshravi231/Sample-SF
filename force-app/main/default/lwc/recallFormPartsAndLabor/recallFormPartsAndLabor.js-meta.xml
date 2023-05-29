@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>A table of warranty labor claims for the Recall Form flow</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Recall Form Parts And Labor</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="defaultTopic" label="Default Topic" type="String" description="The default topic that is shown based on the Product related to the asset" />
+            <property name="laborRecordTypeId" label="Labor Record Type Id" type="String" description="The Labor Record Type Id for Claim_Product__c" />
+            <property name="partRecordTypeId" label="Part Record Type Id" type="String" description="The Parts Record Type Id for Claim_Product__c" />
+            <property name="claimsList" label="Claim Products" type="@salesforce/schema/Claim_Product__c[]" description="List of Claim Products attached to this case"/>
+            <property name="savedClaimsList" label="Saved Claim Products" type="@salesforce/schema/Claim_Product__c[]" description="List of Claim Products that were saved to this case" role="inputOnly"/>
+            <property name="isDraft" label="Save Case?" type="Boolean" description="Should this case be saved, instead of submitted" role="outputOnly"/>
+            <property name="deletedClaimsList" label="Deleted Claim Products" type="@salesforce/schema/Claim_Product__c[]" description="List of Claim Products that will be saved to this case" role="outputOnly"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

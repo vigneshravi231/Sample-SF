@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Chassis_Type_DL__c</fullName>
+    <externalId>false</externalId>
+    <label>Chassis Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Canada</fullName>
+                <default>false</default>
+                <label>Canada</label>
+            </value>
+            <value>
+                <fullName>Certified Pre-Owned</fullName>
+                <default>false</default>
+                <label>Certified Pre-Owned</label>
+            </value>
+            <value>
+                <fullName>New</fullName>
+                <default>false</default>
+                <label>New</label>
+            </value>
+            <value>
+                <fullName>Pre Owned</fullName>
+                <default>false</default>
+                <label>Pre Owned</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

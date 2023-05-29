@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Created_Via_Customer_Care_Store__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>BC-698 indicates that the user was created from by administrator directly in CustomerCare store</description>
+    <externalId>false</externalId>
+    <inlineHelpText>indicates that the user was created from by administrator directly in CustomerCare store</inlineHelpText>
+    <label>Created Via Customer Care Store</label>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Checkbox</type>
+</CustomField>

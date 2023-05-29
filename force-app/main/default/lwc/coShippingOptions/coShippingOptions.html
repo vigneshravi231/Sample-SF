@@ -1,0 +1,52 @@
+<template>
+	<template if:true={hasDeliveryMethods}>
+		<div
+			key={option.SplitKey}
+			for:each={shippingOptions}
+			for:item="option"
+			class="checkout-shipping-methods slds-border_bottom slds-m-bottom_small"
+		>
+			<div class="slds-text-title_bold slds-grid">
+				<div class="slds-col_bump-right">{option.OrderType}&nbsp;|&nbsp;{option.Label}</div>
+			</div>
+
+			<c-order-summary-accordion unique-id={option.SplitKey} item-numbers={option.NumberOfItems}>
+				<c-order-items-summary slot="body" items={option.Items} hide-subtotal="true"></c-order-items-summary>
+			</c-order-summary-accordion>
+
+			<c-co-delivery-options-list
+				split-key={option.SplitKey}
+				order-type={option.OrderType}
+				selections={props.splitsSelection}
+				options={deliveryOptions}
+				onselect={handleDeliveryOptionSelect}
+				onaccountnumberchange={handleShippingAccountNumberChange}
+				onshipordercompletechange={handleShipOrderCompleteChange}
+			></c-co-delivery-options-list>
+		</div>
+
+    <div class="slds-clearfix">
+			<div class="slds-float_right slds-text-align_right slds-m-top_large">
+				<div>
+					<lightning-button
+						label="Next"
+						variant="brand"
+						onclick={confirmShippingSelection}
+						disabled={hasErrors}
+						data-id="place-order"
+					></lightning-button>
+				</div>
+				<div class="slds-m-top_medium" if:true={hasErrors}>
+					<div for:each={errors} for:item="error" key={error.name} class="slds-text-color_error">
+						<div class="slds-m-bottom_x-small">{error.message}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</template>
+
+	<div if:false={hasDeliveryMethods}>No Shipping Methods found.</div>
+	<div if:false={hasShippingAddresses}>No Shipping Addresses selected yet.</div>
+
+</template>

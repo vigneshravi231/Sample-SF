@@ -1,0 +1,192 @@
+
+<!-- Single Order Summary -->
+<template>
+	<lightning-spinner variant="brand" if:true={isLoading}></lightning-spinner>
+
+	<template if:true={hasData}>
+		<header>
+			<span class="slds-text-heading_large color-brand slds-m-bottom_medium">{orderTitle}</span>
+			<c-download-quote record-id={order.Id} onconverted={fetch} onrejected={fetch}></c-download-quote>
+
+			<template if:true={displayRequisitionOrderActions}>
+				<div class="requisition-approval-grid slds-m-top_medium slds-m-bottom_medium">
+					<lightning-input
+						label="PO Number"
+						variant="label-hidden"
+						class="po-input"
+						placeholder="Enter PO Number..."
+						value={requisitionPoNumber}
+						onchange={poNumberChanged}
+					></lightning-input>
+					<div class="approval-buttons">
+						<button onclick={rejectRequisitionOrder} type="button" class="slds-button slds-button_brand slds-button_stretch">
+							Reject
+						</button>
+						<button
+							onclick={approveRequisitionOrder}
+							type="button"
+							class="slds-button slds-button_brand slds-button_stretch"
+							disabled={noRequisitionPoNumber}
+						>
+							Approve
+						</button>
+					</div>
+				</div>
+			</template>
+		</header>
+		<lightning-layout multiple-rows>
+			<lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+				<div class="slds-m-top_small">
+					<div class="slds-m-bottom_small">
+						<strong>Order Number:</strong>
+						&nbsp;{order.OrderNumber}
+					</div>
+					<div if:true={hasQuoteNumber} class="slds-m-bottom_small">
+						<strong>Quote Number:</strong>
+						&nbsp;{order.OriginalOrder.Quote_Number__c}
+					</div>
+					<div if:true={hasQuoteEXPDate} class="slds-m-bottom_small">
+						<strong>Quote Expiration Date:</strong>
+						&nbsp;<lightning-formatted-date-time value={order.OriginalOrder.QuoteEXPDate__c}></lightning-formatted-date-time>
+					</div>
+					<div class="slds-m-bottom_small">
+						<strong>Order Type:</strong>
+						&nbsp;{order.OriginalOrder.Type}
+					</div>
+					<div>
+						<strong>Status:</strong>
+						&nbsp;{order.status}
+					</div>
+					<div if:true={isRequisitionOrder}>
+						<strong>Approval Status:</strong>
+						&nbsp;{originalOrder.Approval_Status__c}
+						<div if:true={isApproved}>
+							<strong>Approved By:</strong>
+							&nbsp;{approver}
+						</div>
+						<div if:true={isRejected}>
+							<strong>Rejected By:</strong>
+							&nbsp;{approver}
+						</div>
+					</div>
+					<div if:true={order.showVin} class="slds-m-top_small">
+						<strong>VIN#:</strong>
+						&nbsp;{order.vin}
+					</div>
+					<div class="slds-m-bottom_small slds-m-top_small">
+						<strong>Delivery Address:</strong>
+						<div>
+							{order.deliveryGroup.DeliverToAddress.street}, {order.deliveryGroup.DeliverToAddress.city}
+							{order.deliveryGroup.DeliverToAddress.state} {order.deliveryGroup.DeliverToAddress.postalCode}
+						</div>
+					</div>
+					<div>
+						<strong>Shipping Option:</strong>
+						&nbsp;{order.deliveryGroup.OrderDeliveryMethod.Name}
+					</div>
+					<div if:true={hasTrackingNumber}>
+						<strong>Tracking Number:</strong>
+						&nbsp;{trackingNumber}
+					</div>
+				</div>
+			</lightning-layout-item>
+			<lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+				<div class="slds-text-align_right slds-m-top_small">
+					<div
+						class="slds-m-bottom_small"
+						if:true={order.miscCharges}
+						for:each={order.miscCharges}
+						for:item="charge"
+						key={charge.Id}
+					>
+						<strong>Description:</strong>
+						{charge.Description}
+						<br />
+						<strong>Amount:</strong>
+						<lightning-formatted-number
+							value={charge.TotalPrice}
+							format-style="currency"
+							currency-code="USD"
+						></lightning-formatted-number>
+						<br />
+					</div>
+					<div class="slds-m-bottom_small">
+						<strong>Subtotal:</strong>
+						<lightning-formatted-number
+							value={order.TotalAdjustedProductAmount}
+							format-style="currency"
+							currency-code="USD"
+						></lightning-formatted-number>
+					</div>
+					<div class="slds-m-bottom_small">
+						<strong>Misc Charges:</strong>
+						<lightning-formatted-number
+							value={order.totalMiscChargesAmount}
+							format-style="currency"
+							currency-code="USD"
+						></lightning-formatted-number>
+					</div>
+					<div class="slds-m-bottom_small">
+						<strong>Total:</strong>
+						<lightning-formatted-number
+							value={order.GrandTotalAmount}
+							format-style="currency"
+							currency-code="USD"
+						></lightning-formatted-number>
+					</div>
+				</div>
+			</lightning-layout-item>
+		</lightning-layout>
+		<c-checkout-section step-title="Order Detail">
+			<lightning-layout slot="body" multiple-rows>
+				<lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12">
+					<div>
+						<div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+							<span class="slds-text-heading_medium slds-text-title_bold">Billing Address</span>
+						</div>
+						<div>
+							<lightning-formatted-address
+								street={orderHeader.billTo.street}
+								city={orderHeader.billTo.city}
+								country={orderHeader.billTo.country}
+								province={orderHeader.billTo.state}
+								postal-code={orderHeader.billTo.postalCode}
+								disabled="true"
+							></lightning-formatted-address>
+						</div>
+					</div>
+				</lightning-layout-item>
+				<lightning-layout-item
+					if:true={orderHeader.Delivery_Instructions__c}
+					padding="around-small"
+					size="12"
+					small-device-size="12"
+					medium-device-size="12"
+				>
+					<div>
+						<div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+							<span class="slds-text-heading_medium slds-text-title_bold">Delivery Instructions</span>
+						</div>
+						<div>{orderHeader.Delivery_Instructions__c}</div>
+					</div>
+				</lightning-layout-item>
+			</lightning-layout>
+			<lightning-layout multiple-rows>
+				<lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+					<div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+						<span class="slds-text-heading_medium slds-text-title_bold">Payment Option</span>
+					</div>
+					<div>{orderHeader.paymentOption}</div>
+				</lightning-layout-item>
+				<lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+					<div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+						<span class="slds-text-heading_medium slds-text-title_bold">Purchase Order Number</span>
+					</div>
+					<div>{originalOrder.PoNumber}</div>
+				</lightning-layout-item>
+			</lightning-layout>
+		</c-checkout-section>
+
+		<c-order-items-summary hide-subtotal="true" items={order.items}></c-order-items-summary>
+	</template>
+</template>

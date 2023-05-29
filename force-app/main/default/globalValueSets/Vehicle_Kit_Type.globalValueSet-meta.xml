@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Installation Kit</fullName>
+        <default>false</default>
+        <label>Installation Kit</label>
+    </customValue>
+    <customValue>
+        <fullName>Drill Template</fullName>
+        <default>false</default>
+        <label>Drill Template</label>
+    </customValue>
+    <masterLabel>Vehicle Kit Type</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

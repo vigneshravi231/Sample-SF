@@ -1,0 +1,156 @@
+<apex:page showHeader="false">
+    
+    <!-- This script takes the endpoint URL parameter passed from the deployment 
+  page and makes it the action for the form -->
+    <style type="text/css">
+        body{
+            background-color: #EFEFEF;
+        }
+        .PreForm{
+            font-family: Arial Narrow;
+            font-size: 16px;
+            margin: 10px;
+            text-align: center;
+            width: 80%;
+        }
+        input{
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+        }
+        textarea {
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+        }
+        input#prechat_submit {
+            display: block;
+            margin: auto;
+        }
+        .PreInputs{
+            text-align: left;
+            font-weight: bold;
+        }
+        select {
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+            height: 24px;
+            color: #000;
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        (function() { 
+            function handlePageLoad() {
+                var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+                document.getElementById('prechatForm').setAttribute('action',
+                decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+            } 
+            if (window.addEventListener) {
+                window.addEventListener('load', handlePageLoad, false);
+            } 
+            else { 
+                window.attachEvent('onload', handlePageLoad, false);
+            }
+        })(); 
+    </script>
+    
+    <form method='post' id='prechatForm' class="PreForm"> 
+        <h1 style="font-size:18px">Welcome! Please enter your name and information about the vehicle.</h1> <br/> <br/>
+        <div class="PreInputs">
+
+            <t>First name: </t><br/>
+            <input type='text' name='liveagent.prechat:FirstNameDetail' id='customField1' /><br />
+            
+            <t>Last name: </t><br/>
+            <input type='text' name='liveagent.prechat:LastNameDetail' id='customField2' required="true"/><br />
+            
+            <t>Your email address</t><br/>
+            <input type='email' name='liveagent.prechat:EmailDetail' id='customField12' required="true"/>
+            <br />
+
+            <t>What is the VIN number?: </t><br/>
+            <input type='text' name='liveagent.prechat:VIN' id='VINNumber' /><br />
+
+            <t>Mileage/Kilometers</t><br/>
+            <input type='text' name='liveagent.prechat:Mileage' id='Mileage' /><br />
+            
+            <t>What Type of conversion do you have?</t><br/>
+            <select type='text' name='liveagent.prechat:Conversion' id='Conversion'>
+                <option value=""></option>
+                <option value="Side Entry">Side Entry</option>
+                <option value="Rear Entry">Rear Entry</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Taxi">Taxi</option>
+            </select> <br />
+            
+            <t>Your account number / Dealer ID</t><br/>
+            <input type='text' name='liveagent.prechat:AccNum' id='customField13' />
+            <br />
+
+            <t>How can we help you today?</t><br />
+            <textarea name="liveagent.prechat:CaseOrigin" id="CaseOrigin"/><br/>
+            <input type="hidden" name="liveagent.prechat:CaseType" id="CaseType"/>
+
+            <!-- ACCOUNT FIELDS MAPPING AND CREATION -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map:Account" value="DealerNumberId__c,AccNum" />
+            <!-- Specify to query for a matching Account records FirstName field based on
+            the value of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Account" value="DealerNumberId__c,true" />
+            <!-- Return results only if there is an exact match of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Account" value="DealerNumberId__c,true" />
+            <!-- If a new Account record has been created, open it as a subtab -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Account" value="true" />
+            <!-- Save the Account id to transcript's field AccountId -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Account" value="AccountId" />
+
+
+            <!-- Map liveagent.prechat:FirstNameDetail and liveagent.prechat:LastNameDetail
+                custom detail to Contact's field FirstName and LastName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map:Contact" value="FirstName,FirstNameDetail;LastName,LastNameDetail;Email,EmailDetail" />
+            <!-- Specify to query for a matching Contact records FirstName field based on
+            the value of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Contact" value="Email,true" />
+            <!-- Return results only if there is an exact match of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Contact" value="Email,true" />
+            <!-- If no match in search, create a new Contact record with the mapped value
+            of firstname and last name -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Contact" value="FirstName,true;LastName,true;Email,true" />
+            <!-- If a new Contact record has been created, open it as a subtab -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Contact" value="true" />
+            <!-- Save the Contact id to transcript's field ContactId -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Contact" value="ContactId" />
+            <input type= "hidden" name="liveagent.prechat.findorcreate.linkToEntity:Account" value="Contact,AccountId" />
+
+
+            <!-- Case FIELDS MAPPING AND CREATION -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map:Case" 
+            value="Vehicle_VIN__c,VIN;Vehicle_Mileage__c,Mileage;Description,CaseOrigin;Type,CaseType"/>
+
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Case"
+            value="Vehicle_VIN__c,true;Vehicle_Mileage__c,true;Description,true;Type,true" />
+
+            <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Case" value="true" />
+            <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Case" value="Case" />
+
+            <!-- Link to the Case -->
+            <input type= "hidden" name="liveagent.prechat.findorcreate.linkToEntity:Contact" value="Case,ContactId" />
+            
+            <input type='submit' onclick="setOrigin();" value='Request Chat' id='prechat_submit'/>
+        </div>
+        <script type="text/javascript">
+            function setOrigin(){
+                if( (document.getElementById("VINNumber").value == '' || document.getElementById("VINNumber").value == null) &&
+                    (document.getElementById("Mileage").value == '' || document.getElementById("Mileage").value == null) &&
+                    (document.getElementById("Conversion").value == '' || document.getElementById("Conversion").value == null)
+                    ){
+                    // Do Nothing.
+                }
+                else{
+                    document.getElementById("CaseType").value = 'Chat'; 
+                }
+            }
+        </script> 
+    </form> 
+</apex:page>

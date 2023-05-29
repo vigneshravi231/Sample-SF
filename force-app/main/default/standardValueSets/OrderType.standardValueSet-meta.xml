@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Part</fullName>
+        <default>true</default>
+        <label>Part</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Seats</fullName>
+        <default>false</default>
+        <label>Seats</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Lift</fullName>
+        <default>false</default>
+        <label>Lift</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Vehicle</fullName>
+        <default>false</default>
+        <label>Vehicle</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Quote</fullName>
+        <default>false</default>
+        <label>Quote</label>
+    </standardValue>
+</StandardValueSet>

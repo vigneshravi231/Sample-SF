@@ -1,0 +1,243 @@
+
+<!-- Recall Form Custom Section -->
+<template>
+  <lightning-record-edit-form object-api-name="Case" onsubmit={verifyFields}>
+    <lightning-messages></lightning-messages>
+
+    <lightning-layout multiple-rows pull-to-boundary="small">
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="accountId" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">Account</span></label>
+          <lightning-input-field
+            id="accountId"
+            field-name="AccountId"
+            variant="label-hidden"
+            onchange={onAccountIdChange}
+            required
+            value={accountId}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input label="Account Number" value={accountNumber} required read-only></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="assetId" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">Asset</span></label>
+          <lightning-input-field
+            id="assetId"
+            field-name="AssetId"
+            variant="label-hidden"
+            onchange={onAssetIdChange}
+            required
+            value={assetId}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input label="VIN/Serial #" value={vinSerial} required read-only></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input label="Product Part #" value={productPart} required read-only></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input
+            label="Repair Date In"
+            type="date"
+            onchange={onRepairDateInChange}
+            required
+            class="repairDateIn"
+            value={repairDateIn}></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <c-custom-repair-tech-contact-lookup account-id={accountId}
+                                               account-name={accountNumber}
+                                               current-contact-id= {repairTechId}
+                                               oncontactdeselection={clearRepairTechId}
+                                               oncontactresultselection={selectRepairTech}
+                                               no-contact-selected={emptyRepairTech}
+          >
+          </c-custom-repair-tech-contact-lookup>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input
+            label="Repair Date Out"
+            type="date"
+            onchange={onRepairDateOutChange}
+            class="repairDateOut"
+            required
+            value={repairDateOut}></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input label="Repair Tech Email" value={repairTechEmail} required read-only></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="mileageCyclesIn" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">Mileage/Cycles In</span></label>
+          <lightning-input-field
+            id="mileageCyclesIn"
+            field-name="Mileage_Cycles_In__c"
+            variant="label-hidden"
+            onchange={onMileageCyclesInChange}
+            required
+            value={mileageCyclesIn}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input
+            label="Dealer RO/PO #"
+            onchange={onDealerRoPoChange}
+            required
+            class="dealerRoPo"
+            value={dealerRoPo}></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="mileageCyclesOut" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">Mileage/Cycles Out</span></label>
+          <lightning-input-field
+            id="mileageCyclesOut"
+            field-name="Mileage_Cycles_Out__c"
+            variant="label-hidden"
+            onchange={onMileageCyclesOutChange}
+            required
+            value={mileageCyclesOut}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input
+            label="Customer Name"
+            onchange={onCustomerNameChange}
+            required
+            class="customerName"
+            value={customerName}></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="6" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <lightning-input
+            label="Customer Email"
+            type="Email"
+            placeholder="you@example.com"
+            onchange={onCustomerEmailChange}
+            value={customerEmail}></lightning-input>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+<!--          <label for="recall" style="font-size: 12px;"><span style="color: #696969">Recall</span></label>-->
+          <lightning-input-field
+            id="recall"
+            field-name="Recalled_Asset__c"
+            variant="label-stacked"
+            onchange={onRecalledAssetChange}
+            value={recalledAsset}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="concern" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">Concern</span></label>
+          <lightning-input-field
+            id="concern"
+            field-name="Concern__c"
+            variant="label-hidden"
+            onchange={onConcernChange}
+            required
+            value={concern}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="cause" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">Cause</span></label>
+          <lightning-input-field
+            id="cause"
+            field-name="Cause__c"
+            variant="label-hidden"
+            onchange={onCauseChange}
+            required
+            value={cause}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="correction" style="font-size: 12px;"><span style="color: rgb(234, 0, 30)">*</span>&nbsp;<span style="color: #696969">Correction</span></label>
+          <lightning-input-field
+            id="correction"
+            field-name="Correction__c"
+            variant="label-hidden"
+            onchange={onCorrectionChange}
+            required
+            value={correction}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="specialNumber" style="font-size: 12px;"><span style="color: #696969">Case Number for Special Claims</span></label>
+          <lightning-input-field
+            id="specialNumber"
+            field-name="Case_Number_for_Special_Claims__c"
+            variant="label-hidden"
+            onchange={onSpecialNumberChange}
+            value={specialNumber}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+      <lightning-layout-item size="12" padding="horizontal-small">
+        <div class="slds-p-bottom_xx-small">
+          <label for="specialAmount" style="font-size: 12px;"><span style="color: #696969">Special Claims & Exceptions Amount</span></label>
+          <lightning-input-field
+            id="specialAmount"
+            field-name="Special_Claims_Exceptions_Amount__c"
+            variant="label-hidden"
+            onchange={onSpecialAmountChange}
+            value={specialAmount}></lightning-input-field>
+        </div>
+      </lightning-layout-item>
+
+    </lightning-layout>
+
+    <lightning-button label="Check Validity" type="submit" onclick={checkValidity} class="hidden"></lightning-button>
+
+  </lightning-record-edit-form>
+
+  <div class="slds-m-top_small" style="display: flex; justify-content: end">
+    <div>
+      <lightning-button label="Save" variant="brand" onclick={saveCase}></lightning-button>
+      &nbsp;
+      <lightning-button label="Next" variant="brand" onclick={nextScreen}></lightning-button>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,58 @@
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 430;
+    src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhyw.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  
+  .THIS img{
+      cursor: pointer;
+      display:block;
+      float:left;
+      margin-left:5%;
+      width : 15%;
+      height:55px;                                         
+  }
+  .THIS .fieldsList{
+      margin-left: 20% !important;
+  }
+  .THIS .welcome{
+      font-family: Montserrat;
+      text-align: left !important;
+      float: left !important;
+      margin-left:5%;
+      margin-top : 10%;
+      font-size : 18px;
+      min-height: 60px;
+  }
+  .THIS .iconText{
+      CURSOR: pointer;
+      font-family: Montserrat;
+      float: left !important;
+      margin-top: 4% !important;
+      font-size: 18px;
+  }
+  .THIS .Sample{
+      min-height:57px;
+      padding-bottom: 2% !important;
+      float: left !important;
+      margin-top: 2%!important;
+  }
+  .THIS .owner{
+      min-height: 57px !important;
+      margin-top: 2%;
+      float:left !important;
+      padding-bottom: 2% !important;
+  }
+  .THIS .hideImage{
+      display : none;
+  }
+  .THIS .slds-button{
+      cursor: pointer;
+  }
+  .THIS .imgCls svg{
+      height:40px;
+      width:40px;
+      fill:#1dccbf;
+  }

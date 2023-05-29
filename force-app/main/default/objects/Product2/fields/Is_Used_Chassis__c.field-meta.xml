@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Is_Used_Chassis__c</fullName>
+    <externalId>false</externalId>
+    <formula>OR(
+  Chassis_Type__c = &apos;Afford Preowned&apos;,
+  Chassis_Type__c = &apos;Certified Pre-Owned&apos;,
+  Chassis_Type__c = &apos;Pre Owned&apos;
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Is Used Chassis</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

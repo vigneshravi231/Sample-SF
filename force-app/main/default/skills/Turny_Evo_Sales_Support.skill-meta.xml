@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skill xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <users>
+            <user>fletcher.brinkmeyer@Sampleability.com</user>
+            <user>josh.evans@Sampleability.com</user>
+            <user>tina.trebitowski@Sampleability.com</user>
+            <user>zlewis@bdindependence.com</user>
+        </users>
+    </assignments>
+    <label>Turny Evo Sales Support</label>
+</Skill>

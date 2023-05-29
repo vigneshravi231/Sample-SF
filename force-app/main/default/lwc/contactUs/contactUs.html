@@ -1,0 +1,140 @@
+
+<!-- Contact Us -->
+<template>
+	<div>
+		<div class="banner">
+			<img src={SampleContactBannerUrl} alt="" />
+			<h1>Contact Us.</h1>
+		</div>
+		<lightning-tabset>
+			<lightning-tab label="Consumer WAV Sales">
+				<div class="container slds-align_absolute-center">
+					<div class="slds-grid content">
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>Email:</span>
+							<span>Toll-Free Number:</span>
+						</div>
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span><a href="mailto:WavInsideSales@SampleAbility.com">WavInsideSales@SampleAbility.com</a></span>
+							<span>1-800-946-7513</span>
+						</div>
+					</div>
+				</div>
+			</lightning-tab>
+			<lightning-tab label="Commercial WAV Sales">
+				<div class="container slds-align_absolute-center">
+					<div class="slds-grid content">
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>Email:</span>
+							<span>Toll-Free Number:</span>
+						</div>
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span><a href="mailto:CommercialWAVSales@Sampleability.com">CommercialWAVSales@Sampleability.com</a></span>
+							<span>1-800-946-7513</span>
+						</div>
+					</div>
+				</div>
+			</lightning-tab>
+			<lightning-tab label="WAV Paperwork">
+				<div class="container slds-align_absolute-center">
+					<div class="slds-grid content">
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>Email:</span>
+							<span>Toll-Free Number:</span>
+						</div>
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span><a href="mailto:titlereleases@Sampleability.com">titlereleases@Sampleability.com</a></span>
+							<span>1-800-946-7513</span>
+						</div>
+					</div>
+				</div>
+			</lightning-tab>
+			<lightning-tab label="Lift Sales">
+				<div class="container slds-align_absolute-center">
+					<div class="slds-grid content">
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>Email:</span>
+							<span>Toll-Free Number:</span>
+						</div>
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span><a href="mailto:liftsales@Sampleability.com">liftsales@Sampleability.com</a></span>
+							<span>1-800-946-7513</span>
+						</div>
+					</div>
+				</div>
+			</lightning-tab>
+			<lightning-tab label="Seating Sales">
+				<div class="container slds-align_absolute-center">
+					<div class="slds-grid content">
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>Turney</span>
+							<span>All other seating</span>
+						</div>
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>800-843-5438 ext. 74075</span>
+							<span>800-843-5438 ext. 2002</span>
+						</div>
+					</div>
+				</div>
+			</lightning-tab>
+			<lightning-tab label="AfterSales">
+				<div class="container slds-align_absolute-center">
+					<div class="slds-grid content">
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>Email:</span>
+							<span>Toll-Free Number:</span>
+						</div>
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span><a href="mailto:SupportTeam@SampleAbility.com">SupportTeam@SampleAbility.com</a></span>
+							<span>1-877-272-8633</span>
+						</div>
+					</div>
+				</div>
+			</lightning-tab>
+			<lightning-tab label="SampleAbility Finance">
+				<div class="container slds-align_absolute-center">
+					<div class="slds-grid content">
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span>Email:</span>
+							<span>Toll-Free Number:</span>
+						</div>
+						<div class="slds-col slds-size_1-of-2 flex slds-p-around_medium">
+							<span><a href="mailto:SampleAbilityFinance@SampleAbility.com">SampleAbilityFinance@SampleAbility.com</a></span>
+							<span>1-844-498-9800</span>
+						</div>
+					</div>
+				</div>
+			</lightning-tab>
+		</lightning-tabset>
+		<div class="supportLinks slds-p-vertical_medium">
+			<!--      <div class="supportLink">-->
+			<!--        <img data-agent-id="liveagent_button_online_573j0000000Gzb8" style="cursor: pointer" src={vehicleSupportOnlineUrl} />-->
+			<!--        <img id="liveagent_button_offline_573j0000000Gzb8" style="display: none; border: 0px none; " src={vehicleSupportOfflineUrl} />-->
+			<!--      </div>-->
+			<template for:each={supportLinkInfo} for:item="supportButton">
+				<template if:true={supportButton.isOnline}>
+					<img
+						style="cursor: pointer"
+						src={supportButton.onlineImage}
+						data-agent-id={supportButton.agentId}
+						id={supportButton.agentId}
+						onclick={startChat}
+						key={supportButton.agentId}
+					/>
+				</template>
+				<template if:false={supportButton.isOnline}>
+					<img src={supportButton.offlineImage} key={supportButton.agentId} />
+				</template>
+			</template>
+		</div>
+		<div class="footer">
+			<h1 class="slds-p-around_medium">SampleAbility NAM Headquarters</h1>
+			<div class="flex slds-p-around_medium">
+				<h2>Winamac</h2>
+				<span>631 West 11th Street</span>
+				<span>Winamac, IN 46996</span>
+				<span>1-800-946-7513</span>
+			</div>
+		</div>
+	</div>
+</template>

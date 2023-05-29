@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Cannot be assigned as an approver.
+All orders require approval
+Must have option to have an approver assigned to that buyer, otherwise default to User Admin for that account
+See orders
+Cannot see invoices
+Will not do any us</description>
+    <isLicensed>false</isLicensed>
+    <label>Buyer Persona 1</label>
+</CustomPermission>

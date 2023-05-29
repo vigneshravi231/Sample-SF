@@ -1,0 +1,14 @@
+
+<!-- Product Configurator Input -->
+<template>
+		<lightning-combobox
+			key={field.name}
+			name={field.name}
+			label={field.label}
+			data-priority={field.priority}
+			value={field.value}
+			options={filters}
+			disabled={field.disabled}
+			onchange={handleFilterChange}
+		></lightning-combobox>
+</template>

@@ -1,0 +1,50 @@
+
+<!-- Co Payment Options -->
+<template>
+		<lightning-tabset if:true={hasPaymentMethod}>
+			<lightning-tab label="Payment Options" onactive={handlePaymentMethodSelection}>
+				<lightning-radio-group
+					name="Payment Options"
+					label=""
+					onchange={handlePaymentMethodSelection}
+					value={props.paymentOption}
+					options={options}
+					type="radio"
+				></lightning-radio-group>
+			</lightning-tab>
+		</lightning-tabset>
+
+		<div>
+			<lightning-layout multiple-rows>
+				<lightning-layout-item size="6" small-device-size="6" medium-device-size="6">
+					<div
+						if:true={errors.poNumber}
+						class="card-auth-error slds-scoped-notification slds-media slds-media_center slds-theme_error"
+						role="alert"
+					>
+						<div class="slds-media__figure">
+							<lightning-icon icon-name="utility:error" variant="error" size="small"> </lightning-icon>
+						</div>
+						<div class="slds-media__body">
+							<p>{errors.poNumber}</p>
+						</div>
+					</div>
+					<div class="slds-form-element">
+						<lightning-input
+							data-validate
+							data-purchase-order-number
+							onchange={handlePoNumberChange}
+							value={props.poNumber}
+							label={labels.PurchaseOrderNumberLabel}
+							placeholder={poNumberPlaceholder}
+							max-length="26"
+							required={isPoNumberRequired}
+						>
+						</lightning-input>
+					</div>
+				</lightning-layout-item>
+			</lightning-layout>
+		</div>
+
+		<div if:false={hasPaymentMethod} class="slds-m-top_large">No payment methods found.</div>
+</template>

@@ -1,0 +1,26 @@
+
+
+.terms-list {
+    list-style: unset;
+    padding-left: 2rem;
+}
+
+.lightning-input[data-field="country"] {
+    display: none !Important;
+}
+
+
+@media (max-width: 750px) {
+    .one-time-shipping-form {
+        flex-direction: column;
+    }
+
+    .one-time-shipping-form > div {
+        margin-top: 1rem;
+    }
+
+    .one-time-shipping-form > div:first-child {
+        margin-top: 0;
+    }
+}
+

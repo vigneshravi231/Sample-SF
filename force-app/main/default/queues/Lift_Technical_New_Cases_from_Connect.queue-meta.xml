@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>true</doesSendEmailToMembers>
+    <name>Lift Technical New Cases from Connect</name>
+    <queueMembers>
+        <users>
+            <user>don.reid@Sampleability.com</user>
+            <user>fred.mannix@Sampleability.com</user>
+            <user>gus.vasquez@Sampleability.com</user>
+            <user>john.crist@Sampleability.com</user>
+            <user>mike.smith@Sampleability.com</user>
+            <user>sean.bell@Sampleability.com</user>
+            <user>tim.mckinney@Sampleability.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

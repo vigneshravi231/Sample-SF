@@ -1,0 +1,22 @@
+
+<!-- Wav Configurator -->
+<template>
+	<lightning-spinner if:true={isLoading}></lightning-spinner>
+	<template if:true={canLoadIframe}>
+		<c-product-web-configurator
+			title="Configure Wav"
+			configuration-type="wav"
+			smart-string={productName}
+      inventory-id={inventoryId}
+			quantity={quantity}
+			onsubmit={handleSubmit}
+			oncancel={handleCancel}
+			onload={handleConfigurationLoaded}
+		>
+		</c-product-web-configurator>
+	</template>
+
+	<div if:true={outOfStock}>
+		Currently out of stock
+	</div>
+</template>

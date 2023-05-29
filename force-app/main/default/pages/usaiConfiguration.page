@@ -1,0 +1,147 @@
+<apex:page showHeader="true" sidebar="true" title="USAI Integration" controller="usaiConfigurationController" tabStyle="usaiConfig__c">
+    <div class="bPageTitle">
+       <div class="ptBody">
+          <div class="content">
+             <img src="/img/icon/custom51_100/gears32.png" alt="USAI Integration" style="background-image:none;" class="pageTitleIcon" title="USAI Integration"/>
+             <h1 class="pageType">USAI Integration<span class="titleSeparatingColon">:</span></h1>
+             <h2 class="pageDescription"> Settings and Mappings</h2>
+             <div class="blank">&nbsp;</div>
+          </div>
+        </div>
+    </div>
+       <apex:outputPanel id="errorMessages">
+          <apex:pageMessages ></apex:pageMessages>
+       </apex:outputPanel>
+        <apex:form >
+        <apex:pageBlock title="Integration Configuration ">
+                <apex:pageblockButtons >
+                    <apex:commandButton value="New Mapping" action="{!URLFOR($Page.NewIntegrationMapping)}" />            
+                    <apex:commandButton value="Save Changes" action="{!saveChanges}" 
+                    reRender="mappingsTable, errorMessages" status="status"/> 
+                    <apex:commandButton value="Settings" action="{!URLFOR($Page.usaiDiagnostics)}" />            
+                    <c:LevStatusComponent />               
+                </apex:pageblockButtons>
+
+                <apex:pageblockSection title="Credential Mappings" columns="1">
+                        <apex:pageBlockTable value="{!credentialMappings}" var="mapping" id="mappingsTable">
+                            <apex:column value="{!mapping.Name}" />
+                            <apex:column value="{!mapping.APIFieldName__c}" />
+                            <apex:column value="{!mapping.TargetValue__c}" />
+                            <apex:column title="Status">
+                                <apex:facet name="header">Status</apex:facet>
+                                <apex:inputField value="{!mapping.Status__c}" />
+                            </apex:column>
+                            <apex:column >
+                                <apex:commandLink value="Edit" action="{!URLFOR($Action.usaiConfig__c.Edit, mapping.id)}" immediate="true"/>
+                            </apex:column>
+                             <apex:column >
+                            <apex:commandLink value="View" action="{!URLFOR($Action.usaiConfig__c.View, mapping.id)}" immediate="true"/>
+                        </apex:column>
+                        </apex:pageBlockTable>
+                    </apex:pageblockSection>
+
+                <apex:pageblockSection title="Connectivity Mappings" columns="1">
+                    <apex:pageBlockTable value="{!connMappings}" var="mapping" id="mappingsTable">
+                        <apex:column value="{!mapping.Name}" />
+                        <apex:column value="{!mapping.APIFieldName__c}" />
+                        <apex:column value="{!mapping.TargetValue__c}" />
+                        <apex:column title="Status">
+                            <apex:facet name="header">Status</apex:facet>
+                            <apex:inputField value="{!mapping.Status__c}" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:commandLink value="Edit" action="{!URLFOR($Action.usaiConfig__c.Edit, mapping.id)}" immediate="true"/>
+                        </apex:column>
+                         <apex:column >
+                            <apex:commandLink value="View" action="{!URLFOR($Action.usaiConfig__c.View, mapping.id)}" immediate="true"/>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageblockSection>
+
+
+                <apex:pageblockSection title="Inbound Lead Mappings" columns="1" collapsible="true">
+                    <apex:pageBlockTable value="{!leadMappings}" var="mapping" id="mappingsTable">
+                        <apex:column value="{!mapping.TargetObject__c}" />
+                        <apex:column value="{!mapping.ParentNode__c}" />
+                        <apex:column value="{!mapping.Name}" />
+                        <apex:column value="{!mapping.APIFieldName__c}" />
+                        <apex:column title="Status">
+                            <apex:facet name="header">Status</apex:facet>
+                            <apex:inputField value="{!mapping.Status__c}"  
+                              style="{!IF(mapping.Status__c == 'Inactive', 'color: red;font-weight: bold;', '')}"/>
+                        </apex:column>
+                        <apex:column >
+                            <apex:commandLink value="Edit" action="{!URLFOR($Action.usaiConfig__c.Edit, mapping.id)}" immediate="true"/>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:commandLink value="View" action="{!URLFOR($Action.usaiConfig__c.View, mapping.id)}" immediate="true"/>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageblockSection> 
+
+                <apex:pageblockSection title="Inbound Disposition Mappings" columns="1" collapsible="true">
+                    <apex:pageBlockTable value="{!dispoMappings}" var="mapping" id="mappingsTable">
+                        <apex:column value="{!mapping.TargetObject__c}" />
+                        <apex:column value="{!mapping.ParentNode__c}" />
+                        <apex:column value="{!mapping.Name}" />
+                        <apex:column value="{!mapping.APIFieldName__c}" />
+                        <apex:column title="Status">
+                            <apex:facet name="header">Status</apex:facet>
+                            <apex:inputField value="{!mapping.Status__c}"  
+                              style="{!IF(mapping.Status__c == 'Inactive', 'color: red;font-weight: bold;', '')}"/>
+                        </apex:column>
+                        <apex:column >
+                            <apex:commandLink value="Edit" action="{!URLFOR($Action.usaiConfig__c.Edit, mapping.id)}" immediate="true"/>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:commandLink value="View" action="{!URLFOR($Action.usaiConfig__c.View, mapping.id)}" immediate="true"/>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageblockSection> 
+
+                <apex:pageblockSection title="Outbound Lead Mappings" columns="1">
+                    <apex:pageBlockTable value="{!outboundLeadMappings}" var="mapping" id="mappingsTable">
+                        <apex:column value="{!mapping.TargetObject__c}" />
+                        <apex:column value="{!mapping.ParentNode__c}" />
+                        <apex:column value="{!mapping.Name}" />
+                        <apex:column value="{!mapping.APIFieldName__c}" />
+                        <apex:column title="Status">
+                            <apex:facet name="header">Status</apex:facet>
+                            <apex:inputField value="{!mapping.Status__c}"
+                            style="{!IF(mapping.Status__c == 'Inactive', 'color: red;font-weight: bold;', '')}" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:commandLink value="Edit" action="{!URLFOR($Action.usaiConfig__c.Edit, mapping.id)}" immediate="true"/>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:commandLink value="View" 
+                            action="{!URLFOR($Action.usaiConfig__c.View, mapping.id)}" 
+                            immediate="true"/>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageblockSection> 
+
+                <apex:pageblockSection title="Outbound Disposition Mappings" columns="1">
+                    <apex:pageBlockTable value="{!outboundDispoMappings}" var="mapping" id="mappingsTable">
+                        <apex:column value="{!mapping.TargetObject__c}" />
+                        <apex:column value="{!mapping.ParentNode__c}" />
+                        <apex:column value="{!mapping.Name}" />
+                        <apex:column value="{!mapping.APIFieldName__c}" />
+                        <apex:column title="Status">
+                            <apex:facet name="header">Status</apex:facet>
+                            <apex:inputField value="{!mapping.Status__c}"
+                            style="{!IF(mapping.Status__c == 'Inactive', 'color: red;font-weight: bold;', '')}" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:commandLink value="Edit" action="{!URLFOR($Action.usaiConfig__c.Edit, mapping.id)}" immediate="true"/>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:commandLink value="View" 
+                            action="{!URLFOR($Action.usaiConfig__c.View, mapping.id)}" 
+                            immediate="true"/>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageblockSection>
+        </apex:pageBlock>            
+        </apex:form>
+</apex:page>

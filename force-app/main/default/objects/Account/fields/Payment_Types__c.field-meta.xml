@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Payment_Types__c</fullName>
+    <externalId>false</externalId>
+    <label>Payment Types</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <type>MultiselectPicklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Net 60</fullName>
+                <default>false</default>
+                <label>Net 60</label>
+            </value>
+            <value>
+                <fullName>Net 90</fullName>
+                <default>false</default>
+                <label>Net 90</label>
+            </value>
+            <value>
+                <fullName>1 Pct 10 Net 90</fullName>
+                <default>false</default>
+                <label>1 Pct 10 Net 90</label>
+            </value>
+            <value>
+                <fullName>2 Pct 10 Net 30</fullName>
+                <default>false</default>
+                <label>2 Pct 10 Net 30</label>
+            </value>
+            <value>
+                <fullName>2 Pct 10 Net 45</fullName>
+                <default>false</default>
+                <label>2 Pct 10 Net 45</label>
+            </value>
+            <value>
+                <fullName>2 Pct 10 Net 60</fullName>
+                <default>false</default>
+                <label>2 Pct 10 Net 60</label>
+            </value>
+            <value>
+                <fullName>2 Pct 15 Net 30</fullName>
+                <default>false</default>
+                <label>2 Pct 15 Net 30</label>
+            </value>
+            <value>
+                <fullName>CDF 0</fullName>
+                <default>false</default>
+                <label>CDF 0</label>
+            </value>
+            <value>
+                <fullName>CIA</fullName>
+                <default>false</default>
+                <label>CIA</label>
+            </value>
+            <value>
+                <fullName>CIA - Credit Card</fullName>
+                <default>false</default>
+                <label>CIA - Credit Card</label>
+            </value>
+            <value>
+                <fullName>CIA - EFT</fullName>
+                <default>false</default>
+                <label>CIA - EFT</label>
+            </value>
+            <value>
+                <fullName>CIA - Not Discount Eligible</fullName>
+                <default>false</default>
+                <label>CIA - Not Discount Eligible</label>
+            </value>
+            <value>
+                <fullName>COD</fullName>
+                <default>false</default>
+                <label>COD</label>
+            </value>
+            <value>
+                <fullName>Net 10</fullName>
+                <default>false</default>
+                <label>Net 10</label>
+            </value>
+            <value>
+                <fullName>Net 120</fullName>
+                <default>false</default>
+                <label>Net 120</label>
+            </value>
+            <value>
+                <fullName>Net 120-Not Discount Eligible</fullName>
+                <default>false</default>
+                <label>Net 120-Not Discount Eligible</label>
+            </value>
+            <value>
+                <fullName>Net 15</fullName>
+                <default>false</default>
+                <label>Net 15</label>
+            </value>
+            <value>
+                <fullName>Net 180</fullName>
+                <default>false</default>
+                <label>Net 180</label>
+            </value>
+            <value>
+                <fullName>Net 30</fullName>
+                <default>false</default>
+                <label>Net 30</label>
+            </value>
+            <value>
+                <fullName>Net 30 - Not Discount Eligible</fullName>
+                <default>false</default>
+                <label>Net 30 - Not Discount Eligible</label>
+            </value>
+            <value>
+                <fullName>Net 45</fullName>
+                <default>false</default>
+                <label>Net 45</label>
+            </value>
+            <value>
+                <fullName>TCF CAD Floor Plan 60 Day</fullName>
+                <default>false</default>
+                <label>TCF CAD Floor Plan 60 Day</label>
+            </value>
+            <value>
+                <fullName>TCF CAD FP00</fullName>
+                <default>false</default>
+                <label>TCF CAD FP00</label>
+            </value>
+            <value>
+                <fullName>TCFIF FP00</fullName>
+                <default>false</default>
+                <label>TCFIF FP00</label>
+            </value>
+            <value>
+                <fullName>TCFIF FP60</fullName>
+                <default>false</default>
+                <label>TCFIF FP60</label>
+            </value>
+            <value>
+                <fullName>TCFIF FPCS00</fullName>
+                <default>false</default>
+                <label>TCFIF FPCS00</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+    <visibleLines>4</visibleLines>
+</CustomField>

@@ -1,0 +1,17 @@
+
+
+
+@media (max-width: 750px) {
+    .address-input-container {
+        flex-direction: column;
+    }
+
+    .address-input{
+        margin-top: 1rem;
+        padding: 0;
+    }
+
+    .address-input:first-child {
+        margin-top: 0;
+    }
+}

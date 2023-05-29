@@ -1,0 +1,1185 @@
+<!--
+ - Created by user on 04.03.2020.
+ -->
+
+ <apex:page id="WarrantyRegistrationPDF" renderAs="pdf" contentType="" standardController="Entitlement" extensions="WarrantyRegistrationControllerPDF" standardStylesheets="true" showHeader="true" >
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"/>
+    <apex:stylesheet value="{!URLFOR($Resource.WarrantyRegistrationPDFStyle)}"/>
+    <apex:stylesheet value="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"  />
+    <apex:includeScript value="https://code.jquery.com/jquery-1.9.1.js" />
+    <apex:includeScript value="https://code.jquery.com/ui/1.10.3/jquery-ui.js" />
+
+    <div id="container" style="font-family:serif">
+        <apex:form id="theForm">
+            <div style="text-align:center;">
+                <apex:pageBlock id="account" mode="maindetail">
+                    <table class="formTable" style="width:50%" align="center" border="0">
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- L O G O ------------------------>
+                        <tr>
+                            <td colspan="2">
+                                <div style="float:left">
+                                    <apex:image id="logo" value="https://c.na54.content.force.com/servlet/servlet.ImageServer?id=0150a0000044Qb4&oid=00Dj0000000Jnkz&lastMod=1585761213000" height="50"/>
+                                </div>
+                            </td>
+                            <td align="right" colspan="2" style="font-family:monospace; font-size:30px; font-weight:bold; color:#000000; padding-top:6px; padding-right:50px; white-space:nowrap;">
+                                <div class="head">
+                                    Warranty Registration
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+
+                        <!---------------------- MESSAGES ---------------------->
+                        <tr>
+                            <td colspan="4" style="text-align:left">
+                                <apex:pageMessages id="messageUpper" rendered="true" escape="false"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- ASSET LOOKUP ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Asset:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="assetId" value="{!entitlement.Asset.Name}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    This conversion is being used for:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left">
+                                    <apex:outputText value="{!useType}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- BUSINESS/ORGANIZATION ------------------------>
+                        <tr id="businessRow" style="display:{!IF(isBusinessUse, 'table-row', 'none')}">
+                            <td colspan="2"/>
+                            <td>
+                                <div class="label">
+                                    Business/Organization:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText value="{!businessOrganization}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <!---------------------- TYPE OF USE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Model:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="model" value="{!model}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    SampleAbility Finance:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left">
+                                    <apex:outputText value="{!SampleFinance}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TYPE OF USE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    VIN/Serial #:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="vin-serial" value="{!serialNumber}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Commercial or Consumer:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left">
+                                    <apex:outputText value="{!commercialOrConsumer}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---==================================================================================---->
+                        <!---============== C U S T O M E R   I N F O R M A T I O N   B E G I N S =============---->
+                        <!---==================================================================================---->
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}"><td colspan="4"><br/></td></tr>
+                        
+                        <tr>
+                            <td colspan="4">
+                            <apex:outputPanel layout="block" rendered="{!showCustomerName}">
+                            <table class="formTable"  align="center" width="100%" border="0">
+
+                        <!---------------------- FIRST NAME ------------------------>
+                        <tr style="display:{!IF(isInternational , 'none', 'table-row')}">
+                            <td width="20%">
+                                <apex:outputPanel styleClass="label" layout="block">
+                                    Customer First Name:
+                                </apex:outputPanel>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    
+                                    <apex:outputText id="firstName" value="{!firstName}" styleClass="input"> </apex:outputText>
+                                </div>
+                            </td>
+                            <td></td>
+                            
+                        </tr>
+
+                        <!---------------------- LAST NAME ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <apex:outputPanel styleClass="label" layout="block">
+                                    Last Name:
+                                </apex:outputPanel>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="lastName" value="{!lastName}" styleClass="input"></apex:outputText>
+                                </div>
+                            </td>
+                           <td></td>
+                        </tr>
+
+                        </table>
+                        </apex:outputPanel>
+                        </td>
+                        </tr>
+
+
+                        <!---------------------- ADDRESS 1 ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Address Line 1:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="address1" value="{!address1}" styleClass="input" />
+                                </div>
+                            </td>
+                            <td colspan=""></td>
+                        </tr>
+
+                        <!---------------------- ADDRESS 2 ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Address Line 2:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="address2" value="{!address2}" styleClass="input" />
+                                </div>
+                            </td>
+                            
+                        </tr>
+
+                        <!---------------------- CITY ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    City:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="city" value="{!city}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- STATE / PROVINCE ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    State/Province:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="state" value="{!state}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- ZIP / POSTAL CODE ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                
+                                    <apex:outputPanel layout="block" styleClass="label">
+                                    Zip/Postal Code:
+                                </apex:outputPanel>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="zip" value="{!zip}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- COUNTRY ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Country:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="country" value="{!country}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- PHONE ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Customer Phone:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="phone" value="{!phone}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- EMAIL ------------------------>
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Customer Email:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="email" value="{!email}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---==================================================================================---->
+                        <!---============== C U S T O M E R   I N F O R M A T I O N   E N D S =================---->
+                        <!---==================================================================================---->
+
+
+
+                     
+
+
+
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- SALES PERSON NAME ------------------------>
+                        <tr  style="display:{!IF(productType == 'WAV' || productType == 'Seats', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Sales Person Name:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="salesPersonName" value="{!salesPersonName}" styleClass="input" />
+                                </div>
+                            </td>
+                            <td colspan="1"></td>
+                            
+                        </tr>
+   
+                        
+                        <!---------------------- SALES PERSON EMAIL ------------------------>
+                        <tr  style="display:{!IF(productType == 'WAV' || productType == 'Seats', 'table-row', 'none')}">
+                            <td width="22%">
+                                <div class="label">
+                                    Sales Person Email:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="salesPersonEmail" value="{!salesPersonEmail}" styleClass="input" />
+                                </div>
+                            </td>
+                            <td colspan="1"></td>
+                        </tr>
+                 
+               
+                        <!---------------------- SECONDARY EMAIL ------------------------>
+                        <tr  style="display:{!IF(showSecondaryEmail, 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Secondary Email:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="secondaryEmail" value="{!secondaryEmail}" styleClass="input" />
+                                </div>
+                            </td>
+                            <td colspan="1"></td>
+                        </tr>
+
+
+
+
+
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- DEALER NAME ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Dealer Name:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="dealer" value="{!dealerName}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- DEALER ID ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Dealer ID:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="dealerId" value="{!dealerId}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- MILEAGE ------------------------>
+                        <tr  style="display:{!IF(showMileage,  'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Mileage at Time of Sale:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="mileage" value="{!mileage}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                         <!---------------------- Cycle Count ------------------------>
+                         <tr  style="display:{!IF(showCycle,  'table-row','none')}">
+                            <td>
+                                <div class="label">
+                                    Cycle Count:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="cycleCount" value="{!cycleCount}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- PURCHASE DATE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Purchase Date:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="purchaseDate" value="{!purchaseDate}" styleClass="input"  />
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- COMMENTS ------------------------>
+                        <tr>
+                            <td style="vertical-align:top">
+                                <div class="label" style="margin-top:5px">
+                                    Comments:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="width:100%;">
+                                    <apex:inputTextarea id="comments" value="{!comments}" styleClass="textarea"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                      
+
+
+
+
+    <tr>
+        <td colspan="4">
+        <apex:outputPanel layout="block" rendered="{!productType == 'WAV'}">
+        <table class="formTable"  align="center" border="0">
+
+
+                        <!--------------------------------------------------------->
+                        <!------------------------- PAGE 2 ------------------------>
+                        <!--------------------------------------------------------->
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- IS THIS A CPO ------------------------>
+                        <tr>
+                            <td width="22%">
+                                <div class="label">
+                                    Is this a CPO?:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText value="{!isCPO}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    First Accessible Vehicle?:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left">
+                                    <apex:outputText id="firstVehicle" value="{!IF(firstVehicle, 'Yes', 'No')}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O REQUIRED ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    C of O Form Required?:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText value="{!cooRequired}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Rental?:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left">
+                                    <apex:outputText id="rental" value="{!IF(rental, 'Yes', 'No')}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O SENDS MSO TO ------------------------>
+                        <tr id="cooRow1" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Send MSO to (Address):
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="float:left; width:100%; text-align:left;">
+                                    <apex:outputText id="cooSendMsoTo" value="{!cooSendMsoTo}" styleClass="input" style="width:100%;"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O PAPERWORK CONTACT ------------------------>
+                        <tr id="cooRow2" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Paperwork Contact:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:outputText id="cooPaperworkContact" value="{!cooPaperworkContact}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O OPTIONAL EMAIL ------------------------>
+                        <tr id="cooRow3" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Optional Email:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="cooOptionalEmail" value="{!cooOptionalEmail}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- C of O VEHICLE PRICE ------------------------>
+                        <tr id="cooRow4" style="display:{!IF(cooRequired == 'Yes', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Vehicle Price:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:outputText id="cooVehiclePrice" value="{!cooVehiclePrice}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TOTAL SELLING PRICE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Total Selling Price:
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="totalPrice" value="{!totalPrice}" styleClass="input" />
+                                </div>
+                            </td>
+                            <td/>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- CUSTOMER IS VETERAN ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Customer is a Veteran:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left">
+                                    <apex:outputText value="{!IF(isVeteran, 'Yes', 'No')}" styleClass="input"/>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label" style="display:{!IF(isVeteran, 'block', 'none')}">
+                                    Service Connected?:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="display:{!IF(isVeteran, 'block', 'none')}; float:left;">
+                                    <apex:outputText value="{!serviceConnected}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- THIS IS A VA SALE ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    This is a VA Sale:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left">
+                                    <apex:outputText value="{!IF(isVASale, 'Yes', 'No')}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!----------------- SERVICE AGREEMENT -------------------->
+                        <tr>
+                            <td align="center" colspan="4">
+                                
+                                <apex:outputPanel styleClass="title" layout="block" rendered="{!productType == 'WAV'}">
+                                
+                                    THE Sample CORPORATION MOBILITY CONVERSION SERVICE AGREEMENT
+                                </apex:outputPanel>
+                                
+                            </td>
+                        </tr>
+                        <!-------------------- LEGAL TOP ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <apex:outputPanel styleClass="legal" style="border:0px" layout="block" rendered="{!productType == 'WAV'}">
+                                
+                                    <p>
+                                        This agreement is intended to clarify the service responsibilities to the Sample mobility conversion after the initial
+                                        delivery of the vehicle. <b>This agreement shall be executed and electronically submitted to Sample with each
+                                            conversion sale.</b>
+                                    </p>
+                                    <p>
+                                        Listed below is the identification of the Sample authorized selling Mobility Retailer, and the Sample authorized local
+                                        servicing Mobility Retailer who has agreed to service the mobility conversion portion of this vehicle per the applicable
+                                        Sample service manuals and guidelines.
+                                    </p>
+                                    <p>
+                                        By signing below, the purchaser of the mobility conversion acknowledges the adoption of the local servicing Mobility
+                                        Retailer as the primary provider of service for the mobility conversion portion of this vehicle. All local servicing
+                                        retailers must be an authorized Sample Mobility Service excellence Retailer (MSE-certified in vehicle conversions).
+                                    </p>
+                                    <p>
+                                        Should the owner of the mobility conversion require service outside the local servicing area, they may take the
+                                        mobility conversion to any Sample authorized mobility conversion retailer located within the United States. If the
+                                        owner needs assistance in identifying a local servicing mobility retailer, they may either call 1-800-THE-LEFT, or
+                                        check the Sample website at: <a href="https://www.Sampleability.com/" target="_blank" style="color:blue">www.Sampleability.com</a>.
+                                    </p>
+                                    <p>
+                                        Note: This agreement only applies to the servicing of the Sample mobility conversion. Ancillary equipment, such as
+                                        tie downs or hand controls, will be the responsibility of the mobility retailer that installed those products and will not
+                                        be covered under the Sample mobility conversion warranty. If there are issues relating to the vehicle and/or
+                                        conversion, it would be in the best interest of the mobility vehicle owner to contact the Sample authorized local
+                                        servicing Mobility Retailer listed below before taking the vehicle to their local car dealer.
+                                    </p>
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- ARE YOU SERVICING DEALER ------------------------>
+                        <tr>
+                            <td>
+                                
+                                <apex:outputPanel styleClass="label" layout="block" rendered="{!productType == 'WAV'}">
+                                
+                                    Will you be the Servicing Dealer?:
+                                </apex:outputPanel>
+                                
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText value="{!isServicingDealer}" styleClass="input"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SERVICING DEALER NAME ------------------------>
+                        <tr id="trServicingDealer" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Servicing Dealer:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="servicingDealer" value="{!servicingDealer}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+
+
+                        <!---------------------- ADDRESS ------------------------>
+                        <tr id="trServicingDealerAddress" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Address:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="text-align:left;">
+                                    <apex:outputText id="servicingDealerAddress" value="{!servicingDealerAddress}" styleClass="input" style="width:600px" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- PHONE ------------------------>
+                        <tr id="trServicingDealerPhone" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Phone:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="servicingDealerPhone" value="{!servicingDealerPhone}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SERVICING SALES PERSON ------------------------>
+                        <tr id="trServicingSalesPerson" style="display:{!IF(isServicingDealer == 'No', 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Sales Person:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="text-align:left;">
+                                    <apex:outputText id="servicingSalesPerson" value="{!servicingSalesPerson}" styleClass="input" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ----------------------->
+                      
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!----------------- SERVICE AGREEMENT -------------------->
+                        <tr>
+                            <td align="center" colspan="4">
+                                <div class="title">
+                                    VEHICLE DELIVERY CHECKLIST
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!----------------------- CHECKBOX ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div>
+                                    <span class="subtitle">Exterior:</span>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div>
+                                    <span class="subtitle">Additional:</span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkDamageFree}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkDamageFree}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Exterior clean and damage-free
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkReviewManuals}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkReviewManuals}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Review both OEM and Sample owner's manuals
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkSpareTireJack}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkSpareTireJack}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Spare tire and jack location
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkToyotaExchange}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkToyotaExchange}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Explain the Toyota Service Exchange Information Program (Toyota Vehicle Only)
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkRemoteControl}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkRemoteControl}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Operation of remote control
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkServiceSchedule}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkServiceSchedule}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Explain recommended preventive maintenance and service schedules
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkMagneticEntry}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkMagneticEntry}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Magnetic entry (if applicable)
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkWarrantyRepair}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkWarrantyRepair}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Explain procedures for warranty repair work
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkPowerDoor}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkPowerDoor}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Exterior activation of power door, kneeling and ramp
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkServiceHours}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkServiceHours}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Inform customer of dealership service hours
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkDoorAndRampExt}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkDoorAndRampExt}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Manual operation of door and ramp from exterior
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkSignedRecord}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkSignedRecord}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Advise customer to receive and maintain a signed record of all service work performed
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div>
+                                    <span class="subtitle">Interior:</span>
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkCompleteWarranty}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkCompleteWarranty}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Complete and return warranty registration to activate warranty
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkGauges}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkGauges}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Gauges and instrumentation
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkAfterMarket}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkAfterMarket}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    List all aftermarket equipment. Use brand names and model numbers where possible
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkInteriorSwitches}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkInteriorSwitches}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Location of interior switches to operate accessible features
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <span class="subtitle" style="text-align:left; white-space:nowrap;">
+                                    Vehicle Delivery Checklist Comments:
+                                </span>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkDoorAndRampInt}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkDoorAndRampInt}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Manual operation of door and ramp from interior
+                                </div>
+                            </td>
+                            <td colspan="2" rowspan="5">
+                                <apex:inputTextarea id="chkComments" value="{!chkComments}" styleClass="textarea"/>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkTieDowns}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkTieDowns}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Operation of tie-downs
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkRollTumble}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkRollTumble}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Operation of roll &amp; tumble seating (if applicable)
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkSeatBelts}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkSeatBelts}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Operation of seat belts
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!----------------------- CHECKLIST ---------------------->
+                        <tr>
+                            <td colspan="2">
+                                <div class="checklist">
+                                    <apex:image rendered="{!chkSampleController}" value="{!URLFOR($Resource.SampleAbilityIcons, 'check.png')}"/>
+                                    <apex:image rendered="{!!chkSampleController}" value="{!URLFOR($Resource.SampleAbilityIcons, 'uncheck.png')}"/>
+                                    Location of Sample controller
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4">
+                            <apex:outputPanel styleClass="divider"  layout="block" rendered="{!productType == 'WAV'}"></apex:outputPanel>
+                        </td></tr>
+
+                        <!-------------------- LEGAL TOP ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <!-- div class="legal" style="border:0px" -->
+                                <apex:outputPanel styleClass="legal" style="border:0px" layout="block" rendered="{!productType == 'WAV'}">
+                                    <p style="text-indent:30px;">
+                                        I hereby acknowledge that the mobility devices applicable to my vehicle have been demonstrated for me, and I fully
+                                        understand and can operate this equipment. I have been advised that wheelchairs may not maintain their integrity
+                                        in the event of a collision. I hereby release and hold harmless the Original Vehicle Manufacturer, The Sample
+                                        Corporation, and its independent dealers from any liability associated with injury to my person and property as a
+                                        result of my use of a wheelchair during a collision. I have read and understand this entire form, including all
+                                        disclaimers and the Sample factory Limited Warranty. All of the information I have provided is correct.
+                                    </p>
+                                <!-- /div -->
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <apex:outputPanel styleClass="legal" style="border:0px" layout="block" rendered="{!productType == 'WAV'}">
+                                <!--div class="legal" style="border:0px"-->
+                                    <p style="text-indent:30px;">
+                                        <span style="font-size:18px; font-weight:bold;">Customer Signature:</span>
+                                        <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        I acknowledge that all items checked have been reviewed with me.
+                                    </p>
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Type Full Name:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:outputText id="custFullName" value="{!custFullName}" styleClass="input" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Date:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:outputText id="custDate" value="{!custDate}" styleClass="input"  />
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div style="width:100% height:60px;">
+                                    <apex:inputTextarea id="custComments" value="{!custComments}" styleClass="textarea" style="height:60px"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                
+                                <apex:outputPanel styleClass="legal" style="border:0px" layout="block" rendered="{!productType == 'WAV'}">
+                                
+                                    <p style="text-indent:30px;">
+                                        <span style="font-size:18px; font-weight:bold;">Sales Consultant Signature:</span>
+                                        <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        I acknowledge that all Items checked have been reviewed with the customer.
+                                    </p>
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Type Full Name:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:outputText id="saleFullName" value="{!saleFullName}" styleClass="input" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Date:
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    <apex:outputText id="saleDate" value="{!saleDate}" styleClass="input"  />
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div style="width:100% height:60px;">
+                                    <apex:inputTextarea id="saleComments" value="{!saleComments}" styleClass="textarea" style="height:60px"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ------------------------>
+                        <tr><td colspan="4"><div class="divider"/></td></tr>
+                        <!-------------------- LEGAL BOTTOM ---------------------- -->
+                        <tr>
+                            <td colspan="4">
+                                
+                                <apex:outputPanel styleClass="legal" style="border:0px" layout="block" rendered="{!productType == 'WAV'}">
+                                    <p style="text-indent:30px;">
+                                        The dealer agrees to electronically submit this completed Mobility Conversion Service Agreement to SampleMobility
+                                        immediately after the customer review takes place. Additionally, the dealer agrees to maintain a copy of this
+                                        executed document, with the appropriate signatures affixed, for a period of six (6) years.
+                                    </p>
+                                    <p style="text-indent:30px;">
+                                        To ensure that complated records are maintained by the dealer, SampleMobility shall periodically audit the applicable
+                                        records to determine dealer conformance. The dealer agrees top cooperate with SampleAbility in providing copies of
+                                        these records. Failure to comply with these terms may nullify any obligation that SampleAbility may have to pay
+                                        warranty claims submitted by the dealer.
+                                    </p>
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <!-- div class="subtitle" style="width:100%; white-space:nowrap;" -->
+                                <apex:outputPanel styleClass="subtitle" style="width:100%; white-space:nowrap;" layout="block" rendered="{!productType == 'WAV'}">
+                                    <apex:inputCheckbox id="accepted" selected="{!accepted}" onClick="checkAccept();" />
+                                    I acknowledge the above agreement.
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- DIVIDER ------------------------>
+                        <!-- tr><td colspan="4"><div class="divider"/></td></tr -->
+ </table>
+  </apex:outputPanel>
+  </td>
+  </tr>
+                        <!---------------------- SPACER ------------------------>
+                        <tr><td colspan="4"><br/></td></tr>
+                        <!---------------------- MESSAGES ---------------------->
+                        <tr>
+                            <td colspan="4" style="text-align:left">
+                                <apex:pageMessages id="messageLower" rendered="true" escape="false"/>
+                            </td>
+                        </tr>
+
+                    </table>
+                </apex:pageBlock>
+            </div>
+        </apex:form>
+    </div>
+</apex:page>

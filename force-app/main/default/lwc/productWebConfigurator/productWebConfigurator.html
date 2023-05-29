@@ -1,0 +1,13 @@
+
+<!-- Product Web Configurator -->
+<template>
+  <lightning-spinner if:true={isLoading}></lightning-spinner>
+  <div class="slds-box">
+    <c-customer-care-box-header title={title}>
+    </c-customer-care-box-header>
+
+    <template if:true={hasConfigurationID}>
+      <iframe src={iframeUrl} scrolling="no"></iframe>
+    </template>
+  </div>
+</template>

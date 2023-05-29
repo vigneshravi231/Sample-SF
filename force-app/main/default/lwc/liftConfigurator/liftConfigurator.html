@@ -1,0 +1,270 @@
+
+<!-- Lift Configurator -->
+
+<!-- Turney Configurator -->
+<template>
+
+    <div class="slds-box">
+
+        <c-customer-care-box-header title="Configure Lift"></c-customer-care-box-header>
+
+        <div class="slds-form">
+            <template if:true={isInitialized}>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.vehicleType.selectedValue}
+                                disabled={componentData.vehicleType.isDisabled}
+                                name="vehicleType"
+                                label="Vehicle Type"
+                                options={vehicleTypes.data}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.make.selectedValue}
+                                disabled={componentData.make.isDisabled}
+                                name="make"
+                                label="Make"
+                                options={availableValues.makes}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.year.selectedValue}
+                                disabled={componentData.year.isDisabled}
+                                name="year"
+                                label="Year"
+                                options={availableValues.years}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.model.selectedValue}
+                                disabled={componentData.model.isDisabled}
+                                name="model"
+                                label="Model"
+                                options={availableValues.models}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.entryType.selectedValue}
+                                disabled={componentData.entryType.isDisabled}
+                                name="entryType"
+                                label="Entry Type"
+                                options={availableValues.entryTypes}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.doorType.selectedValue}
+                                disabled={componentData.doorType.isDisabled}
+                                name="doorType"
+                                label="Door Type"
+                                options={availableValues.doorTypes}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.airbagOption.selectedValue}
+                                disabled={componentData.airbagOption.isDisabled}
+                                name="airbagOption"
+                                label="Airbag Option"
+                                options={availableValues.airbagOptions}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.vehicleLength.selectedValue}
+                                disabled={componentData.vehicleLength.isDisabled}
+                                name="vehicleLength"
+                                label="Vehicle Length"
+                                options={availableValues.vehicleLengths}
+                                class="slds-p-left"
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.doorWidth.selectedValue}
+                                disabled={componentData.doorWidth.isDisabled}
+                                name="doorWidth"
+                                label="Minimum Door Width (Inches)"
+                                options={availableValues.doorWidths}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.doorHeight.selectedValue}
+                                disabled={componentData.doorHeight.isDisabled}
+                                name="doorHeight"
+                                label="Minimum Door Height (Inches)"
+                                options={availableValues.doorHeights}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-right_medium">
+                            <lightning-combobox
+                                value={componentData.liftCapacity.selectedValue}
+                                disabled={componentData.liftCapacity.isDisabled}
+                                name="liftCapacity"
+                                label="Lift Capacity"
+                                options={availableValues.liftCapacities}
+                                onchange={handleValueChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left_medium">
+                            <lightning-combobox
+                                value={componentData.occupantType.selectedValue}
+                                disabled={componentData.occupantType.isDisabled}
+                                name="occupantType"
+                                label="Occupant Type"
+                                options={availableValues.occupantTypes}
+                                onchange={handleOccupantTypeChange}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <div class="slds-p-top_medium">
+        <div class="slds-box">
+            <c-customer-care-box-header title="Available Lifts"></c-customer-care-box-header>
+            <template if:true={showProductList}>
+                <div>
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer" >
+                        <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">
+                                <div class="slds-truncate">Product Code</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Additional Kit</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate">Price</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="slds-hint-parent" for:each={availableProducts} for:item="product" key={product.id}>
+                            <td>
+                                <div class="slds-truncate">{product.name}</div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">
+                                    <template if:false={product.isAdditionalKitNotAvailable}>
+                                        <div class="slds-list_horizontal slds-wrap">
+                                            <lightning-input type="checkbox"
+                                                             label=""
+                                                             data-id={product.id}
+                                                             data-name={product.additionalKit.name}
+                                                             checked
+                                                             onchange={handleKitSelection}>
+                                            </lightning-input>
+                                            <div>{product.additionalKit.name}</div>
+                                        </div>
+                                    </template>
+                                    <template if:true={product.isAdditionalKitNotAvailable}>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </template>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="slds-truncate">
+                                    <template if:false={product.isLiftNotAvailable}>
+                                        <div>
+                                            <lightning-formatted-number
+                                                    format-style="currency"
+                                                    currency-code="USD"
+                                                    value={product.price}>
+                                            </lightning-formatted-number>
+                                        </div>
+                                    </template>
+                                    <template if:true={product.isLiftNotAvailable}>
+                                        <div>
+                                            N/A
+                                        </div>
+                                    </template>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right">
+                                <div class="slds-truncate">
+                                    <lightning-button
+                                            name={product.name}
+                                            label="Add To Cart"
+                                            disabled={product.isLiftNotAvailable}
+                                            type="submit"
+                                            onclick={handleAddToCart}>
+                                    </lightning-button>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_center">
+                                <div>
+                                    <lightning-button-menu alternative-text="Show menu">
+                                        <lightning-menu-item value={product.lift}
+                                                             label="View Lift Details"
+                                                             disabled={product.isLiftNotAvailable}
+                                                             onclick={gotoProductDetailPage}>
+                                        </lightning-menu-item>
+                                        <lightning-menu-item value={product.additionalKit}
+                                                             label="View Additional Kit Details"
+                                                             disabled={product.isAdditionalKitNotAvailable}
+                                                             onclick={gotoProductDetailPage}>
+                                        </lightning-menu-item>
+                                    </lightning-button-menu>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+            <template if:false={showProductList}>
+                <div class="slds-text-body_medium slds-m-around_xx-large slds-text-align_center">No lifts for current configuration.</div>
+            </template>
+        </div>
+    </div>
+
+    <div if:true={showSpinner} class="slds-m-around_medium spinner-height">
+        <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+    </div>
+
+</template>

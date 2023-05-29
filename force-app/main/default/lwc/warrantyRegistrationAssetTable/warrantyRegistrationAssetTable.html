@@ -1,0 +1,95 @@
+<!-- Warranty Registration Asset Table -->
+<template>
+    
+    <c-warranty-registration-c-s-v-error></c-warranty-registration-c-s-v-error>
+    
+    <div class="slds-box">
+        <div>
+            <div class="color-brand slds-text-heading_large slds-p-bottom_large slds-brand slds-float_left">
+                Assets
+            </div>
+            <div class="slds-text-align_right slds-m-top_vertical slds-float_right">
+                <a download="SampleAbilityWarrantyRegistrationTemplate.csv"
+                   href={csvTemplateUrl}
+                   class="slds-p-right_medium">
+                    Download WAV Template
+                </a>
+                <a download="SampleAbilityWarrantyRegistrationTemplateLift.csv"
+                   href={csvTemplateLiftUrl}>
+                    Download Lift Template
+                </a>
+                <lightning-button variant="brand"
+                                  type="button"
+                                  label="Upload CSV"
+                                  class="slds-m-left_medium"
+                                  onclick={openCSVModal}></lightning-button>
+                <lightning-button variant="brand"
+                                  type="button"
+                                  label="Add Asset"
+                                  class="slds-m-left_medium"
+                                  onclick={addWarranty}></lightning-button>
+            </div>
+        </div>
+        <div if:false={hasWarranties}>
+            <div class="empty-margin slds-text-title slds-text-align_center">
+                Add assets to begin registration.
+            </div>
+        </div>
+        <div>
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-top_large" if:true={hasWarranties}>
+                <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col">
+                        <div class="slds-truncate">Asset Name</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate slds-text-align_right">Edit</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate slds-text-align_right">Remove</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="slds-hint-parent" for:each={props.warranties} for:item="warranty" key={warranty.uuid}>
+                    <td>
+                        <div class="slds-truncate">{warranty.record.Name}</div>
+                    </td>
+                    <td data-label="Edit Button" class="slds-text-align_right">
+                        <div class="slds-truncate" title="Edit Button">
+                            <div class="slds-truncate" title="Edit Button">
+                                <lightning-button-icon icon-name="utility:edit"
+                                                       variant="bare"
+                                                       name="edit"
+                                                       onclick={editWarranty}
+                                                       alternative-text="Edit"
+                                                       value={warranty.uuid}
+                                                       title="Edit">
+                                </lightning-button-icon>
+                            </div>
+                        </div>
+                    </td>
+                    <td data-label="Remove Button" class="slds-text-align_right">
+                        <div class="slds-truncate" title="Remove Button">
+                            <div class="slds-truncate" title="Remove Button">
+                                <lightning-button-icon icon-name="utility:close"
+                                                       variant="bare"
+                                                       onclick={removeWarranty}
+                                                       alternative-text="Remove"
+                                                       value={warranty.uuid}
+                                                       title="Remove">
+                                </lightning-button-icon>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- add/edit warranty modal -->
+    <c-warranty-registration-edit-asset></c-warranty-registration-edit-asset>
+    <c-warranty-registration-c-s-v></c-warranty-registration-c-s-v>
+    
+</template>

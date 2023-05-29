@@ -1,0 +1,46 @@
+
+<!-- Co Misc Charges -->
+<template>
+	<!-- Misc Charges -->
+	<div slot="body">
+		<div class="slds-m-bottom_medium">Review miscellaneous charges and order splits.</div>
+		<div for:each={cartSplits} for:item="split" key={split.Id}>
+			<div class="slds-box slds-m-top_medium">
+				<c-order-summary-accordion unique-id={split.Id} item-numbers={split.numberOfItems}>
+					<c-order-items-summary slot="body" items={split.items} hide-subtotal="true"></c-order-items-summary>
+				</c-order-summary-accordion>
+				<lightning-layout multiple-rows>
+					<lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+						<div class="slds-m-top_small">
+							<div class="slds-m-bottom_small" key={split.Id}>
+								<strong>Order Type:</strong>
+								{split.orderType}
+							</div>
+							<div class="slds-m-bottom_small">
+								<strong>Delivery Address:</strong>
+								<div>{split.formattedAddress}</div>
+							</div>
+							<div>
+								<strong>Shipping Option:</strong>
+								{split.deliveryOption}
+							</div>
+						</div>
+					</lightning-layout-item>
+					<lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+						<div class="slds-text-align_right slds-m-top_small">
+							<div class="slds-m-bottom_small">
+								<strong>Total Misc Charges:</strong>
+								<lightning-formatted-number
+									value={split.totalMiscChargesAmount}
+									format-style="currency"
+									currency-code="USD"
+								></lightning-formatted-number>
+							</div>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+				<div></div>
+			</div>
+		</div>
+	</div>
+</template>

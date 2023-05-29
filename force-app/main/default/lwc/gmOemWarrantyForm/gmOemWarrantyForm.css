@@ -1,0 +1,13 @@
+
+
+.color-brand {
+    color: var(--lwc-colorBrand);
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.mediumLargePadding {
+    padding: 1.25rem 0;
+}

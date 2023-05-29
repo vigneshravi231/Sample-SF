@@ -1,0 +1,18 @@
+
+
+/* Mobile */
+
+.mobile-show {
+    display: none;
+}
+
+@media (max-width: 479px) {
+
+    .mobile-show {
+        display: block;
+    }
+
+    .mobile-hide {
+        display: none;
+    }
+}

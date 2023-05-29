@@ -1,0 +1,40 @@
+<!-- Warranty Registration Edit Asset -->
+<template>
+    
+    <c-modal-dialog size="medium" onclosemodal={hide}>
+        <!-- Modal Header -->
+        <span slot="header"> Upload CSV </span>
+        <!-- Modal Body -->
+        <span slot="body">
+            <div if:true={showSpinner} class="spinner-height">
+                <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+            </div>
+            <span class="slds-m-around_large" if:false={showSpinner}>
+                <div class="slds-box">
+                    <div>
+                        <lightning-input type="file" accept=".csv" label="Select CSV to upload..." onchange={handleFileChange}>
+                        </lightning-input>
+                    </div>
+                    <div if:true={hasFile} class="slds-m-top_medium">
+                        <span>{file.name}</span>
+                        <lightning-icon icon-name="utility:close" variant="error" size="xx-small" onclick={removeFile}>
+                        </lightning-icon>
+                    </div>
+                </div>
+            </span>
+        </span>
+        <span slot="footer">
+            <lightning-button variant="brand"
+                              type="button"
+                              label="Cancel"
+                              onclick={closeCSVModal}></lightning-button>
+            <lightning-button variant="brand"
+                              label="Add Assets"
+                              type="submit"
+                              disabled={uploadDisabled}
+                              class="slds-m-left_medium"
+                              onclick={upload}></lightning-button>
+        </span>
+    </c-modal-dialog>
+    
+</template>

@@ -1,0 +1,85 @@
+<!-->
+Component Name: BA_SurveyResultList
+Description: Controller class used in BA_SurveyResultList Lightning Component is BA_SurveyResultListController (T-699388)
+Created By: Ranita Sharma   May 16, 2018
+<-->
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" 
+                controller="BA_SurveyResultListController" >
+    <aura:attribute name="mydata" type="List"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <h2 class="surveylistTitle">ALL SURVEY RESULTS</h2>
+    
+    <div class="slds-scrollable--y">
+        <table class="slds-table slds-table_bordered" style="border-top:0px">
+            <thead>
+                <tr class="slds-text-heading--label">
+                    <th scope="col" style="padding:0px">
+                        <div  title="Name">Survey Feedback Name</div>
+                    </th>
+                    <th scope="col">
+                        <div  title="Account">Account</div>
+                    </th>
+                    <th scope="col">
+                        <div  title="AccountNumber">Account Number</div>
+                    </th>
+                    <th scope="col">
+                        <div  title="RecordType">Record Type</div>
+                    </th>
+                    <th scope="col">
+                        <div  title="Name">Name</div>
+                    </th>
+                    <th scope="col">
+                        <div  title="NPS">NPS</div>
+                    </th>
+                    <th scope="col">
+                        <div  title="NPS">Date</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.mydata}" var="data">            
+                    <tr>
+                        <th data-label="{!data.Name}" style="padding:0px">
+                            <div class="slds-truncate" title="{!data.Name}" >
+                                <a href="{!'/dealerscom/s/detail/'+data.Id}"> {!data.Name}</a>
+                            </div>
+                        </th>
+                        <th data-label="{!data.Account__c}">
+                            <div class="slds-truncate" title="{!data.Account__c}">    
+                                <a href="{!'/dealerscom/s/detail/'+data.Account__c}"> {!data.Account__r.Name}</a>
+                            </div>
+                        </th>
+                        <th data-label="{!data.Account__r.AccountNumber}">
+                            <div class="slds-truncate" title="{!data.Account__r.AccountNumber}">    
+                               {!data.Account__r.AccountNumber}                         
+                            </div>
+                        </th>
+                        <th data-label="{!data.RecordType.Name}">
+                            <div class="slds-truncate" title="{!data.RecordType.Name}">    
+                                {!data.RecordType.Name}                         
+                            </div>
+                        </th>
+                        
+                         <th data-label="{!data.First_Name__c}">
+                            <div class="slds-truncate" title="{!data.First_Name__c}">    
+                                {!data.First_Name__c} &nbsp; {!data.Last_Name__c}                           
+                            </div>
+                        </th>
+                           <th data-label="{!data.First_Name__c}">
+                            <div class="slds-truncate" title="{!data.First_Name__c}">    
+                                {!data.NPS__c}                           
+                            </div>
+                        </th>
+                             <th data-label="{!data.CreatedDate}">
+                            <div class="slds-truncate" title="{!data.CreatedDate}">    
+                               <lightning:formattedDateTime value="{!data.CreatedDate}"/>                         
+                            </div>
+                        </th>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </div>    
+    
+</aura:component>

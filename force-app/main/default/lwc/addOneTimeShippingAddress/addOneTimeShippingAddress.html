@@ -1,0 +1,48 @@
+
+
+<!-- Add One Time Shipping Address -->
+<template>
+  <template if:true={isPart}>
+    <div class="slds-m-top_small">
+      <a onclick={openOneTimeShipping}>
+        Add OTS Address
+      </a>
+    </div>
+
+  </template>
+
+
+  <!-- Ship to Select -->
+  <c-modal-dialog show-modal={showOneTimeShippingForm} size="small" onclosemodal={closeShipToModal}>
+      <!-- Modal Header -->
+    <span slot="header">
+      Add One Time Shipping Address
+    </span>
+
+    <!-- Modal Body -->
+    <span slot="body">
+      <c-one-time-shipping-form onone_time_shipping_validation={handleOneTimeShippingValidation}
+                                onhide_one_time_shipping={handleNewOneTimeShippingAddress}>
+      </c-one-time-shipping-form>
+    </span>
+
+    <span slot="footer">
+      <lightning-button variant="brand"
+                        type="button"
+                        label="Cancel"
+                        onclick={hideOneTimeShippingForm}>
+      </lightning-button>
+
+      <lightning-button class="slds-m-left_medium"
+                        variant="brand"
+                        type="button"
+                        label="Submit"
+                        disabled={disableOneTimeShipSubmit}
+                        onclick={addOneTimeAddress}>
+      </lightning-button>
+    </span>
+
+  </c-modal-dialog>
+
+
+</template>

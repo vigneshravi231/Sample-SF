@@ -1,0 +1,72 @@
+<apex:page showHeader="true" controller="EditTrainingMembersController" sidebar="true">
+	<apex:PageMessages />
+	<apex:form >
+		<apex:pageBlock mode="edit">
+			<apex:pageBlockButtons >
+				<apex:commandButton value="Add" action="{!Add}" reRender="selected,cons,certs"/>
+				<apex:commandButton value="Save" action="{!save}"/>
+				<apex:commandButton value="Cancel" action="{!Cancel}"/>
+			</apex:pageBlockButtons>
+
+			<apex:pageBlockSection id="selected" title="Selected Training Members" columns="1">
+				
+				<apex:pageBlockTable value="{!selectedMembers}" var="wrapper">
+					<apex:column headerValue="Technician Name" value="{!selectedMembers[wrapper].tech.Name}" />
+					<apex:column rendered="{!training.RecordType.Name == 'Onsite Training'}" 
+					headerValue="Certification Type" value="{!selectedMembers[wrapper].techCertification.RecordType.Name}"/>
+					<apex:column rendered="{!training.RecordType.Name == 'Sample Training'}" 
+					headerValue="Sample Name" value="{!training.Sample__c}"/>
+					<apex:column >
+						<apex:commandLink action="{!remove}" value="Remove" reRender="selected,certs,cons">
+							<apex:param name="removeId" value="{!wrapper}" assignTo="{!idToRemove}"/>
+						</apex:commandLink>
+					</apex:column>
+				</apex:pageBlockTable>
+					
+			</apex:pageBlockSection>
+
+			<apex:pageBlockSection id="certs" title="Technicians" columns="1" rendered="{!training.RecordType.Name == 'Onsite Training'}">
+				<apex:pageBlockTable value="{!certifications}" var="wrapper">
+					<apex:column >
+                        <apex:facet name="header">
+                            <apex:outputPanel >
+                                <apex:inputcheckbox id="SelectAll" onclick="selectAllCheckboxes(this);"/>
+                                <apex:outputtext value="Select All" />
+                            </apex:outputPanel>
+                        </apex:facet>
+						<apex:inputCheckbox rendered="{!NOT(wrapper.isSelected)}" value="{!wrapper.isSelected}"/>
+					</apex:column>
+					<apex:column value="{!wrapper.techCertification.Technician__c}"/>
+					<apex:column value="{!wrapper.techCertification.Dealership__c}"/>
+					<apex:column headerValue="Certification Type" value="{!wrapper.techCertification.RecordType.Name}"/>
+					<apex:column value="{!wrapper.techCertification.Pre_Reqs_Met__c}"/>
+				</apex:pageBlockTable>
+			</apex:pageBlockSection>
+
+			<apex:pageBlockSection id="cons" title="Sample Members" columns="1" rendered="{!training.RecordType.Name == 'Sample Training'}" >
+				<apex:pageBlockTable value="{!SampleContactsList}" var="wrapper">
+					<apex:column >
+                        <apex:facet name="header">
+                            <apex:outputpanel >
+                                <apex:inputcheckbox id="SelectAll" onclick="selectAllCheckboxes(this);" />
+                                <apex:outputtext value="Select All" />
+                            </apex:outputpanel>
+                        </apex:facet>
+						<apex:inputCheckbox rendered="{!NOT(wrapper.isSelected)}" value="{!wrapper.isSelected}"/>
+					</apex:column>
+					<apex:column value="{!wrapper.tech.Name}"/>
+					<apex:column headerValue="Sample Name" value="{!training.Sample__c}"/>
+				</apex:pageBlockTable>
+			</apex:pageBlockSection>
+		</apex:pageBlock>
+
+        <script type="text/javascript">
+            function selectAllCheckboxes(obj){
+                var inputCheckBox = document.getElementsByTagName("input");
+                for(var i=0; i<inputCheckBox.length; i++){
+                    inputCheckBox[i].checked = obj.checked;
+                }
+            }
+        </script>
+	</apex:form>
+</apex:page>

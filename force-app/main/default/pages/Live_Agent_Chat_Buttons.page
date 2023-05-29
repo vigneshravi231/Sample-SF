@@ -1,0 +1,235 @@
+<apex:page showHeader="false">
+
+    <style type="text/css">
+        body {
+            background-color: white;
+        }
+    </style>
+
+    <table align="center" cellpadding="15" cellspacing="0" padding="5">
+        <tbody>
+            <tr>
+                <td>
+                    <div id="Vehicle Support Chat" style="text-align: center !important;">
+                        <img id="liveagent_button_online_573j0000000Gzb8"
+                             onclick="liveagent.startChat('573j0000000Gzb8')"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'VehicleServiceOnline.png')}"
+                             style="border: 0px currentColor; border-image: none; width:100%;  height: 60px; display: none; cursor: pointer; align: middle;"
+                             />
+                        <img id="liveagent_button_offline_573j0000000Gzb8"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'VehicleServiceOffline.png')}"
+                             style="border: 0px currentColor; border-image: none; width:100%; height: 60px; display: none; align: middle;"
+                        />
+                        <!-- DO NOT REMOVE/FORGET TO ADD THIS PORTION WHEN MOVING CODE FOR THE BUTTON -->
+                        <script type="text/javascript">
+                            if (!window._laq) { window._laq = []; }
+                            window._laq.push(function() {
+                                liveagent.showWhenOnline('573j0000000Gzb8', document.getElementById('liveagent_button_online_573j0000000Gzb8'));
+                                liveagent.showWhenOffline('573j0000000Gzb8', document.getElementById('liveagent_button_offline_573j0000000Gzb8'));
+                            });
+                        </script>
+                        <script type='text/javascript' src='https://c.la1-c1cs-ord.salesforceliveagent.com/content/g/js/53.0/deployment.js'></script>
+                        <script type='text/javascript'>
+                            liveagent.init('https://d.la1-c1cs-ord.salesforceliveagent.com/chat', '572j0000000Gx96', '00D0n0000004ez0');
+                        </script>
+                        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+                        <script type="text/javascript">
+                            liveagent.setChatWindowHeight(635);
+                            liveagent.setChatWindowWidth(410);
+                        </script>
+                        <!-- ENDS BUTTON CODE -->
+                    </div>
+                </td>
+                
+                <td>
+                    <div id="Lift Support Chat" style="text-align: center !important;">
+                    <!-- STARTS BUTTON CODE DO NOT REMOVE ANYTHING IN THIS SECTION -->
+                        <img id="liveagent_button_online_573j0000000Gzb6"
+                             onclick="liveagent.startChat('573j0000000Gzb6')"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'LiftServiceOnline.png')}"
+                             style="border: 0px currentColor; border-image: none; width: 100%;height: 60px; display: none; cursor: pointer;"
+                        />
+                        <img id="liveagent_button_offline_573j0000000Gzb6"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'LiftServiceOffline.png')}"
+                             style="border: 0px currentColor; border-image: none; width: 100%;  height: 60px; display: none;"
+                        />
+                        <!-- DO NOT REMOVE/FORGET TO ADD THIS PORTION WHEN MOVING CODE FOR THE BUTTON -->
+                        <script type="text/javascript">
+                            if (!window._laq) { window._laq = []; }
+                            window._laq.push(function() {
+                                liveagent.showWhenOnline('573j0000000Gzb6', document.getElementById('liveagent_button_online_573j0000000Gzb6'));
+                                liveagent.showWhenOffline('573j0000000Gzb6', document.getElementById('liveagent_button_offline_573j0000000Gzb6'));
+                            });
+                        </script>
+                        <script type='text/javascript' src='https://c.la1-c1cs-ord.salesforceliveagent.com/content/g/js/53.0/deployment.js'></script>
+                        <script type='text/javascript'>
+                            liveagent.init('https://d.la1-c1cs-ord.salesforceliveagent.com/chat', '572j0000000Gx96', '00D0n0000004ez0');
+                        </script>
+                        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+                        <script type="text/javascript">
+                            liveagent.setChatWindowHeight(635);
+                            liveagent.setChatWindowWidth(410);
+                        </script> <!-- ENDS BUTTON CODE -->
+                    </div>
+                </td>
+                
+                <td>
+                    <div id="Sales Support Chat" style="text-align: center !important;">
+                    <!-- STARTS BUTTON CODE DO NOT REMOVE ANYTHING IN THIS SECTION -->
+                        <img id="liveagent_button_online_573j0000000Gzb7"
+                             onclick="liveagent.startChat('573j0000000Gzb7')"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'InsideVehicleSalesOnline.png')}"
+                             style="display: none; border: 0px none; width: 100%; height: 60px; cursor: pointer"
+                        />
+                        <img id="liveagent_button_offline_573j0000000Gzb7"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'InsideVehicleSalesOffline.png')}"
+                             style="display: none; border: 0px none; width: 100%; height: 60px;"
+                        />
+                        <script type="text/javascript">
+                            if (!window._laq) { window._laq = []; }
+                            window._laq.push(function() {
+                                liveagent.showWhenOnline('573j0000000Gzb7', document.getElementById('liveagent_button_online_573j0000000Gzb7'));
+                                liveagent.showWhenOffline('573j0000000Gzb7', document.getElementById('liveagent_button_offline_573j0000000Gzb7'));
+                            });
+                        </script>
+                        <script type='text/javascript' src='https://c.la1-c1cs-ord.salesforceliveagent.com/content/g/js/53.0/deployment.js'></script>
+                        <script type='text/javascript'>
+                            liveagent.init('https://d.la1-c1cs-ord.salesforceliveagent.com/chat', '572j0000000Gx96', '00D0n0000004ez0');
+                        </script>
+                        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+                        <script type="text/javascript">
+                            liveagent.setChatWindowHeight(635);
+                            liveagent.setChatWindowWidth(410);
+                        </script>
+                        <!-- ENDS BUTTON CODE -->
+                    </div>
+                </td>
+                
+                <td>
+                    <div id="Turny Sales Chat" style="text-align: center !important;">
+                        <img id="liveagent_button_online_5730a000000TbiX"
+                             onclick="liveagent.startChat('5730a000000TbiX')"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'TurnyEvoSalesOnline.png')}"
+                             style="display: none; border: 0px none; width: 100%; height: 60px; cursor: pointer"
+                        />
+                        <img id="liveagent_button_offline_5730a000000TbiX"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'TurnyEvoSalesOffline.png')}"
+                             style="display: none; border: 0px none; width: 100%;  height: 60px;"
+                        />
+                        <script type="text/javascript">
+                            if (!window._laq) { window._laq = []; }
+                            window._laq.push(function () {
+                                liveagent.showWhenOnline('5730a000000TbiX', document.getElementById('liveagent_button_online_5730a000000TbiX'));
+                                liveagent.showWhenOffline('5730a000000TbiX', document.getElementById('liveagent_button_offline_5730a000000TbiX'));
+                            });
+                        </script>
+                        <script type='text/javascript' src='https://c.la1-c1cs-ord.salesforceliveagent.com/content/g/js/53.0/deployment.js'></script>
+                        <script type='text/javascript'>
+                            liveagent.init('https://d.la1-c1cs-ord.salesforceliveagent.com/chat', '572j0000000Gx96', '00D0n0000004ez0');
+                        </script>
+                        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+                        <script type="text/javascript">
+                            liveagent.setChatWindowHeight(635);
+                            liveagent.setChatWindowWidth(410);
+                        </script>
+                        <!-- ENDS BUTTON CODE -->
+                    </div>
+                </td>
+                
+                <td>
+                    <div id="Turny Service Chat" style="text-align: center !important;">
+                        <img id="liveagent_button_online_5730a000000Tbic"
+                             onclick="liveagent.startChat('5730a000000Tbic')"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'TurnyEvoServiceOnline.png')}"
+                             style="display: none; width: 100%; height: 60px; border: 0px none; cursor: pointer"
+                        />
+                        <img id="liveagent_button_offline_5730a000000Tbic"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'TurnyEvoServiceOffline.png')}"
+                             style="display: none; border: 0px none; width: 100%;  height: 60px;"
+                        />
+                        <script type="text/javascript">
+                            if (!window._laq) { window._laq = []; }
+                            window._laq.push(function () {
+                                liveagent.showWhenOnline('5730a000000Tbic', document.getElementById('liveagent_button_online_5730a000000Tbic'));
+                                liveagent.showWhenOffline('5730a000000Tbic', document.getElementById('liveagent_button_offline_5730a000000Tbic'));
+                            });
+                        </script>
+                        <script type='text/javascript' src='https://c.la1-c1cs-ord.salesforceliveagent.com/content/g/js/53.0/deployment.js'></script>
+                        <script type='text/javascript'>
+                            liveagent.init('https://d.la1-c1cs-ord.salesforceliveagent.com/chat', '572j0000000Gx96', '00D0n0000004ez0');
+                        </script>
+                        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+                        <script type="text/javascript">
+                            liveagent.setChatWindowHeight(635);
+                            liveagent.setChatWindowWidth(410);
+                        </script>
+                        <!-- ENDS BUTTON CODE -->
+                    </div>
+                </td>
+                
+                <td>
+                    <div id="Fiance Chat" style="text-align: center !important;">
+                    <!-- STARTS BUTTON CODE DO NOT REMOVE ANYTHING IN THIS SECTION -->
+                        <img id="liveagent_button_online_573j0000000Gzbt"
+                             onclick="liveagent.startChat('573j0000000Gzbt')"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'SampleAbilityFinanceOnline.png')}"
+                             style="display: none; width: 100%; height: 60px; border: 0px none; cursor: pointer"
+                        />
+                        <img id="liveagent_button_offline_573j0000000Gzbt"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'SampleAbilityFinanceOffline.png')}"
+                             style="display: none; border: 0px none; width: 100%;  height: 60px;"
+                        />
+                        <script type="text/javascript">
+                            if (!window._laq) { window._laq = []; }
+                            window._laq.push(function() {
+                                liveagent.showWhenOnline('573j0000000Gzbt', document.getElementById('liveagent_button_online_573j0000000Gzbt'));
+                                liveagent.showWhenOffline('573j0000000Gzbt', document.getElementById('liveagent_button_offline_573j0000000Gzbt'));
+                            });
+                        </script>
+                        <script type='text/javascript' src='https://c.la1-c1cs-ord.salesforceliveagent.com/content/g/js/53.0/deployment.js'></script>
+                        <script type='text/javascript'>
+                            liveagent.init('https://d.la1-c1cs-ord.salesforceliveagent.com/chat', '572j0000000Gx96', '00D0n0000004ez0');
+                        </script>
+                        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+                        <script type="text/javascript">
+                            liveagent.setChatWindowHeight(635);
+                            liveagent.setChatWindowWidth(410);
+                        </script>
+                        <!-- ENDS BUTTON CODE -->
+                    </div>
+                </td>
+                
+                <td>
+                    <div id="LiftChat" style="text-align: center !important;">
+                        <img id="liveagent_button_online_5730a000000TbkZ"
+                             onclick="liveagent.startChat('5730a000000TbkZ')"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'LiftSalesOnline.png')}"
+                             style="display: none; width: 100%; height: 60px; border: 0px none; cursor: pointer"
+                        />
+                        <img id="liveagent_button_offline_5730a000000TbkZ"
+                             src="{!URLFOR($Resource.LiveAgentUpdatedChatButtons, 'LiftSalesOffline.png')}"
+                             style="display: none; border: 0px none; width: 100%;  height: 60px;"
+                        />
+                        <script type="text/javascript">
+                            if (!window._laq) { window._laq = []; }
+                            window._laq.push(function() {
+                                liveagent.showWhenOnline('5730a000000TbkZ', document.getElementById('liveagent_button_online_5730a000000TbkZ'));
+                                liveagent.showWhenOffline('5730a000000TbkZ', document.getElementById('liveagent_button_offline_5730a000000TbkZ'));
+                            });
+                        </script>
+                        <script type='text/javascript' src='https://c.la1-c1cs-ord.salesforceliveagent.com/content/g/js/53.0/deployment.js'></script>
+                        <script type='text/javascript'>
+                            liveagent.init('https://d.la1-c1cs-ord.salesforceliveagent.com/chat', '572j0000000Gx96', '00D0n0000004ez0');
+                        </script>
+                        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+                        <script type="text/javascript">
+                            liveagent.setChatWindowHeight(635);
+                            liveagent.setChatWindowWidth(410);
+                        </script>
+                        <!-- ENDS BUTTON CODE -->
+                     </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</apex:page>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>ACTIVAN</fullName>
+        <default>false</default>
+        <label>ACTIVAN</label>
+    </customValue>
+    <customValue>
+        <fullName>ADVANTAGE RE</fullName>
+        <default>false</default>
+        <label>ADVANTAGE RE</label>
+    </customValue>
+    <customValue>
+        <fullName>ADVANTAGE SE</fullName>
+        <default>false</default>
+        <label>ADVANTAGE SE</label>
+    </customValue>
+    <customValue>
+        <fullName>AMERIVAN</fullName>
+        <default>false</default>
+        <label>AMERIVAN</label>
+    </customValue>
+    <customValue>
+        <fullName>AMERIVAN 10</fullName>
+        <default>false</default>
+        <label>AMERIVAN 10</label>
+    </customValue>
+    <customValue>
+        <fullName>AMERIVAN 14</fullName>
+        <default>false</default>
+        <label>AMERIVAN 14</label>
+    </customValue>
+    <customValue>
+        <fullName>APEX</fullName>
+        <default>false</default>
+        <label>APEX</label>
+    </customValue>
+    <customValue>
+        <fullName>ENTERVAN 1 (10&quot;)</fullName>
+        <default>false</default>
+        <label>ENTERVAN 1 (10&quot;)</label>
+    </customValue>
+    <customValue>
+        <fullName>ENTERVAN 2 (10&quot;)</fullName>
+        <default>false</default>
+        <label>ENTERVAN 2 (10&quot;)</label>
+    </customValue>
+    <customValue>
+        <fullName>ENTERVAN STEP-N-ROLL</fullName>
+        <default>false</default>
+        <label>ENTERVAN STEP-N-ROLL</label>
+    </customValue>
+    <customValue>
+        <fullName>ENTERVAN Xi (12&quot;)</fullName>
+        <default>false</default>
+        <label>ENTERVAN Xi (12&quot;)</label>
+    </customValue>
+    <customValue>
+        <fullName>ENTERVAN XT (14&quot;)</fullName>
+        <default>false</default>
+        <label>ENTERVAN XT (14&quot;)</label>
+    </customValue>
+    <customValue>
+        <fullName>FULL CUT, SIDE ENTRY</fullName>
+        <default>false</default>
+        <label>FULL CUT, SIDE ENTRY</label>
+    </customValue>
+    <customValue>
+        <fullName>FULL FLOOR</fullName>
+        <default>false</default>
+        <label>FULL FLOOR</label>
+    </customValue>
+    <customValue>
+        <fullName>LIFT ENTRY</fullName>
+        <default>false</default>
+        <label>LIFT ENTRY</label>
+    </customValue>
+    <customValue>
+        <fullName>MAXX</fullName>
+        <default>false</default>
+        <label>MAXX</label>
+    </customValue>
+    <customValue>
+        <fullName>MXV</fullName>
+        <default>false</default>
+        <label>MXV</label>
+    </customValue>
+    <customValue>
+        <fullName>NORTHSTAR</fullName>
+        <default>false</default>
+        <label>NORTHSTAR</label>
+    </customValue>
+    <customValue>
+        <fullName>NORTHSTAR E</fullName>
+        <default>false</default>
+        <label>NORTHSTAR E</label>
+    </customValue>
+    <customValue>
+        <fullName>RAMPVAN</fullName>
+        <default>false</default>
+        <label>RAMPVAN</label>
+    </customValue>
+    <customValue>
+        <fullName>RAMPVAN FOLDING XL / XT</fullName>
+        <default>false</default>
+        <label>RAMPVAN FOLDING XL / XT</label>
+    </customValue>
+    <customValue>
+        <fullName>RAMPVAN IN-FLOOR Xi</fullName>
+        <default>false</default>
+        <label>RAMPVAN IN-FLOOR Xi</label>
+    </customValue>
+    <customValue>
+        <fullName>REAR ENTRY</fullName>
+        <default>false</default>
+        <label>REAR ENTRY</label>
+    </customValue>
+    <customValue>
+        <fullName>REAR ENTRY LIFT</fullName>
+        <default>false</default>
+        <label>REAR ENTRY LIFT</label>
+    </customValue>
+    <customValue>
+        <fullName>SIDE ENTRY</fullName>
+        <default>false</default>
+        <label>SIDE ENTRY</label>
+    </customValue>
+    <customValue>
+        <fullName>SIDE ENTRY LIFT</fullName>
+        <default>false</default>
+        <label>SIDE ENTRY LIFT</label>
+    </customValue>
+    <customValue>
+        <fullName>SUMMIT</fullName>
+        <default>false</default>
+        <label>SUMMIT</label>
+    </customValue>
+    <customValue>
+        <fullName>XL CONVERSION</fullName>
+        <default>false</default>
+        <label>XL CONVERSION</label>
+    </customValue>
+    <masterLabel>Seatbase Ramp Conversion</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

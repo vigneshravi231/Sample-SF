@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Skill xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <users>
+            <user>elaine.haschel@Sampleability.com</user>
+            <user>justin.ruff@Sampleability.com</user>
+            <user>kristine.binkley@Sampleability.com</user>
+            <user>lindsey.winter@Sampleability.com</user>
+            <user>matthew.steininger@Sampleability.com</user>
+            <user>scott.good@Sampleability.com</user>
+            <user>tristen.stoner@Sampleability.com</user>
+        </users>
+    </assignments>
+    <description>Designed to pop lead for chat</description>
+    <label>Product Specialists</label>
+</Skill>

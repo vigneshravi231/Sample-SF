@@ -1,0 +1,45 @@
+
+<!-- B2B Cart -->
+<template>
+	<div if:true={showSpinner}>
+		<div class="slds-m-around_xx-large">
+			<div class="slds-is-relative slds-p-around_x-large" if:false={loaded}>
+				<lightning-spinner variant="brand" size="medium" if:false={loaded}></lightning-spinner>
+			</div>
+		</div>
+	</div>
+
+	<template if:false={showSpinner}>
+		<!-- Header -->
+		<div class="slds-p-bottom_medium slds-border_bottom border-color slds-m-top_xx-large">
+			<h1 class="cart-header">
+				Cart (
+				<lightning-formatted-number
+					value={cartSummary.totalProductCount}
+					format-style="decimal"
+					minimum-integer-digits="1"
+				></lightning-formatted-number>
+				)
+			</h1>
+		</div>
+
+		<!-- Custom Carts -->
+		<!-- Add oncartchanged handler to re-fetch cart details on cart change
+    iso code musts be put in to child components for proper display
+    of currency codes -->
+
+		<div if:true={hasCartItems}>
+			<c-standard-cart cart-id={recordId} oncartchanged={fetchCart} currency-iso-code={currencyIsoCode}></c-standard-cart>
+		</div>
+
+		<!-- If Empty Cart -->
+		<div if:false={hasCartItems}>
+			<div class="slds-text-align_center">
+				<h3 class="empty-text slds-text-heading_medium">Your cart’s empty</h3>
+				<p class="empty-text-detail slds-text-body_regular slds-p-top_small">
+					Search or browse products, and add them to your cart. Your selections appear here.
+				</p>
+			</div>
+		</div>
+	</template>
+</template>

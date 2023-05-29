@@ -1,0 +1,220 @@
+
+
+<!-- Order Summary Detail -->
+<template>
+    
+    <c-spinner if:true={isLoading}></c-spinner>
+    
+    <div if:true={hasData}>
+        <div class="slds-text-heading_large color-brand slds-m-bottom_medium">
+            Order Confirmation
+        </div>
+        <c-checkout-section step-title="Order Detail">
+            <span slot="body">
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item
+                            padding="around-small"
+                            size="12"
+                            small-device-size="12"
+                            medium-device-size="12">
+                        <div>
+                            <div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+                                <span class="slds-text-heading_medium slds-text-title_bold">
+                                    Billing Address
+                                </span>
+                            </div>
+                            <div>
+                                <!-- <b if:true={orderHeader.billTo.Name}>{orderHeader.billTo.Name}</b> -->
+                                <lightning-formatted-address
+                                        street={orderHeader.billTo.street}
+                                        city={orderHeader.billTo.city}
+                                        country={orderHeader.billTo.country}
+                                        province={orderHeader.billTo.state}
+                                        postal-code={orderHeader.billTo.postalCode}
+                                        disabled="true"></lightning-formatted-address>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item
+                            if:true={orderHeader.Delivery_Instructions__c}
+                            padding="around-small"
+                            size="12"
+                            small-device-size="12"
+                            medium-device-size="12">
+                        <div>
+                            <div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+                                <span class="slds-text-heading_medium slds-text-title_bold" >
+                                    Delivery Instructions
+                                </span>
+                            </div>
+                            <div>
+                                {orderHeader.Delivery_Instructions__c}
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+                <lightning-layout multiple-rows>
+                    <lightning-layout-item
+                            padding="around-small"
+                            size="6"
+                            small-device-size="12"
+                            medium-device-size="6">
+                            <div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+                                <span class="slds-text-heading_medium slds-text-title_bold">
+                                    Payment Option
+                                </span>
+                            </div>
+                            <div>
+                                {orderHeader.paymentOption}
+                            </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item
+                            padding="around-small"
+                            size="6"
+                            small-device-size="12"
+                            medium-device-size="6">
+                            <div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+                                <span class="slds-text-heading_medium slds-text-title_bold">
+                                    Purchase Order Number
+                                </span>
+                            </div>
+                            <div>
+                                {orderHeader.poNumber}
+                            </div>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </span>
+        </c-checkout-section>
+    </div>
+    
+    <!-- Confirmation Details -->
+    <div if:true={hasData}>
+    
+        <c-checkout-section step-title="Order Splits">
+            <div slot="body">
+                <div for:each={order}
+                     for:item="split"
+                     key={order.Id}>
+                    <div>
+                        <c-order-summary-accordion item-numbers={split.OrderProductLineCount}
+                                                   unique-id={split.Id}>
+                            <c-order-items-summary slot="body"
+                                                   hide-subtotal="true"
+                                                   items={split.OrderItemSummaries}></c-order-items-summary>
+                        </c-order-summary-accordion>
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+                                <div class="slds-m-top_small">
+                                    <div class="slds-m-bottom_small"><strong>Order Number:</strong>&nbsp;{split.OrderNumber}</div>
+                                    <div class="slds-m-bottom_small" key={split.Id}>
+                                        <strong>Order Type:</strong>
+                                        &nbsp;{split.OriginalOrder.Type}
+                                    </div>
+                                    <div class="slds-m-bottom_small" key={split.Id} if:true={split.OriginalOrder.Is_Quote_Order__c}>
+                                        <strong>Quote Expiration Date:</strong>
+                                        &nbsp;<lightning-formatted-date-time value={split.OriginalOrder.QuoteEXPDate__c}></lightning-formatted-date-time>
+                                    </div>
+                                    <div class="slds-m-bottom_small">
+                                        <strong>Delivery Address:</strong>
+                                        <div>
+                                            {split.deliveryGroup.DeliverToAddress.street},
+                                            {split.deliveryGroup.DeliverToAddress.city}
+                                            {split.deliveryGroup.DeliverToAddress.state}
+                                            {split.deliveryGroup.DeliverToAddress.postalCode}
+                                        </div>
+                                    </div>
+                                    <div><strong>Shipping Option:</strong>&nbsp;{split.deliveryGroup.OrderDeliveryMethod.Name}</div>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+                                <div class="slds-text-align_right slds-m-top_small">
+                                    <div class="slds-m-bottom_small"
+                                         if:true={split.miscCharges}
+                                         for:each={split.miscCharges}
+                                         for:item="charge"
+                                         key={charge.Id}>
+                                        <strong>Description:</strong> {charge.Description}<br/>
+                                        <strong>Amount:</strong>
+                                        <lightning-formatted-number
+                                          value={charge.TotalPrice}
+                                          format-style="currency"
+                                          currency-code="USD">
+                                        </lightning-formatted-number><br/>
+                                    </div>
+                                    <div class="slds-m-bottom_small">
+                                        <strong>Subtotal: </strong>
+                                        <lightning-formatted-number
+                                                value={split.TotalAdjustedProductAmount}
+                                                format-style="currency"
+                                                currency-code="USD">
+                                        </lightning-formatted-number>
+                                    </div>
+                                    <div class="slds-m-bottom_small">
+                                        <strong>Misc Charges: </strong>
+                                        <lightning-formatted-number
+                                                value={split.totalMiscChargesAmount}
+                                                format-style="currency"
+                                                currency-code="USD">
+                                        </lightning-formatted-number>
+                                    </div>
+                                    <div class="slds-m-bottom_small">
+                                        <strong>Total: </strong>
+                                        <lightning-formatted-number
+                                                value={split.GrandTotalAmount}
+                                                format-style="currency"
+                                                currency-code="USD">
+                                        </lightning-formatted-number>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </div>
+            <span slot="action">
+                <lightning-button label="Expand All" class="slds-m-bottom_x-small"
+                                  onclick={expandAll}
+                                  variant="brand"></lightning-button>
+                <lightning-button class="slds-m-left_small slds-m-bottom_x-small"
+                                  label="Collapse All"
+                                  onclick={collapseAll}
+                                  variant="brand"></lightning-button>
+            </span>
+        </c-checkout-section>
+
+        <c-checkout-section step-title="Total Order Summary">
+        <span slot="body">
+            <lightning-layout-item padding="around-small" size="6" small-device-size="12" medium-device-size="6">
+                <div class="slds-text-align_right slds-m-top_small">
+                    <div class="slds-m-bottom_small">
+                        <strong>Subtotal: </strong>
+                        <lightning-formatted-number
+                                value={totals.subtotal}
+                                format-style="currency"
+                                currency-code="USD">
+                        </lightning-formatted-number>
+                    </div>
+                    <div class="slds-m-bottom_small">
+                        <strong>Total Misc Charges: </strong>
+                        <lightning-formatted-number
+                                value={totals.miscTotal}
+                                format-style="currency"
+                                currency-code="USD">
+                        </lightning-formatted-number>
+                    </div>
+                    <div class="slds-m-bottom_small">
+                        <strong>Total: </strong>
+                        <lightning-formatted-number
+                                value={grandTotal}
+                                format-style="currency"
+                                currency-code="USD">
+                        </lightning-formatted-number>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        </span>
+        </c-checkout-section>
+    </div>
+    
+
+</template>

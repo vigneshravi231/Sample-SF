@@ -1,0 +1,61 @@
+<template>
+	<lightning-layout multiple-rows>
+		<lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12">
+			<div>
+				<div class="slds-border_bottom slds-p-bottom_small slds-m-bottom_medium">
+					<span class="slds-text-align_left slds-text-heading_medium slds-text-title_bold"> Order Summary </span>
+				</div>
+			</div>
+			<div class="slds-text-align_right">
+				<div class="slds-m-top_small">
+					<div class="slds-truncate">
+						<span class="slds-text-title_bold"> Sub-Total: </span>
+						<div class="slds-m-left_small inline-block">
+							<lightning-formatted-number value={props.cart.GrandTotalAmount} format-style="currency" currency-code="USD">
+							</lightning-formatted-number>
+						</div>
+					</div>
+				</div>
+				<div class="slds-m-top_small">
+					<div class="slds-truncate">
+						<span class="slds-text-title_bold"> Total: </span>
+						<div class="slds-m-left_small inline-block">
+							<lightning-formatted-number value={grandTotalWithShipping} format-style="currency" currency-code="USD">
+							</lightning-formatted-number>
+						</div>
+					</div>
+				</div>
+				<div class="slds-m-top_large">
+					<div class="lightning-label-no-padding">
+						<lightning-input
+							type="checkbox"
+							label="I agree to the terms and conditions provided by Sampleability"
+							class="slds-m-bottom_small"
+							value={props.termsAccepted}
+							checked={props.termsAccepted}
+							onchange={handleTermsAccept}
+						></lightning-input>
+						<lightning-button label="View terms and conditions" variant="base" onclick={gotoTermsPage}> </lightning-button>
+					</div>
+				</div>
+				<div class="slds-m-top_large">
+					<div>
+						<lightning-button
+							label="Next"
+							variant="brand"
+							onclick={confirmOrder}
+							disabled={disablePlaceOrder}
+							data-id="place-order"
+						>
+						</lightning-button>
+					</div>
+				</div>
+				<div class="slds-m-top_large" if:true={showErrors}>
+					<div for:each={errors} for:item="error" key={error.name} class="slds-text-color_error">
+						<div class="slds-m-bottom_x-small">{error.message}</div>
+					</div>
+				</div>
+			</div>
+		</lightning-layout-item>
+	</lightning-layout>
+</template>

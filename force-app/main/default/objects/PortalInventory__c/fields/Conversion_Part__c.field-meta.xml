@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Conversion_Part__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <externalId>false</externalId>
+    <label>Conversion Part</label>
+    <referenceTo>Product2</referenceTo>
+    <relationshipLabel>PortalInventory (Conversion Part)</relationshipLabel>
+    <relationshipName>Conversion_Parts</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

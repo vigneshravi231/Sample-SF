@@ -1,0 +1,31 @@
+
+<!-- Checkout Address Selector -->
+<template>
+	<lightning-layout multiple-rows if:true={addressList}>
+		<lightning-layout-item
+			padding="around-small"
+			size="6"
+			small-device-size="12"
+			medium-device-size="6"
+			for:each={addressList}
+			for:item="address"
+			key={address.Id}
+		>
+			<div class="slds-box">
+				<b if:true={address.Name}>{address.Name}</b>
+				<lightning-formatted-address
+					street={address.Street}
+					city={address.City}
+					country={address.Country}
+					province={address.State}
+					postal-code={address.PostalCode}
+					disabled="true"
+				>
+				</lightning-formatted-address>
+				<div class="slds-m-top_medium slds-text-align_right">
+					<lightning-button onclick={selectAddress} label="Select Address" value={address}></lightning-button>
+				</div>
+			</div>
+		</lightning-layout-item>
+	</lightning-layout>
+</template>

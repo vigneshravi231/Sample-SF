@@ -1,0 +1,75 @@
+<aura:component
+                description="Sample pre-chat component that uses Aura only when absolutely necessary"
+                implements="lightningsnapin:prechatUI"
+                >
+    <!-- Contains methods for getting pre-chat fields, starting a chat, and validating fields -->
+    <lightningsnapin:prechatAPI aura:id="prechatAPI" />
+    <aura:attribute name="showLeadForm" type="boolean" default="false"/>
+    <aura:attribute name="showCaseForm" type="boolean" default="false"/>
+    <aura:attribute name="showFields" type="boolean" default="true" />
+    <aura:attribute name="showImg" type="boolean" default="true" />
+    
+    <!-- After this component has rendered, call the controller's onRender function -->
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}" />
+    
+    <div class="prechatUI slds-grid slds-grid_vertical slds-gutters">
+        <div id="welcome" class="slds-col" >
+            <span class="welcome" aura:id="welcome">
+                Are you shopping for a new mobility product or are you a current owner in need of product support?
+            </span>
+            
+        </div>
+        <div class="slds-col " onclick="{!c.SampleAbility}">
+            <span class="Sample" aura:id="SampleImage">
+                    <aura:if isTrue="{!v.showImg}">
+                <img
+                     src="{!$Resource.Shopping}"
+                     
+                     id="SampleImage" 
+                     />
+                
+                <span class="iconText">
+                    &nbsp;Shopping
+                </span>
+            </aura:if>
+            </span>
+            
+        </div>
+       
+        
+            <aura:if isTrue="{!v.showLeadForm}">
+                <span id="leadForm">
+                    <c:insertLeads isLead="true" showFields="{!v.showFields}" showImg="{!v.showImg}"/>
+                </span>
+            </aura:if>
+            <div class="slds-col" onclick="{!c.ownerAvailabilty}">
+                <span class="owner" style="float:left;" aura:id="ownerImage" onclick="{!c.ownerAvailabilty}">
+                    <aura:if isTrue="{!v.showImg}">
+                <img
+                     src="{!$Resource.OwnerSupport}"
+                     
+                     id="ownerImage" 
+                     />
+                <span class="iconText">
+                    &nbsp;Owner Support 
+                </span>
+            </aura:if>
+            </span>
+            </div>
+            
+            <aura:if isTrue="{!v.showCaseForm}">
+                <span id="AccountForm">
+                    <c:insertLeads isLead="false" showFields="{!v.showFields}" showImg="{!v.showImg}"/>
+                </span>
+            </aura:if>
+            <!-- This div is for testing purpose only, delete the content once testing is done. -->
+            <!-- <div id="testDiv">
+        <br/>
+        <lightning:input name="liveagent.prechat:FirstNameDetail" value="{! v.firstName }" placeholder="type your first name..." label="Enter your name" type="text"
+        id='customField1'
+        />
+        
+      </div> -->
+        
+    </div>
+</aura:component>

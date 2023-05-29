@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>A custom section with four fields</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Recall Form Custom Section</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="initialAccountId" label="Initial Account Id" type="String" description="Initial Account Id set for the section" role="inputOnly"/>
+            <property name="initialAssetId" label="Initial Asset Id" type="String" description="Initial Asset Id set for the section" role="inputOnly"/>
+            <property name="initialRepairDateIn" label="Initial Repair Date In" type="Date" description="Initial Repair Date In set for the section" role="inputOnly"/>
+            <property name="initialRepairTechId" label="Initial Repair Tech Id" type="String" description="Initial Repair Tech Id set for the section" role="inputOnly"/>
+            <property name="initialRepairDateOut" label="Initial Repair Date Out" type="Date" description="Initial Repair Date Out set for the section" role="inputOnly"/>
+            <property name="initialMileageCyclesIn" label="Initial Mileage Cycles In" type="String" description="Initial Mileage Cycles In set for the section" role="inputOnly"/>
+            <property name="initialDealerRoPo" label="Initial Dealer RO/PO #" type="String" description="Initial Dealer RO/PO # set for the section" role="inputOnly"/>
+            <property name="initialMileageCyclesOut" label="Initial Mileage Cycles Out" type="String" description="Initial Mileage Cycles Out set for the section" role="inputOnly"/>
+            <property name="initialCustomerName" label="Initial Customer Name" type="String" description="Initial Customer Name set for the section" role="inputOnly"/>
+            <property name="initialCustomerEmail" label="Initial Customer Email" type="String" description="Initial Customer Email set for the section" role="inputOnly"/>
+            <property name="initialRecalledAsset" label="Initial Recalled Asset" type="String" description="Recalled Asset set for the section" role="inputOnly"/>
+            <property name="initialConcern" label="Initial Concern" type="String" description="Initial Concern set for the section" role="inputOnly"/>
+            <property name="initialCause" label="Initial Cause" type="String" description="Initial Cause set for the section" role="inputOnly"/>
+            <property name="initialCorrection" label="Initial Correction" type="String" description="Initial Correction set for the section" role="inputOnly"/>
+            <property name="initialSpecialNumber" label="Initial Case Number for Special Claims" type="String" description="Initial Case Number for Special Claims set for the section" role="inputOnly"/>
+            <property name="initialSpecialAmount" label="Initial Output Special Claims &amp; Exceptions Amount" type="String" description="Initial Output Special Claims &amp; Exceptions Amount set for the section" role="inputOnly"/>
+
+            <property name="outputAccountId" label="Output Account Id" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputAccountNumber" label="Output Account Number" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputAssetId" label="Output Asset Id" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputVinSerial" label="Output VIN Serial Number" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputProductPart" label="Output Product Part #" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputRepairDateIn" label="Output Repair Date In" type="Date" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputRepairTechId" label="Output Repair Tech Id" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputRepairTechEmail" label="Output Repair Tech Email" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputRepairDateOut" label="Output Repair Date Out" type="Date" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputMileageCyclesIn" label="Output Mileage Cycles In" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputDealerRoPo" label="Output Dealer Ro Po" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputMileageCyclesOut" label="Output Mileage Cycles Out" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputCustomerName" label="Output Customer Name" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputCustomerEmail" label="Output Customer Email" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputRecalledAsset" label="Output Recalled Asset" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputConcern" label="Output Concern" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputCause" label="Output Cause" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputCorrection" label="Output Correction" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputSpecialNumber" label="Output Case Number for Special Claims" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+            <property name="outputSpecialAmount" label="Output Special Claims &amp; Exceptions Amount" type="String" description="The value that will be set in the flow" role="outputOnly"/>
+
+            <property name="isDraft" label="Is Saving Claim?" type="Boolean" description="Shows whether save or next was clicked"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

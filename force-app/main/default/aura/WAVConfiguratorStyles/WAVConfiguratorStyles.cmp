@@ -1,0 +1,9 @@
+
+<aura:component implements="forceCommunity:availableForAllPageTypes">
+    
+    <aura:html tag="style">
+    
+
+    </aura:html>
+    
+</aura:component>

@@ -1,0 +1,171 @@
+<apex:page id="postChatPage" showHeader="false" controller="PostChatController">
+    
+    <apex:pageMessages id="msgs" ></apex:pageMessages>
+    <apex:pageBlock id="pBlock">
+        <apex:form id="form">
+            <div id="headingBlock">
+             <h1 style="font-family:Montserrat; font-size:18px">Thank you for chatting with us. Please help us serve you better by answering the following questions:</h1>               
+            </div>
+            <apex:pageBlockSection rendered="{!survey}" columns="1">
+                <p>Was your Question Answered?</p>
+                <apex:selectRadio label="" value="{!Answered}">
+                    <apex:selectOptions value="{!options}"></apex:selectOptions>
+                </apex:selectRadio>
+
+                <p>Were you helped in a timely manner?</p>
+                <apex:selectRadio label="" value="{!timelyManner}">
+                    <apex:selectOptions value="{!options}"></apex:selectOptions>
+                </apex:selectRadio>
+
+                <p>Would you use this service again?</p>
+                <apex:selectRadio label="" value="{!again}">
+                    <apex:selectOptions value="{!options}"></apex:selectOptions>
+                </apex:selectRadio>
+
+                <p>Please comment about our chat service, this will help us with future endeavors</p>
+                <apex:pageBlockSectionItem >
+                    <apex:inputTextarea styleClass="inpBox" label="" value="{!comments}"></apex:inputTextarea>
+                    	<apex:commandButton value="Submit" action="{!saveAnswers}" onclick="surveyCompleted();" reRender="msgs,form"></apex:commandButton>
+            	</apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+        </apex:form>
+        <br/>
+        <apex:form id="formEmail">
+            <div class="emailForm">
+            <div class="spaceLine"></div>
+            <apex:outputPanel id="emailInput">
+                <p style="margin-left: .5em;">Please enter your e-email address</p>
+                <apex:inputText styleClass="inpBox" value="{!emailToSend}" id="emailToSend" required="true"/>
+                <apex:commandButton style="padding-right: 5px; margin-left: 20px;" value="Send" action="{!setEmailParams}" onclick="getEmailTemplate();" reRender="none"></apex:commandButton>
+                <apex:outputText value="Transcript Sucessfully Sent" styleClass="sucessMessage" rendered="{!emailSent}"></apex:outputText>
+                <br/>
+            </apex:outputPanel>
+            <div id="TranscriptDiv"> 
+                <div style="color: white;            
+                    font-family: Montserrat;
+                    text-align: center;
+                    background-color:#FE8045;
+                    margin: 5px;
+                    margin-top:15px;
+                    font-size: 20px;
+                    line-height: 1.8em;">
+                    <h4 style="font-family:Montserrat; font-size:16px;">Chat Transcript</h4>
+                </div>
+                <apex:panelGrid columns="2" style="margin:5px;padding:5px;background-color: gray;line-height: 1.5em;display:block">
+                    <apex:outputText style="text-align: right;font-weight: bold;" value="Time of Chat:"></apex:outputText>
+                    <apex:outputText style="text-align: left;" value="" id="chatTime"></apex:outputText>
+                    <apex:outputText style="text-align: right;font-weight: bold;" value="Your Name:"></apex:outputText>
+                    <apex:outputText style="text-align: left;" value="{!fName} {!lName}"></apex:outputText>
+                    <apex:outputText style="text-align: right;font-weight: bold;" value="Chatted with:"></apex:outputText>
+                    <apex:outputText style="text-align: left;" value="{!agentNameDetail}"></apex:outputText>
+                </apex:panelGrid>
+                <div style="margin:10px;">
+                    <apex:repeat value="{!transcriptLines}" var="line">
+                        <div class="trnscp">{!line}</div>
+                    </apex:repeat>
+                </div>
+            </div>
+            <apex:actionFunction name="sendEmail" action="{!sendTranscript}" reRender="TranscriptDiv,emailInput">
+                <apex:param name="p1" value="" assignTo="{!chatDateTime}"></apex:param>
+                <apex:param name="p2" value="" assignTo="{!htmlEmailBody}"></apex:param>
+            </apex:actionFunction>
+        
+            </div>
+        </apex:form>
+    </apex:pageBlock>
+        
+    
+    <script type="text/javascript">
+        var d = new Date(parseInt("{!chatTime}"));
+        document.getElementById("postChatPage:pBlock:formEmail:chatTime").innerHTML = d;
+
+        function surveyCompleted () {
+            alert('Thank you for filling out this survey. It will help us serve you better in the future.');
+        }
+
+        function getEmailTemplate() {
+            var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+            var emailTo = document.getElementById("postChatPage:pBlock:formEmail:emailToSend").value;
+            var validEmail = re.test(emailTo);
+            if(!validEmail){
+                alert("Please provide a valid E-mail Address");
+                document.getElementById("postChatPage:pBlock:formEmail:emailToSend").focus();
+                return;
+            }
+
+            var emailHTML = document.getElementById("TranscriptDiv").innerHTML;
+            console.log(emailHTML);
+            sendEmail(document.getElementById("postChatPage:pBlock:formEmail:chatTime").innerHTML,emailHTML);
+        };
+    </script>
+
+    <style type="text/css">
+        .postChatPage .pBlock {
+        //background-color: #193E6D;
+        }
+        
+        p, .pbBody td{
+        	color: white;
+            font-family: Montserrat;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .inpBox{
+        	width: 250px;
+        	height: 50px;
+        }
+        .apexp .bPageBlock .apexDefaultPageBlock .pbBody .pbSubheader {
+            background-color: #193E6D;    
+            border-top: 0;
+            color: #BFCADA;
+            text-align: center;
+        }
+        .sucessMessage{
+            padding-left:5px;
+            font-weight:bold;
+            color:#398D39;
+        }
+        .spaceLine{
+            height:2px;
+            background-color:#BFCADA;
+        }
+        
+        body .bPageBlock{
+        	background-color: #193E6D !important;
+        }
+       	#headingBlock, .emailForm{
+        	padding-left: 15px;
+        	padding-top: 15px;
+        }
+        .pbBody{
+        	background-color: #193E6D !important;
+        	border: 2px solid white;
+        	padding: 10px;
+        	color: #FFFFFF;
+        }
+        .pbSubsection{
+        	padding-left: 15px;
+        	padding-right: 15px;
+        }
+        #postChatPage:pBlock:formEmail:emailInput{
+        	padding-left: 15px;
+        	padding-right: 15px;
+        }
+        input.btn{
+            margin-left: 10px;
+        	background: #0063BE !important;
+        	color: #FFFFFF;
+        	border: 2px solid white;
+        	width: 90px;
+            height: 30px;
+            font-family: montserrat;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        td.data2Col.last {
+        	padding-left: 0px !important;
+        	padding-top: 15px !important;
+    	}
+
+    </style>
+</apex:page>

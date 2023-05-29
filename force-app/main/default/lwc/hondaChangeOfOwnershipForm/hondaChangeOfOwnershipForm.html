@@ -1,0 +1,149 @@
+
+
+<!-- Honda OEM Warranty Form -->
+<template>
+    <template if:true={success}>
+        <div style="min-height: 350px;">
+            <div class="slds-text-heading_large slds-align_absolute-center slds-p-bottom_large">
+                Honda OEM Warranty Form successfully submitted!
+            </div>
+            <lightning-layout class="slds-align_absolute-center mediumLargePadding">
+                <lightning-layout-item padding="horizontal-medium">
+                    <lightning-button label="Submit Another Form" onclick={newForm}></lightning-button>
+                </lightning-layout-item>
+                <lightning-layout-item padding="horizontal-medium">
+                    <lightning-button label="View Open Cases" onclick={navigateToOpenCases}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+
+    <template if:true={isLoading}>
+        <lightning-spinner variant="brand" size="medium" alternative-text="Loading..."></lightning-spinner>
+    </template>
+
+    <template if:false={success}>
+        <lightning-record-edit-form object-api-name="Case"
+                                    onsubmit={onSubmit}
+                                    onsuccess={onSuccess}
+                                    onload={onLoad}
+                                    onerror={onError}
+                                    density="comfy"
+                                    record-type-id={recordTypeId}>
+
+            <!-- <div class="slds-box slds-var-m-bottom_large">
+                <lightning-layout multiple-rows pull-to-boundary="medium">
+                    <lightning-layout-item size="12" padding="horizontal-medium">
+                        <div class="color-brand slds-text-heading_large ">
+                            Warranty Start Date Information
+                        </div>
+                        <div class="slds-var-p-bottom_small" style="font-size: 11px">This form must be filled electronically. Hand written forms will not be accepted.</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="3" small-device-size="6" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_In_Service_Date__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4" large-device-size="4" medium-device-size="4" small-device-size="6" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_Mileage__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_VIN__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div> -->
+            <div class="slds-var-m-bottom_large">
+                <lightning-layout multiple-rows pull-to-boundary="medium">
+                    <lightning-layout-item size="12" padding="horizontal-medium">
+                        <div class="color-brand slds-text-heading_large ">
+                            Honda Odyssey Change of Ownership/Address
+                        </div>
+                        <div class="slds-var-p-bottom_small" style="font-size: 11px">This form must be filled electronically. Hand written forms will not be accepted.</div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_VIN__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="3" small-device-size="6" padding="horizontal-medium">
+                        <lightning-input-field field-name="Vehicle_Mileage__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" padding="horizontal-medium">
+                        <lightning-input-field field-name="Customer_Name__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" padding="horizontal-medium">
+                        <lightning-input-field field-name="Address__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="7" large-device-size="7" medium-device-size="6" small-device-size="12" padding="horizontal-medium">
+                        <lightning-input-field field-name="City__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="2" large-device-size="2" medium-device-size="2" small-device-size="6"  padding="horizontal-medium">
+                        <lightning-input-field field-name="State__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="4" small-device-size="6"  padding="horizontal-medium">
+                        <lightning-input-field field-name="ZipPostCode__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="4" small-device-size="6"  padding="horizontal-medium">
+                        <lightning-input-field field-name="Name_of_Selling_Sample_Dealer__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="4" small-device-size="6"  padding="horizontal-medium">
+                        <lightning-input-field field-name="Date_Of_Sale_To_New_Owner__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="10" medium-device-size="10" small-device-size="10"  padding="horizontal-medium">
+                        <lightning-input-field field-name="Conversion_Products_Installed__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="4" small-device-size="6"  padding="horizontal-medium">
+                        <lightning-input-field field-name="Form_Completed_By__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="3" large-device-size="3" medium-device-size="4" small-device-size="6"  padding="horizontal-medium">
+                        <lightning-input-field field-name="Date_of_Submission__c" required></lightning-input-field>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </div>
+
+            <!-- HONDA Disclaimer START-->
+            <!-- <lightning-layout multiple-rows pull-to-boundary="medium"> -->
+            <div class="slds-var-m-bottom_large">
+                <div class="color-brand slds-text-heading_large ">
+                </div>
+                <div class="slds-var-m-bottom_large">
+                    <lightning-layout slot="body" multiple-rows pull-to-boundary="medium"></lightning-layout>
+                    <div class="slds-var-p-bottom_small"><div style="text-align: center; font-weight: normal;"><font size="2">HONDA DISCLAIMER NOTICE&nbsp;</font></div><div style="text-align: center; font-weight: normal;"><font size="2"><br></font></div><div style="text-align: left; font-weight: normal;"><font size="2">PLEASE NOTE THAT ALL HONDA VEHICLES ADVERTISED AND/OR SOLD HERE ARE SOLD WITH A USED TITLE. THE VEHICLES WERE PURCHASED NEW FROM HONDA WITH THE EXPRESS PURPOSE OF INSTALLING A MOBILITY CONVERSION AND ARE SOLD TO CONSUMERS WITH A WARRANTY THAT RUNS UNTIL THE FIRST TO OCCUR OF (a) 45 MONTHS FROM THE DATE OF PURCHASE OF THE VEHICLE BY THE Sample CORPORATION ("Sample") FROM HONDA'S AUTHORIZED DEALER OR (b) 36 MONTHS FROM THE DATE OF PURCHASE BY THE CONSUMER FROM Sample OR Sample'S DEALER OR (c) 36,000 MILES. THE DATE OF PURCHASE BY Sample FROM HONDA'S AUTHORIZED DEALER IS STATED IN YOUR CONTRACT.&nbsp;</font></div><div style="text-align: left; font-weight: normal;"><font size="2"><br></font></div><div style="text-align: left; font-weight: normal;"><font size="2">Sample IS SOLELY RESPONSIBLE FOR THE MOBILITY CONVERSION PERFORMED ON THIS VEHICLE. FOR PURPOSES OF STATE AND FEDERAL LAW, THIS CONVERTED VEHICLE IS A "USED VEHICLE." Sample IS NEITHER AFFILIATED WITH NOR SPONSORED BY AMERICAN HONDA MOTOR CO., INC. ("HONDA") OR ITS PARENT, SUBSIDIARIES, AFFILIATES OR DEALERS (COLLECTIVELY, THE "HONDA COMPANIES.'') THE HONDA COMPANIES SPECIFICALLY DISCLAIM ANY AND ALL WARRANTIES PERTAINING TO THE CONVERSION OF THE ORIGINAL HONDA VEHICLE.&nbsp;</font></div><div style="text-align: left; font-weight: normal;"><font size="2"><br></font></div><div style="text-align: left; font-weight: normal;"><font size="2">THE CONSUMER SHOULD BE AWARE THAT:</font></div><div style="text-align: left; font-weight: normal;"><font size="2"><br></font></div></div>
+                    <div class="slds-var-p-bottom_small"><div><font size="2">I. CHANGES MADE BY Sample TO THE HONDA VEHICLE MAY VOID THE HONDA WARRANTY. THE HONDA WARRANTY WILL&nbsp;BE&nbsp;VOIDED TO THE EXTENT THAT SUCH CHANGES ADVERSELY AFFECT THE UNCONVERTED VEHICLE OR ITS PERFORMANCE OR CAUSE THE FAILURE OR DEGRADED PERFORMANCE OF A COMPONENT SUPPLIED BY ANY OF THE&nbsp;HONDA COMPANIES. FOR EXAMPLE, STRUCTURAL CHANGES MADE TO THE BODY OF THE VEHICLE COULD AFFECT THE&nbsp;VEHICLE'S STRUCTURAL INTEGRITY, WHICH, IF THAT SHOULD OCCUR, WOULD VOID THE HONDA LIMITED WARRANTY&nbsp;ON THE AFFECTED PARTS.</font></div></div>
+                    <div class="slds-var-p-bottom_small"><div><font size="2">II. CHANGES MADE BY Sample TO THE HONDA VEHICLE MAY AFFECT THE SAFETY PERFORMANCE OF THE VEHICLE AND&nbsp;THEREFORE THE NATIONAL HIGHWAY TRAFFIC SAFETY ADMINISTRATION'S SAFETY RATINGS OF THE UNCONVERTED&nbsp;VEHICLE MAY NOT APPLY TO THE CONVERTED VEHICLE. FOR EXAMPLE, WEIGHT DISTRIBUTION CHANGES MADE BY&nbsp;Sample COULD AFFECT CRASH TEST AND ROLLOVER TEST RESULTS.</font></div></div>
+                    <div class="slds-var-p-bottom_small"><div><font size="2">III. CHANGES MADE BY Sample TO THE HONDA VEHICLE MAY AFFECT THE ENVIRONMENTAL AND FUEL ECONOMY&nbsp;<span class="Apple-tab-span" style="white-space: pre;">	</span>PERFORMANCE OF THE VEHICLE AND THEREFORE THE U.S. ENVIRONMENTAL AGENCY'S RATINGS OF THE&nbsp;UNCONVERTED&nbsp;VEHICLE MAY NOT APPLY TO THE CONVERTED VEHICLE. FOR EXAMPLE, WEIGHT INCREASES TO THE&nbsp;VEHICLE COULD ALTER THE VEHICLE'S GREENHOUSE GAS SCORE, AIR POLLUTION SCORE AND FUEL ECONOMY RATINGS</font></div></div>
+                    <div class="slds-var-p-bottom_small"><div><font size="2">ALL SUCH CHANGES ARE THE EXCLUSIVE RESPONSIBILITY OF Sample AND, WHERE APPLICABLE, ARE COVERED SOLELY BY Sample'S LIMITED WARRANTY. THE HONDA COMPANIES HAVE NEITHER TESTED NOR APPROVED ANY ASPECTS OF Sample'S CONVERSION.&nbsp;</font></div></div>
+                </div>
+            </div>
+            <!-- </lightning-layout> -->
+            <!-- HONDA Disclaimer END-->
+
+            <div class="slds-box slds-var-m-bottom_large">
+                <c-customer-care-box-header title="">
+                    <lightning-layout slot="body" multiple-rows pull-to-boundary="medium">
+                        <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="Vehicle_VIN__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="Name_of_New_Owner__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="Date_of_Purchase__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                            <lightning-input-field field-name="Customer_Email__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10" large-device-size="10" medium-device-size="10" small-device-size="12" padding="horizontal-large">
+                            <lightning-input-field field-name="Submission_Acknowledgement__c" required></lightning-input-field>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="10" large-device-size="10" medium-device-size="10" small-device-size="12" padding="horizontal-large"></lightning-layout-item>
+                        <div class="slds-text-heading_small slds-align_absolute-center">
+                            <i>By Checking the Submission Acknowledge box, You are acknowledging you are the New Owner Named above</i>
+                        </div>
+                    </lightning-layout>
+                </c-customer-care-box-header>
+            </div>
+
+            <div class="slds-align_absolute-center">
+                <lightning-button label="Submit Honda Odyssey C of O Form" type="submit"></lightning-button>
+            </div>
+
+        </lightning-record-edit-form>
+    </template>
+</template>

@@ -1,0 +1,794 @@
+<!--
+ - Created by Slav on 25.11.2019.
+ -->
+
+<apex:page id="WarrantyClaim" standardController="Case" extensions="WarrantyClaimController" standardStylesheets="true" showHeader="false">
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"/>
+    <apex:stylesheet value="{!URLFOR($Resource.spinner_style)}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.WarrantyClaimStyle)}"/>
+    <apex:stylesheet value="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"  />
+    <apex:includeScript value="https://code.jquery.com/jquery-1.9.1.js" />
+    <apex:includeScript value="https://code.jquery.com/ui/1.10.3/jquery-ui.js" />
+
+    <script type='text/javascript'>
+        j$ = jQuery.noConflict();
+        var warning = "NOTE: After the Warranty Claim is submitted you can no longer make any changes to it\n\n" +
+                      "Please confirm that you want to proceed";
+
+        j$(window).scroll(function() {
+            sessionStorage.scrollTop = j$(this).scrollTop();
+        });
+
+        function resetAccept() {
+            j$("[id$='accept']").prop('checked', false);
+        }
+
+        // ------ highlight error fields ------
+        function highlightErrorFields() {
+            var errFields = "{!errorFields}";
+            var fields = errFields.split(',');
+            for (i=0; i<fields.length; i++) {
+                var field = fields[i];
+                j$("[id$='"+fields[i]+"']").css('borderColor', 'red');
+            }
+        }
+
+        function checkAccept() {
+            var accept = j$("[id$='accept']");
+            var fake   = j$("[id$='fake']");
+            var submit = j$("[id$='submit']");
+            if (accept.is(':checked')) {
+                fake.css('display', 'none');
+                submit.css('display', 'inline');
+            } else {
+                fake.css('display', 'inline');
+                submit.css('display', 'none');
+            }
+        }
+
+        function keyCheck() {
+            if (window.event.keyCode == 13) return false;
+        }
+
+        function updateAmount(index) {
+            if (window.event.keyCode == 13) {
+                showSpinner();
+                fireLookupHandler(index);
+                return false;
+            }
+        }
+
+        function lockAllInputs () {
+            var inputs = j$(":input");
+            for (i=0; i<inputs.length; i++) {
+                if (inputs[i].value == 'Unlock') continue;        // не блокируем кнопку Unlock
+                j$("[id$='" + inputs[i].id + "']").prop('disabled', 'true');
+            }
+        }
+
+        j$(document).ready(function() {
+            checkAccept();
+            highlightErrorFields();
+            j$("[id$='container']").css('opacity', 1);
+            if ({!submitted}) lockAllInputs();
+            // ------ scroll to last position ------
+            if (sessionStorage.scrollTop) {
+                j$(window).scrollTop(sessionStorage.scrollTop);
+            }
+            j$("[id$='container']").css('opacity', 1);
+        });
+    </script>
+
+    <div id="container" style="opacity:0">
+        <apex:form id="theForm">
+            <apex:actionFunction action="{!partLookupHandler}" name="fireLookupHandler" reRender="theForm">
+                <apex:param name="index" value="{!index}" assignTo="{!index}"/>
+            </apex:actionFunction>
+
+            <div style="text-align:center;">
+                <apex:pageBlock id="account" mode="maindetail">
+                    <c:VF_Spinner />
+                    <table class="formTable" style="width:50%" align="center" border="0">
+                        <tr>
+                            <td><br/></td>
+                        </tr>
+
+                        <!---------------------- L O G O ------------------------>
+                        <tr>
+                            <td colspan="2">
+                                <div style="float:left">
+                                    <a href="#" class="logo">
+                                        <img src="https://c.cs13.content.force.com/servlet/servlet.ImageServer?id=015W0000000HgJ5&oid=00DW0000008yUI0&lastMod=1579165994000" alt="image"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SEPARATOR ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <hr style="border:1px solid lightgrey"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="center" colspan="4" style="font-size:30px; font-weight:bold; color:#000000; white-space:nowrap;">
+                                <div class="head">
+                                    Claim Form
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- FINE PRINT ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="fineprint">
+                                    **This form must be completed and submitted to SampleAbility within 30 days of the repair.
+                                    <br/>
+                                    Customers will be followed up with a survey to confirm dates of service.
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SEPARATOR ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <hr style="border:1px solid lightgrey"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- MESSAGES ---------------------->
+                        <tr>
+                            <td colspan="4" style="text-align:left">
+                                <apex:pageMessages id="messageUpper" rendered="true" escape="false"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- CLAIM STATUS ------------------------>
+                        <tr style="display:{!IF(submitted, 'table-row', 'none')}">
+                            <td>
+                                <div class="label">
+                                    Status:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="statusApproved" value="{!status}" rendered="{!status == 'Approved'}"
+                                                    styleClass="input" style="background-color:#78f26f; font-weight:bold;"/>
+                                    <apex:inputText id="statusRejected" value="{!status}" rendered="{!status == 'Rejected'}"
+                                                    styleClass="input" style="background-color:#fa8282; font-weight:bold;"/>
+                                    <apex:inputText id="status" value="{!status}" rendered="{!status != 'Approved' && status != 'Rejected'}"
+                                                    styleClass="input" style="background-color:#7cd0fc; font-weight:bold;"/>
+                                    <script>
+                                            j$("[id$='statusApproved']").attr('readonly', 'true');
+                                            j$("[id$='statusRejected']").attr('readonly', 'true');
+                                            j$("[id$='status']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Claim Denial Reason:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="denialReason" value="{!denialReason}" styleClass="input" />
+                                    <script>
+                                            j$("[id$='denialReason']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- APPROVAL HISTORY COMMENTS ------------------------>
+                        <tr style="display:{!IF(submitted, 'table-row', 'none')}">
+                            <td style="vertical-align:top">
+                                <div class="label">
+                                    Approval Comments:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <apex:repeat value="{!denialComments}" var="comment" >
+                                    <div style="width:100%; text-align:left;">
+                                        <apex:outputText value="{!comment}" styleClass="input" escape="false"/>
+                                    </div>
+                                    <br/>
+                                </apex:repeat>
+                            </td>
+                        </tr>
+
+                        <tr style="display:{!IF(submitted && status=='Rejected', 'table-row', 'none')}">
+                            <td colspan="4">
+                                <div>
+                                    <apex:commandButton value="Unlock" action="{!unlock}" onClick="showSpinner();" reRender="theForm" styleClass="button"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SEPARATOR ------------------------>
+                        <tr style="display:{!IF(submitted, 'table-row', 'none')}">
+                            <td colspan="4">
+                                <hr style="border:1px solid lightgrey"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Account Name:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputField id="accountName" value="{!claim.AccountId}" required="false" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();">
+                                        <apex:actionSupport event="onchange" action="{!accountLookupHandler}" onSubmit="showSpinner();" reRender="theForm"/>
+                                    </apex:inputField>
+                                    <script>
+                                            j$("[id$='accountName']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Account #:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="accountNumber" value="{!accountNumber}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();"/>
+                                    <script>
+                                            j$("[id$='accountNumber']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Asset:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputField id="assetId" value="{!claim.AssetId}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();">
+                                        <apex:actionSupport event="onchange" action="{!assetLookupHandler}" reRender="theForm"/>
+                                    </apex:inputField>
+                                    <script>
+                                            j$("[id$='assetId']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Product Part #:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="model" value="{!model}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();"/>
+                                    <script>
+                                            j$("[id$='model']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    VIN/Serial #:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="serialNumber" value="{!serialNumber}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();"/>
+                                    <script>
+                                            j$("[id$='serialNumber']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Repairing Tech:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputField id="repairingTech" value="{!claim.Dealer_Rep__c}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();">
+                                        <apex:actionSupport event="onchange" action="{!dealerLookupHandler}" reRender="theForm"/>
+                                    </apex:inputField>
+                                    <script>
+                                            j$("[id$='repairingTech']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Repair Date
+                                    <span style="float:right">In:</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="repairDateIn" value="{!repairDateIn}" styleClass="input" onKeyPress="return keyCheck();" />
+                                    <script>
+                                            j$("[id$='repairDateIn']").datepicker({
+                                                defaultDate: "+1w",
+                                                changeMonth: true,
+                                                changeYear: true,
+                                                numberOfMonths: 1,
+                                                dateFormat:"yy-mm-dd",
+                                                showAnim: "slide"
+                                            });
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                            <td>
+                                <div class="label">
+                                    <span style="float:right">Out:</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="repairDateOut" value="{!repairDateOut}" styleClass="input" onKeyPress="return keyCheck();" />
+                                    <script>
+                                            j$("[id$='repairDateOut']").datepicker({
+                                                defaultDate: "+1w",
+                                                changeMonth: true,
+                                                changeYear: true,
+                                                numberOfMonths: 1,
+                                                dateFormat:"yy-mm-dd",
+                                                showAnim: "slide"
+                                            });
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Dealer Email:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="dealerEmail" value="{!dealerEmail}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();" />
+                                    <script>
+                                            j$("[id$='dealerEmail']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Mileage/Cycles
+                                    <span style="float:right">In:</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="mileageIn" value="{!mileageIn}" styleClass="input" onKeyPress="return keyCheck();" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td>
+                                <div class="label">
+                                    Dealer RO/PO #:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="dealerRoPo" value="{!dealerRoPo}" styleClass="input" onKeyPress="return keyCheck();" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    <span style="float:right">Out:</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="mileageOut" value="{!mileageOut}" styleClass="input" onKeyPress="return keyCheck();" />
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---==================================================================================---->
+                        <!---============== C U S T O M E R   I N F O R M A T I O N   B E G I N S =============---->
+                        <!---==================================================================================---->
+                        <tr style="display:{!IF(isInternational, 'none', 'table-row')}">
+                            <td>
+                                <div class="label">
+                                    Customer Name:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="customerName" value="{!customerName}" styleClass="input" onKeyPress="return keyCheck();" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="label">
+                                    Customer Email:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="customerEmail" value="{!customerEmail}" styleClass="input" onKeyPress="return keyCheck();" />
+                                </div>
+                            </td>
+                        </tr>
+                        <!---==================================================================================---->
+                        <!---============== C U S T O M E R   I N F O R M A T I O N   E N D S =================---->
+                        <!---==================================================================================---->
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td style="vertical-align:top">
+                                <div class="label" style="margin-top:5px">
+                                    Concern:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="width:100%">
+                                    <apex:inputTextarea id="concern" value="{!concern}" styleClass="textarea"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td style="vertical-align:top">
+                                <div class="label" style="margin-top:5px">
+                                    Cause:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="width:100%">
+                                    <apex:inputTextarea id="cause" value="{!cause}" styleClass="textarea"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td style="vertical-align:top">
+                                <div class="label" style="margin-top:5px">
+                                    Correction:
+                                </div>
+                            </td>
+                            <td colspan="3">
+                                <div style="width:100%">
+                                    <apex:inputTextarea id="correction" value="{!correction}" styleClass="textarea"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <br/><br/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SEPARATOR ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <hr style="border:1px solid lightgrey"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <br/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="section">
+                                    Warranty Labor Claims (Primary Labor Listed First)
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <div style="margin-left:-10px;">
+                                    <apex:pageBlockSection id="labor" columns="1">
+                                        <apex:variable var="index" value="{!-1}" />
+                                        <apex:pageBlockTable value="{!laborWrappers}" var="wrapper" id="laborTable" rowClasses="even,odd" headerClass="header" >
+                                            <apex:column style="width:1px; vertical-align:top;">
+                                                <apex:variable var="index" value="{!index + 1}" />
+                                                <apex:commandButton id="delete" action="{!deleteLabor}" image="{!URLFOR($Resource.SampleAbilityIcons, 'delete.png')}" onClick="showSpinner();resetAccept();" reRender="theForm" style="vertical-align:middle; padding:0px; border:1px solid transparent">
+                                                    <apex:param name="" value="{!index}" assignTo="{!index}"/>
+                                                </apex:commandButton>
+                                            </apex:column>
+                                            <apex:column headerValue="#" style="width:1px; vertical-align:top; padding-top:10px;">
+                                                <apex:outputText id="number" value="{!index + 1}" style="height:24px; font-family:monospace; font-size:13px; border:none; text-align:right;"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Hours" style="width:30px; vertical-align:top;">
+                                                <apex:inputField id="hours" value="{!wrapper.claimProduct.Hours__c}" onKeyPress="return keyCheck();" style="width:60px; height:24px; font-family:monospace; font-size:13px; border:1px solid #dddddd; border-radius:3px; text-align:right;"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Labor Description" style="width:50px; vertical-align:top;">
+                                                <apex:inputTextarea id="laborDescription" value="{!wrapper.claimProduct.Labor_Description__c}" style="width:300px; resize:vertical; height:50px; min-height:50px;
+                                                    font-family:monospace; font-size:13px; border:1px solid #dddddd; border-radius:3px;"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Type" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="laborTopic1" value="{!wrapper.claimProduct.Topic_1__c}" onKeyPress="return keyCheck();" style="width:120px; height:24px; font-family:monospace; font-size:13px; border:1px solid #dddddd; border-radius:3px;"/>
+                                                <script>
+                                                    j$("[id$='laborTopic1']").prop('disabled', 'true');
+                                                </script>
+                                            </apex:column>
+                                            <apex:column headerValue="System" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="laborTopic2" value="{!wrapper.claimProduct.Topic_2__c}" onKeyPress="return keyCheck();" style="width:120px; height:24px; font-family:monospace; font-size:13px; border:1px solid #dddddd; border-radius:3px;"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Symptom" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="laborTopic3" value="{!wrapper.claimProduct.Topic_3__c}" onKeyPress="return keyCheck();" style="width:120px; height:24px; font-family:monospace; font-size:13px; border:1px solid #dddddd; border-radius:3px;"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Sub-system" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="laborTopic4" value="{!wrapper.claimProduct.Topic_4__c}" onKeyPress="return keyCheck();" style="width:120px; height:24px; font-family:monospace; font-size:13px; border:1px solid #dddddd; border-radius:3px;"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Root cause" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="laborTopic5" value="{!wrapper.claimProduct.Topic_5__c}" onKeyPress="return keyCheck();" style="width:120px; height:24px; font-family:monospace; font-size:13px; border:1px solid #dddddd; border-radius:3px;"/>
+                                            </apex:column>
+                                        </apex:pageBlockTable>
+                                    </apex:pageBlockSection>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <br/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <div>
+                                    <apex:commandButton value="Add Labor" reRender="no" styleClass="button">
+                                        <apex:actionSupport event="onclick" action="{!addLabor}" onSubmit="showSpinner();resetAccept();" reRender="theForm"/>
+                                    </apex:commandButton>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <br/><br/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="section">
+                                    Warranty Part Claims (Primary Part Listed First)
+                                    <br/>
+                                    Claimed parts must be held for 60 days
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <div style="margin-left:-10px;">
+                                    <apex:pageBlockSection id="parts" columns="1">
+                                        <apex:variable var="index" value="{!-1}" />
+                                        <apex:pageBlockTable value="{!partWrappers}" var="wrapper" id="partTable" rowClasses="even,odd" headerClass="header" >
+                                            <apex:column style="width:1px; vertical-align:top;">
+                                                <apex:variable var="index" value="{!index + 1}" />
+                                                <apex:commandButton id="delete" action="{!deletePart}" image="{!URLFOR($Resource.SampleAbilityIcons, 'delete.png')}" onClick="showSpinner();resetAccept();" reRender="theForm" style="vertical-align:middle; padding:0px; border:1px solid transparent">
+                                                    <apex:param name="" value="{!index}" assignTo="{!index}"/>
+                                                </apex:commandButton>
+                                            </apex:column>
+                                            <apex:column headerValue="#" style="width:1px; vertical-align:top; padding-top:10px;">
+                                                <apex:outputText id="number" value="{!index + 1}" style="height:24px; font-family:monospace; font-size:13px; border:none; text-align:right;"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Quantity" style="width:30px; vertical-align:top;">
+                                                <apex:inputField id="quantity" value="{!wrapper.claimProduct.Quantity__c}" styleClass="product" style="width:60px; text-align:right;" onKeyPress="return updateAmount({!index});" />
+                                            </apex:column>
+                                            <apex:column headerValue="Part #" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="sku" value="{!wrapper.claimProduct.Product__c}" onChange="showSpinner(); fireLookupHandler({!index});" styleClass="product" style="width:100px" onKeyPress="return keyCheck();"/>
+                                                <script>
+                                                    j$("[id$='sku']").attr('readonly', 'true');
+                                                </script>
+                                            </apex:column>
+                                            <apex:column headerValue="Part Description" style="width:50px; vertical-align:top;">
+                                                <apex:inputTextarea id="partDescription" value="{!wrapper.productDescription}" styleClass="product" style="width:300px; resize:vertical; height:50px; min-height:50px;"/>
+                                                <script>
+                                                    j$("[id$='partDescription']").attr('readonly', 'true');
+                                                </script>
+                                            </apex:column>
+                                            <apex:column headerValue="$ Amount" style="width:30px; vertical-align:top;">
+                                                <apex:inputField id="amount" value="{!wrapper.claimProduct.Amount__c}" styleClass="product" style="width:60px; text-align:right;" onKeyPress="return keyCheck();"/>
+                                                <script>
+                                                    j$("[id$='amount']").attr('readonly', 'true');
+                                                </script>
+                                            </apex:column>
+                                            <apex:column headerValue="Type" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="partTopic1" value="{!wrapper.claimProduct.Topic_1__c}" styleClass="product" style="width:120px" onKeyPress="return keyCheck();"/>
+                                                <script>
+                                                    j$("[id$='partTopic1']").prop('disabled', 'true');
+                                                </script>
+                                            </apex:column>
+                                            <apex:column headerValue="System" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="partTopic2" value="{!wrapper.claimProduct.Topic_2__c}" styleClass="product" style="width:120px" onKeyPress="return keyCheck();"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Symptom" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="partTopic3" value="{!wrapper.claimProduct.Topic_3__c}" styleClass="product" style="width:120px" onKeyPress="return keyCheck();"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Sub-system" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="partTopic4" value="{!wrapper.claimProduct.Topic_4__c}" styleClass="product" style="width:120px" onKeyPress="return keyCheck();"/>
+                                            </apex:column>
+                                            <apex:column headerValue="Root cause" style="width:50px; vertical-align:top;">
+                                                <apex:inputField id="partTopic5" value="{!wrapper.claimProduct.Topic_5__c}" styleClass="product" style="width:120px" onKeyPress="return keyCheck();"/>
+                                            </apex:column>
+                                        </apex:pageBlockTable>
+                                    </apex:pageBlockSection>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <br/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <div>
+                                    <apex:commandButton value="Add Part" reRender="no" styleClass="button">
+                                        <apex:actionSupport event="onclick" action="{!addPart}" onSubmit="showSpinner();resetAccept();" reRender="theForm" />
+                                    </apex:commandButton>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SEPARATOR ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <hr style="border:1px solid lightgrey"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td/>
+                            <td>
+                                <div class="label" style="width:300px; text-align:right;">
+                                    Recalled Asset:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputField id="recalledAsset" value="{!claim.Recalled_Asset__c}" styleClass="input" style="color:maroon; font-weight:bold;" onKeyPress="return keyCheck();">
+<!--                                        <apex:actionSupport event="onchange" action="{!recallLookupHandler}" reRender="theForm"/>-->
+                                    </apex:inputField>
+                                    <script>
+                                            j$("[id$='recalledAsset']").attr('readonly', 'true');
+                                    </script>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td/>
+                            <td>
+                                <div class="label" style="width:300px; text-align:right;">
+                                    Case Number for Special Claims &amp; Exceptions:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputField id="specialClaimsId" value="{!claim.Special_Claims_Exceptions__c}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- TABLE ROW ------------------------>
+                        <tr>
+                            <td/>
+                            <td>
+                                <div class="label" style="width:300px; text-align:right;">
+                                    Special Claims &amp; Exceptions $ Amount:
+                                </div>
+                            </td>
+                            <td>
+                                <div style="float:left;">
+                                    <apex:inputText id="specialClaimsAmount" value="{!specialClaimsAmount}" styleClass="input" onKeyPress="return keyCheck();"/>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SEPARATOR ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <hr style="border:1px solid lightgrey"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- APPENDIX B: ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <div class="legalheader">
+                                    APPENDIX B: WARRANTY CLAIM SUBMISSION ACKNOWLEDGEMENT
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <c:WarrantyClaimLegal rendered="true"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <br/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- MESSAGES ---------------------->
+                        <tr>
+                            <td colspan="4" style="text-align:left">
+                                <apex:pageMessages id="messageLower" rendered="true" escape="false"/>
+                            </td>
+                        </tr>
+
+                        <!---------------------- SPACER ------------------------>
+                        <tr>
+                            <td colspan="4">
+                                <br/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4">
+                                <div id="accept" style="width:100%; white-space:nowrap; display:{!IF(submitted, 'none', 'block')}">
+                                    <apex:inputCheckbox id="accept" selected="{!accepted}" onClick="checkAccept();" onKeyPress="return keyCheck();"/>
+                                    I have read and accept the above terms
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <apex:commandButton id="fake" value="Submit" disabled="true" styleClass="button" style="display:inline;"/>
+                                    <apex:commandButton id="submit" value="Submit" action="{!submit}" disabled="{!!submitEnabled}" onClick="if(!confirm(warning)) return false; else showSpinner(true);" styleClass="button" style="display:none;"/>
+                                    &nbsp;
+                                    <apex:commandButton id="save" value="Save" action="{!save}" onClick="showSpinner(true);" styleClass="button" />
+                                    &nbsp;
+                                    <apex:commandButton value="{!IF(saved, 'Close', 'Cancel')}" action="{!cancel}" reRender="theForm" styleClass="button"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </apex:pageBlock>
+            </div>
+        </apex:form>
+    </div>
+</apex:page>

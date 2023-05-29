@@ -1,0 +1,41 @@
+<apex:page showHeader="true" sidebar="true" controller="usaiConfigurationController" tabStyle="usaiConfig__c">
+<div class="bPageTitle">
+       <div class="ptBody">
+          <div class="content">
+             <img src="/img/icon/custom51_100/gears32.png" alt="USAI Integration" style="background-image:none;" class="pageTitleIcon" title="USAI Integration"/>
+             <h1 class="pageType">USAI Integration<span class="titleSeparatingColon">:</span></h1>
+             <h2 class="pageDescription"> Create New Mapping</h2>
+             <div class="blank">&nbsp;</div>
+          </div>
+        </div>
+    </div>
+
+	<apex:form >
+          <apex:pageMessages ></apex:pageMessages>
+		 <apex:pageBlock title="Integration Mappings">
+	                <!-- BUTTONS BUTTONS BUTTONS BUTTONS  -->
+	                <apex:pageblockButtons >
+	                    <apex:commandButton value="Save" action="{!createNewMapping}" />             
+	                    <apex:commandButton value="Save and New" action="{!createNewMappingAndNew}" />             
+	                    <apex:commandButton value="Cancel" action="{!URLFOR($Page.usaiConfiguration)}" immediate="true"/>             
+	                </apex:pageblockButtons>
+	                <!-- NEW MAPPING NEW MAPPING NEW MAPPING NEW MAPPING NEW MAPPING  -->
+	                <apex:outputPanel id="newMappingSection">
+	                    <apex:pageblockSection title="New Mapping" columns="2" >
+	                        <apex:inputField value="{!newMapping.TargetObject__c}" required="true"/>
+	                        <apex:pageblockSectionItem >
+	                            <apex:outputLabel for="usaiConfigSearch">Inbound Field Name</apex:outputLabel>
+	                            <c:Typeahead searchBoxId="usaiConfigSearch" object="UsaiFieldMappings__c" primaryField="Name" destinationForSelectedValue="mappingName" style="width:300px;"  />
+	                        </apex:pageblockSectionItem>
+	                        <apex:inputField value="{!newMapping.ParentNode__c}"/>
+	                        <apex:inputField value="{!newMapping.APIFieldName__c}"/>
+	                        <apex:inputField value="{!newMapping.TargetValue__c}"/>
+	                        <apex:inputField value="{!newMapping.Status__c}" required="true"/>
+	                    </apex:pageblockSection>
+	                    <apex:inputHidden value="{!newMapping.Name}" id="mappingName"/>
+	                </apex:outputPanel>
+
+	                <!-- NEW MAPPING NEW MAPPING NEW MAPPING NEW MAPPING NEW MAPPING  -->
+	        </apex:pageBlock>
+	</apex:form>
+</apex:page>

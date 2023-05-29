@@ -1,0 +1,38 @@
+<apex:page showHeader="true" sidebar="true">
+    
+    <div id="Finance Support Chat">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <h1>Welcome!</h1>
+        Thank you for contacting finance support.
+        <!-- STARTS BUTTON CODE DO NOT REMOVE ANYTHING IN THIS SECTION -->
+                
+        <script type='text/javascript' src='https://c.la2w2.salesforceliveagent.com/content/g/js/36.0/deployment.js'></script>
+        <script type='text/javascript'>
+        liveagent.init('https://d.la2w2.salesforceliveagent.com/chat', '572j0000000Gx96', '00Dj0000000Jnkz');
+        </script>
+        
+        <img id="liveagent_button_online_573j0000000Gzb5" style="display: none; border: 0px none; cursor: pointer" onclick="liveagent.startChat('573j0000000Gzb5')" src="https://Sample.secure.force.com/resource/1447183879000/onlineChat" /><img id="liveagent_button_offline_573j0000000Gzb5" style="display: none; border: 0px none; " src="https://Sample.secure.force.com/resource/1447183879000/offlineChat" />
+        <script type="text/javascript">
+        if (!window._laq) { window._laq = []; }
+        window._laq.push(function(){liveagent.showWhenOnline('573j0000000Gzb5', document.getElementById('liveagent_button_online_573j0000000Gzb5'));
+        liveagent.showWhenOffline('573j0000000Gzb5', document.getElementById('liveagent_button_offline_573j0000000Gzb5'));
+        });</script>
+
+        <!-- DO NOT CHANGE WINDOW DIMENSIONS UNLESS STRICTLY NECESSARY -->
+        <script type="text/javascript">
+                    liveagent.setChatWindowHeight(635);
+                    liveagent.setChatWindowWidth(410);
+                </script>
+        <!-- ENDS BUTTON CODE -->
+    </div>
+    
+    <style type="text/css">
+        .spaceLine{
+            height:2px;
+            background-color:#AFAFAF;
+        }
+    </style>
+</apex:page>

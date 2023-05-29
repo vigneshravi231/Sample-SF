@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>52.0</apiVersion>
+    <description>Customer Care Checkout</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Customer Care Checkout</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="addresses" type="@salesforce/schema/ContactPointAddress[]" description="Billing and Shipping addresses" />
+
+            <property name="recordId" type="String" description="Cart Id of checkout session" />
+            <property name="cart" type="@salesforce/schema/WebCart" description="Cart record for session" />
+            <property name="contact" type="@salesforce/schema/Contact" description="Contact for checkout session" />
+
+            <property name="orderDeliveryMethods" type="@salesforce/schema/OrderDeliveryMethod[]" description="Active shipping methods" />
+            <property name="paymentTerms" type="@salesforce/schema/acCore__PaymentTerms__c" description="Payment Terms"/>
+            <property name="buyerAccount" type="@salesforce/schema/Account" description="Buyer Account"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

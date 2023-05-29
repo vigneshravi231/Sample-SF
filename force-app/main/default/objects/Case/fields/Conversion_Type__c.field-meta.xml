@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Conversion_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Conversion Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>E2 - Power Foldout Ramp</fullName>
+                <default>false</default>
+                <label>E2 - Power Foldout Ramp</label>
+            </value>
+            <value>
+                <fullName>XT - XT Power Foldout Ramp</fullName>
+                <default>false</default>
+                <label>XT - XT Power Foldout Ramp</label>
+            </value>
+            <value>
+                <fullName>XF - XT Manual Foldout Ramp</fullName>
+                <default>false</default>
+                <label>XF - XT Manual Foldout Ramp</label>
+            </value>
+            <value>
+                <fullName>Xi - Power In-Floor Ramp</fullName>
+                <default>false</default>
+                <label>Xi - Power In-Floor Ramp</label>
+            </value>
+            <value>
+                <fullName>Toyota LI</fullName>
+                <default>false</default>
+                <label>Toyota LI</label>
+            </value>
+            <value>
+                <fullName>Toyota XL</fullName>
+                <default>false</default>
+                <label>Toyota XL</label>
+            </value>
+            <value>
+                <fullName>XM - Manual In-Floor Ramp</fullName>
+                <default>false</default>
+                <label>XM - Manual In-Floor Ramp</label>
+            </value>
+            <value>
+                <fullName>CV - Companion Van Side Entry</fullName>
+                <default>false</default>
+                <label>CV - Companion Van Side Entry</label>
+            </value>
+            <value>
+                <fullName>CP - Companion Van Side Entry Plus</fullName>
+                <default>false</default>
+                <label>CP - Companion Van Side Entry Plus</label>
+            </value>
+            <value>
+                <fullName>CX - Companion Van Side Entry Plus XT</fullName>
+                <default>false</default>
+                <label>CX - Companion Van Side Entry Plus XT</label>
+            </value>
+            <value>
+                <fullName>E3 - ADA Manual Foldout Ramp</fullName>
+                <default>false</default>
+                <label>E3 - ADA Manual Foldout Ramp</label>
+            </value>
+            <value>
+                <fullName>E5 - ADA Power Foldout Ramp</fullName>
+                <default>false</default>
+                <label>E5 - ADA Power Foldout Ramp</label>
+            </value>
+            <value>
+                <fullName>LF - Toyota Extended Floor Manual Foldout</fullName>
+                <default>false</default>
+                <label>LF - Toyota Extended Floor Manual Foldout</label>
+            </value>
+            <value>
+                <fullName>I3 – Dodge ADA Simple Stow Infloor</fullName>
+                <default>false</default>
+                <label>I3 – Dodge ADA Simple Stow Infloor</label>
+            </value>
+            <value>
+                <fullName>V3 - ADA Rear Entry Manual Long</fullName>
+                <default>false</default>
+                <label>V3 - ADA Rear Entry Manual Long</label>
+            </value>
+            <value>
+                <fullName>V7 - Rear Entry Manual Long</fullName>
+                <default>false</default>
+                <label>V7 - Rear Entry Manual Long</label>
+            </value>
+            <value>
+                <fullName>V8 - Rear Entry Power Long</fullName>
+                <default>false</default>
+                <label>V8 - Rear Entry Power Long</label>
+            </value>
+            <value>
+                <fullName>VB - Rear Entry ADA Power Short</fullName>
+                <default>false</default>
+                <label>VB - Rear Entry ADA Power Short</label>
+            </value>
+            <value>
+                <fullName>VL - Rear Entry Taxi Manual Long</fullName>
+                <default>false</default>
+                <label>VL - Rear Entry Taxi Manual Long</label>
+            </value>
+            <value>
+                <fullName>VM - Rear Entry Manual Short</fullName>
+                <default>false</default>
+                <label>VM - Rear Entry Manual Short</label>
+            </value>
+            <value>
+                <fullName>VA - ADA Rear Entry Manual Short</fullName>
+                <default>false</default>
+                <label>VA - ADA Rear Entry Manual Short</label>
+            </value>
+            <value>
+                <fullName>VT - ADA Taxi Rear Entry Manual Short</fullName>
+                <default>false</default>
+                <label>VT - ADA Taxi Rear Entry Manual Short</label>
+            </value>
+            <value>
+                <fullName>SOB - Some Other Brand</fullName>
+                <default>false</default>
+                <label>SOB - Some Other Brand</label>
+            </value>
+            <value>
+                <fullName>NCL - Century Lift</fullName>
+                <default>false</default>
+                <label>NCL - Century Lift</label>
+            </value>
+            <value>
+                <fullName>NL - Millennium Lift</fullName>
+                <default>false</default>
+                <label>NL - Millennium Lift</label>
+            </value>
+            <value>
+                <fullName>NVL - Vista Lift</fullName>
+                <default>false</default>
+                <label>NVL - Vista Lift</label>
+            </value>
+            <value>
+                <fullName>NUVL - Under Vehicle Lift</fullName>
+                <default>false</default>
+                <label>NUVL - Under Vehicle Lift</label>
+            </value>
+            <value>
+                <fullName>(VMI) NorthStar E</fullName>
+                <default>false</default>
+                <label>(VMI) NorthStar E</label>
+            </value>
+            <value>
+                <fullName>(VMI) Summit</fullName>
+                <default>false</default>
+                <label>(VMI) Summit</label>
+            </value>
+            <value>
+                <fullName>(VMI) NorthStar</fullName>
+                <default>false</default>
+                <label>(VMI) NorthStar</label>
+            </value>
+            <value>
+                <fullName>(VMI) Other</fullName>
+                <default>false</default>
+                <label>(VMI) Other</label>
+            </value>
+            <value>
+                <fullName>(ELD) Foldout Power Amerivan 14</fullName>
+                <default>false</default>
+                <label>(ELD) Foldout Power Amerivan 14</label>
+            </value>
+            <value>
+                <fullName>(ELD) Foldout Manual Amerivan 10</fullName>
+                <default>false</default>
+                <label>(ELD) Foldout Manual Amerivan 10</label>
+            </value>
+            <value>
+                <fullName>(ELD) Other</fullName>
+                <default>false</default>
+                <label>(ELD) Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

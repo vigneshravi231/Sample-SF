@@ -1,0 +1,325 @@
+
+<!-- Warranty Detail -->
+<template>
+	<div class="slds-card noBorder">
+		<div class="slds-card__header slds-p-bottom_xxx-small">
+			<header class="slds-media slds-media_center slds-has-flexi-truncate">
+				<div class="slds-media__figure">
+					<lightning-button-icon icon-name="standard:entitlement" variant="brand" icon-class="slds-icon"></lightning-button-icon>
+				</div>
+				<div class="slds-media__body">
+					<h2 class="slds-card__header-title" style="margin: auto 0">Warranty Registration</h2>
+				</div>
+<!--				<div class="slds-no-flex slds-m-right_medium">-->
+<!--					<button class="slds-button slds-button_neutral customFontColor" onclick={previewPDF} disabled={previewUnavailable}>-->
+<!--						{previewText}-->
+<!--					</button>-->
+<!--				</div>-->
+				<div class="slds-no-flex">
+					<button class="slds-button slds-button_neutral customFontColor" onclick={downloadPDF} disabled={downloadIsLoading}>
+						{downloadText}
+					</button>
+				</div>
+			</header>
+		</div>
+		<div class="slds-card__body slds-p-horizontal_medium">
+			<div class="slds-tabs_default">
+				<ul class="slds-tabs_default__nav" role="tablist">
+					<li class="slds-tabs_default__item slds-is-active" title="DETAILS" role="presentation">
+						<a
+							class="slds-tabs_default__link"
+							href="#"
+							role="tab"
+							tabindex="0"
+							aria-selected="true"
+							aria-controls="tab-default-1"
+							id="tab-default-1__item"
+							>DETAILS</a
+						>
+					</li>
+				</ul>
+				<div id="tab-default-1" class="slds-tabs_default__content slds-show" role="tabpanel" aria-labelledby="tab-default-1__item">
+					<lightning-record-view-form
+						record-id={recordId}
+						object-api-name="Entitlement"
+						density="comfy"
+						onload={handleLoadSuccess}
+						onerror={handleLoadError}
+					>
+						<div class="slds-page-header">
+							<div class="slds-page-header__row">
+								<div class="slds-page-header__col-title">
+									<div class="slds-media">
+										<div class="slds-media__body">
+											<div class="slds-page-header__name">
+												<div class="slds-page-header__name-title">
+													<h1>
+														<span class="slds-page-header__title slds-truncate" title="Warranty Information"
+															>Warranty Information</span
+														>
+													</h1>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slds-grid slds-p-around_medium doubleColumn">
+							<div class="slds-col slds-size_1-of-2">
+								<lightning-output-field field-name="Name"> </lightning-output-field>
+								<lightning-output-field field-name="AccountId"> </lightning-output-field>
+								<lightning-output-field field-name="Customer_Signature_Date__c"> </lightning-output-field>
+								<lightning-output-field field-name="Commercial_or_Consumer__c"> </lightning-output-field>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Agreement Acknowledgement</span>
+									<lightning-output-field field-name="Agreement_Acknowledgement__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<lightning-output-field field-name="Dealer__c"> </lightning-output-field>
+								<lightning-output-field field-name="Dealer_ID__c"> </lightning-output-field>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Signatures Completed and On File</span>
+									<lightning-output-field field-name="Signatures_Completed_and_On_File__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2">
+								<lightning-output-field field-name="AssetId"> </lightning-output-field>
+								<lightning-output-field field-name="VIN_Serial_Number__c"> </lightning-output-field>
+								<lightning-output-field field-name="ProductType__c"> </lightning-output-field>
+								<lightning-output-field field-name="SampleAbility_Finance__c"> </lightning-output-field>
+								<lightning-output-field field-name="Total_Selling_Price__c"> </lightning-output-field>
+								<lightning-output-field field-name="Mileage_at_Time_of_Sale__c"> </lightning-output-field>
+								<lightning-output-field field-name="StartDate"> </lightning-output-field>
+								<lightning-output-field field-name="EndDate"> </lightning-output-field>
+							</div>
+						</div>
+						<div class="slds-page-header">
+							<div class="slds-page-header__row">
+								<div class="slds-page-header__col-title">
+									<div class="slds-media">
+										<div class="slds-media__body">
+											<div class="slds-page-header__name">
+												<div class="slds-page-header__name-title">
+													<h1>
+														<span class="slds-page-header__title slds-truncate" title="Warranty Information"
+															>Additional Information</span
+														>
+													</h1>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slds-grid slds-p-around_medium doubleColumn">
+							<div class="slds-col slds-size_1-of-2">
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Is this a CPO?</span>
+									<lightning-output-field field-name="CPO__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<lightning-output-field field-name="C_of_O_Form_Required__c"> </lightning-output-field>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Customer is a Veteran</span>
+									<lightning-output-field field-name="Customer_is_a_Veteran__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Is Servicing Dealer</span>
+									<lightning-output-field field-name="Is_Servicing_Dealer__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+							</div>
+							<div class="slds-col slds-size_1-of-2">
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">First Accessible Vehicle</span>
+									<lightning-output-field field-name="First_Accessible_Vehicle__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Rental</span>
+									<lightning-output-field field-name="Rental__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">This is a VA Sale</span>
+									<lightning-output-field field-name="VA_Sale__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<lightning-output-field field-name="Extended_Warranty_End_Date__c"> </lightning-output-field>
+							</div>
+						</div>
+						<div class="slds-page-header">
+							<div class="slds-page-header__row">
+								<div class="slds-page-header__col-title">
+									<div class="slds-media">
+										<div class="slds-media__body">
+											<div class="slds-page-header__name">
+												<div class="slds-page-header__name-title">
+													<h1>
+														<span class="slds-page-header__title slds-truncate" title="Warranty Information"
+															>Customer Information</span
+														>
+													</h1>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slds-grid slds-p-around_medium">
+							<div class="slds-col slds-size_1-of-2">
+								<lightning-output-field field-name="Customer_First_Name__c"> </lightning-output-field>
+								<lightning-output-field field-name="Customer_Email__c"> </lightning-output-field>
+								<lightning-output-field field-name="Address_1__c"> </lightning-output-field>
+								<lightning-output-field field-name="City__c"> </lightning-output-field>
+								<lightning-output-field field-name="Zip_Postal_Code__c"> </lightning-output-field>
+							</div>
+							<div class="slds-col slds-size_1-of-2">
+								<lightning-output-field field-name="Customer_Last_Name__c"> </lightning-output-field>
+								<lightning-output-field field-name="Customer_Phone__c"> </lightning-output-field>
+								<lightning-output-field field-name="Address_2__c"> </lightning-output-field>
+								<lightning-output-field field-name="State_Province__c"> </lightning-output-field>
+								<lightning-output-field field-name="Country__c"> </lightning-output-field>
+							</div>
+						</div>
+						<div class="slds-page-header">
+							<div class="slds-page-header__row">
+								<div class="slds-page-header__col-title">
+									<div class="slds-media">
+										<div class="slds-media__body">
+											<div class="slds-page-header__name">
+												<div class="slds-page-header__name-title">
+													<h1>
+														<span class="slds-page-header__title slds-truncate" title="Warranty Information"
+															>Vehicle Delivery Checklist</span
+														>
+													</h1>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="slds-grid slds-wrap slds-size slds-p-around_medium tripleColumn">
+							<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-bottom_medium">
+								<div class="slds-text-heading_small slds-m-left_xx-small">Exterior</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Exterior Clean and Damage-Free</span>
+									<lightning-output-field field-name="chkDamageFree__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Spare Tire and Jack Location</span>
+									<lightning-output-field field-name="chkSpareTireJack__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Operation of Remote Control</span>
+									<lightning-output-field field-name="chkRemoteControl__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Magnetic Entry (if applicable)</span>
+									<lightning-output-field field-name="chkMagneticEntry__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Exterior activation of power door</span>
+									<lightning-output-field field-name="chkPowerDoor__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Manual operation of door from exterior</span>
+									<lightning-output-field field-name="chkDoorAndRampExt__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+							</div>
+							<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-bottom_medium">
+								<div class="slds-text-heading_small slds-m-left_xx-small">Interior</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Gauges and instrumentation</span>
+									<lightning-output-field field-name="chkGauges__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Location of interior switches</span>
+									<lightning-output-field field-name="chkInteriorSwitches__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Exterior activation of power door</span>
+									<lightning-output-field field-name="chkPowerDoor__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Operation of tie-downs</span>
+									<lightning-output-field field-name="chkTieDowns__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Operation of roll &amp; tumble seating</span>
+									<lightning-output-field field-name="chkRollTumble__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Operation of seat belts</span>
+									<lightning-output-field field-name="chkSeatBelts__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Location of Sample controller</span>
+									<lightning-output-field field-name="chkSampleController__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+							</div>
+							<div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3 slds-p-bottom_medium">
+								<div class="slds-text-heading_small slds-m-left_xx-small">Additional</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Review OEM/Sample owner's manuals</span>
+									<lightning-output-field field-name="chkReviewManuals__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Explain the Toyota Service Exchange Info</span>
+									<lightning-output-field field-name="chkToyotaExchange__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Explain Maintenance and Service Schedule</span>
+									<lightning-output-field field-name="chkServiceSchedule__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Explain procedures for warranty repair</span>
+									<lightning-output-field field-name="chkWarrantyRepair__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Inform customer of service hours</span>
+									<lightning-output-field field-name="chkServiceHours__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Advise to maintain signed records</span>
+									<lightning-output-field field-name="chkSignedRecord__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">Complete and return warranty registration</span>
+									<lightning-output-field field-name="chkCompleteWarranty__c" variant="label-hidden">
+									</lightning-output-field>
+								</div>
+								<div class="flexRow slds-p-around_xx-small">
+									<span class="slds-form-element__label">List all aftermarket equipment</span>
+									<lightning-output-field field-name="chkAfterMarket__c" variant="label-hidden"> </lightning-output-field>
+								</div>
+							</div>
+						</div>
+						<div class="slds-col slds-large-size_1-of-1 slds-medium-size_1-of-2 slds-size_1-of-1">
+							<lightning-output-field field-name="chkComments__c"> </lightning-output-field>
+						</div>
+					</lightning-record-view-form>
+				</div>
+			</div>
+		</div>
+		<template if:true={recordIsLoading}>
+			<lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
+		</template>
+	</div>
+</template>

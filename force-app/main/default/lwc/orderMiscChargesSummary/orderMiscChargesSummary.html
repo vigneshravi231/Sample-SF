@@ -1,0 +1,28 @@
+
+
+<!-- Order Misc Charges Summary -->
+<template>
+  <table class="slds-table slds-table_cell-buffer slds-no-row-hover fixed mobile-hide" aria-label="Order Misc Charges Summary" style="width: 50%">
+    <thead class="slds-p-bottom_small">
+    <tr class="slds-line-height_reset">
+      <th scope="col" class="charge-col">Misc Charges</th>
+      <th scope="col" class="total-col">
+        <div class="slds-cell-wrap slds-text-align_center">Total</div>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr for:each={charges} for:item="charge" key={charge.Id}>
+      <td>
+        <div class="slds-cell-wrap">{charge.Description}</div>
+      </td>
+      <td>
+        <div class="slds-cell-wrap slds-text-align_center">
+          <lightning-formatted-number value={charge.TotalPrice} format-style="currency" currency-code="USD">
+          </lightning-formatted-number>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</template>

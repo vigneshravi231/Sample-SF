@@ -1,0 +1,35 @@
+
+<!-- Btn Quantity -->
+<template>
+	<span class="quantity-selector slds-grid slds-grid_vertical-align-centerdisabled">
+		<label for="quantity-70" class="slds-m-right_x-small">QTY</label>
+		<span role="group" aria-label="Product Quantity" class="controls slds-m-right_small">
+			<button
+				aria-label="Decrease number of items"
+				disabled=""
+				class="decrement-btn slds-p-horizontal_xx-small slds-p-vertical_x-small"
+			>
+				<lightning-icon icon-name="utility:dash" class="slds-icon-utility-dash btn-icon slds-icon_container"> </lightning-icon>
+			</button>
+			<input
+				aria-describedby="error-message-70"
+				type="number"
+				id="quantity-70"
+				min="1"
+				max="1000000"
+				step="1"
+				disabled=""
+				required=""
+				class="selector-input"
+			/><button
+				aria-label="Increase number of items"
+				disabled=""
+				class="increment-btn slds-p-horizontal_xx-small slds-p-vertical_x-small"
+			>
+				<lightning-icon icon-name="utility:add" class="slds-icon-utility-add btn-icon slds-icon_container">
+					<span class="slds-assistive-text">Increase number of items</span>
+				</lightning-icon>
+			</button>
+		</span>
+	</span>
+</template>

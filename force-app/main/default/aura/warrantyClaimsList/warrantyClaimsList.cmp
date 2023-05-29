@@ -1,0 +1,36 @@
+
+<aura:component implements="forceCommunity:availableForAllPageTypes, lightning:availableForFlowScreens" access="global">
+
+  <!-- Handlers -->
+
+  <!-- Attributes -->
+  <aura:attribute name="isOpen" type="Boolean" default="false" access="private"/>
+
+  <aura:attribute name="recordId" type="String"/>
+
+  <c:assetRelatedWarrantyClaimsList recordId="{!v.recordId}"
+                                    onresubmit="{!c.initFlow}"
+                                    viewWarranty="true"
+                                    listLabel="Warranty Claims">
+  </c:assetRelatedWarrantyClaimsList>
+  <!-- Body -->
+  <aura:if isTrue="{!v.isOpen}">
+    <div>
+      <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <lightning:buttonIcon variant="bare-inverse" iconName="utility:close" class="slds-modal__close" onclick="{!c.closeFlowModal}"/>
+            <h2 class="slds-modal__title slds-hyphenate">Edit Warranty Claim Form</h2>
+          </header>
+          <div class="slds-modal__content slds-p-bottom_medium slds-is-relative">
+            <lightning:flow aura:id="flowData" onstatuschange="{!c.closeModalOnFinish}" />
+          </div>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+
+  <!-- /Body -->
+
+</aura:component>

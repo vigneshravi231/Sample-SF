@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApprovalProcess xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <allowRecall>true</allowRecall>
+    <allowedSubmitters>
+        <type>creator</type>
+    </allowedSubmitters>
+    <allowedSubmitters>
+        <type>owner</type>
+    </allowedSubmitters>
+    <approvalPageFields>
+        <field>Owner</field>
+        <field>CaseNumber</field>
+        <field>Account</field>
+        <field>Asset</field>
+        <field>VIN_Serial_Number__c</field>
+        <field>Warranty_Registration__c</field>
+        <field>Recalled_Asset__c</field>
+        <field>Concern__c</field>
+        <field>Cause__c</field>
+        <field>Correction__c</field>
+        <field>Total_Labor_Amount__c</field>
+        <field>Total_Parts_Amount__c</field>
+        <field>Total_Claim_Amount__c</field>
+        <field>Claim_Denial_Reason__c</field>
+    </approvalPageFields>
+    <approvalStep>
+        <allowDelegate>true</allowDelegate>
+        <assignedApprover>
+            <approver>
+                <name>Warranty_Claim_Approval_Process_WAV</name>
+                <type>queue</type>
+            </approver>
+            <whenMultipleApprovers>FirstResponse</whenMultipleApprovers>
+        </assignedApprover>
+        <label>Queue</label>
+        <name>Queue</name>
+    </approvalStep>
+    <emailTemplate>DMI_Email_Templates/Warranty_Claim_Approval_General</emailTemplate>
+    <enableMobileDeviceAccess>true</enableMobileDeviceAccess>
+    <entryCriteria>
+        <formula>NOT(
+OR(
+Asset.Product_Group__r.Name  = &quot;CRCRUV7&quot;,
+Asset.Product_Group__r.Name  = &quot;CRCV3&quot;,
+Asset.Product_Group__r.Name  = &quot;CRCV7&quot;,
+Asset.Product_Group__r.Name  = &quot;CRCV8&quot;,
+Asset.Product_Group__r.Name  = &quot;CRCVB&quot;,
+Asset.Product_Group__r.Name  = &quot;CRCVM&quot;,
+Asset.Product_Group__r.Name  = &quot;CRCVS&quot;,
+Asset.Product_Group__r.Name  = &quot;CRCVT&quot;,
+Asset.Product_Group__r.Name  = &quot;CRHV7&quot;,
+Asset.Product_Group__r.Name  = &quot;CRNVT&quot;,
+Asset.Product_Group__r.Name  = &quot;CRTV3&quot;,
+Asset.Product_Group__r.Name  = &quot;CRTV7&quot;,
+Asset.Product_Group__r.Name  = &quot;CRTV8&quot;,
+Asset.Product_Group__r.Name  = &quot;CRTVM&quot;,
+Asset.Product_Group__r.Name  = &quot;CRTVS&quot;,
+Asset.Product_Group__r.Name  = &quot;CRTVT&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCAI&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCCP&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCCV&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCCX&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCE2&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCE3&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCE5&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCRUE2&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCRUXI&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCRUXT&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCXI&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCXM&quot;,
+Asset.Product_Group__r.Name  = &quot;CSCXT&quot;,
+Asset.Product_Group__r.Name  = &quot;CSFXI&quot;,
+Asset.Product_Group__r.Name  = &quot;CSHE2&quot;,
+Asset.Product_Group__r.Name  = &quot;CSHXI&quot;,
+Asset.Product_Group__r.Name  = &quot;CSTE2&quot;,
+Asset.Product_Group__r.Name  = &quot;CSTXF&quot;,
+Asset.Product_Group__r.Name  = &quot;CSTXI&quot;,
+Asset.Product_Group__r.Name  = &quot;CSTXT&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPACEN&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAESR&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAGBL&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAMIL&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAQLD&quot;,
+Asset.Product_Group__r.Name  = &quot;LDPAVIS&quot;,
+Asset.Product_Group__r.Name  = &quot;LMCIRAMP&quot;,
+Asset.Product_Group__r.Name  = &quot;LMTRCH&quot;,
+Asset.Product_Group__r.Name  = &quot;LRAMP&quot;,
+Asset.Product_Group__r.Name  = &quot;LSWING&quot;,
+Asset.Product_Group__r.Name  = &quot;LUVL&quot;,
+Asset.Product_Group__r.Name  = &quot;LVNGTR&quot;,
+Asset.Product_Group__r.Name  = &quot;NADAACT&quot;,
+Asset.Product_Group__r.Name  = &quot;NADAATS&quot;,
+Asset.Product_Group__r.Name  = &quot;OCHRTOP&quot;,
+Asset.Product_Group__r.Name  = &quot;OEXECSTP&quot;,
+Asset.Product_Group__r.Name  = &quot;WRCRT&quot;,
+Asset.Product_Group__r.Name  = &quot;WRCSCRT&quot;,
+Asset.Product_Group__r.Name  = &quot;WRCSFXI&quot;,
+Asset.Product_Group__r.Name  = &quot;WRCSHXI&quot;,
+Asset.Product_Group__r.Name  = &quot;WRCST&quot;,
+Asset.Product_Group__r.Name  = &quot;GSCGTOP&quot;,
+Asset.Product_Group__r.Name  = &quot;GSEXSTP&quot;,
+Asset.Product_Group__r.Name  = &quot;GSRACKS&quot;,
+Asset.Product_Group__r.Name  = &quot;GSUWCR&quot;,
+Asset.Product_Group__r.Name  = &quot;GSTSB&quot;,
+Asset.Product_Group__r.Name  = &quot;GSTRNY&quot;,
+Asset.Product_Group__r.Name  = &quot;CSGXI&quot;,
+Asset.Product_Group__r.Name  = &quot;GSCHTOP&quot;
+)
+)</formula>
+    </entryCriteria>
+    <finalApprovalActions>
+        <action>
+            <name>Update_Claim_Disposition_to_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Status_to_Approved</name>
+            <type>FieldUpdate</type>
+        </action>
+    </finalApprovalActions>
+    <finalApprovalRecordLock>true</finalApprovalRecordLock>
+    <finalRejectionActions>
+        <action>
+            <name>Update_Claim_Disposition_to_Denied</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Update_Status_to_Rejected</name>
+            <type>FieldUpdate</type>
+        </action>
+        <action>
+            <name>Warrranty_Claim_Rejection</name>
+            <type>Alert</type>
+        </action>
+    </finalRejectionActions>
+    <finalRejectionRecordLock>false</finalRejectionRecordLock>
+    <initialSubmissionActions>
+        <action>
+            <name>Update_Status_to_Submitted</name>
+            <type>FieldUpdate</type>
+        </action>
+    </initialSubmissionActions>
+    <label>Warranty Claim Approval Process</label>
+    <processOrder>1</processOrder>
+    <recallActions>
+        <action>
+            <name>Update_Status_to_New</name>
+            <type>FieldUpdate</type>
+        </action>
+    </recallActions>
+    <recordEditability>AdminOrCurrentApprover</recordEditability>
+    <showApprovalHistory>true</showApprovalHistory>
+</ApprovalProcess>

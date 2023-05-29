@@ -1,0 +1,37 @@
+
+
+.container {
+    position: relative;
+    flex-direction: column;
+    width: 100%;
+}
+
+.gauge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.header {
+    width: 100%;
+}
+
+.subheader {
+    color: rgba(105, 105, 105, 0.7);
+}
+
+.halfWidth {
+    width: 50%;
+}
+
+.key {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.square {
+    height: 15px;
+    width: 15px;
+}

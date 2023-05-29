@@ -1,0 +1,30 @@
+
+.slds-box {
+    padding: 0;
+}
+
+.slds-button_icon-bare {
+    display: none;
+}
+
+.flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.brandColor {
+    background-color: var(--lwc-colorBrand) !important;
+}
+
+.search {
+    width: 100%;
+    max-width: 500px;
+}

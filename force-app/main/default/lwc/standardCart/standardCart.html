@@ -1,0 +1,141 @@
+
+<!-- Standard Cart -->
+<template>
+	<lightning-spinner if:true={isLoading}></lightning-spinner>
+
+	<div if:true={loaded}>
+		<div class="slds-p-around_small slds-m-top_medium" for:each={itemGroups} for:item="cartItem" key={cartItem.uniqueId}>
+			<div>
+				<div class="slds-grid slds-wrap slds-border_bottom slds-p-bottom_large">
+					<!-- Product Image -->
+					<div class="col slds-size_1-of-1 slds-large-size_2-of-12">
+						<div class="slds-p-horizontal_large image-height name-link" data-unique-id={cartItem.uniqueId} onclick={goToPDP}>
+							<img
+								src={cartItem.image}
+								alt={cartItem.name}
+								id={cartItem.uniqueId}
+								title={cartItem.name}
+								class="product-media"
+							/>
+						</div>
+					</div>
+					<!-- /Product Image -->
+					<div class="col slds-size_1-of-1 slds-large-size_10-of-12">
+						<div
+							class="item-name slds-text-heading_medium slds-p-bottom_small slds-truncate product-name name-link"
+							data-unique-id={cartItem.uniqueId}
+							onclick={goToPDP}
+						>
+							{cartItem.name}
+						</div>
+						<div class="slds-form_horizontal slds-form slds-grid slds-wrap slds-gutters">
+							<!-- Product Details -->
+							<div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12" style="font-size: 14px">
+								<div if:false={cartItem.isWav} class="justify">
+									<div class="slds-p-right_x-small"><b>Product:</b></div>
+									<div>{cartItem.description}</div>
+								</div>
+								<div if:true={cartItem.isTurny} class="justify">
+									<div class="slds-p-right_x-small"><b>Option:</b></div>
+									<div>{cartItem.smartString}</div>
+								</div>
+								<div if:true={cartItem.isWav} class="slds-m-bottom_small">
+									<div class="justify">
+										<b>Chassis:&nbsp;</b>
+										{cartItem.chassis.Name}
+									</div>
+									<div class="justify">
+										<b>Price:&nbsp;</b>
+										<lightning-formatted-number
+											value={cartItem.chassis.UnitAdjustedPrice}
+											format-style="currency"
+											currency-code={currencyIsoCode}
+										></lightning-formatted-number>
+									</div>
+									<div class="justify slds-m-top_small">
+										<b>Conversion:&nbsp;</b>
+										{cartItem.conversion.Name}
+									</div>
+									<div class="justify">
+										<b>Price:&nbsp;</b>
+										<lightning-formatted-number
+											value={cartItem.conversion.UnitAdjustedPrice}
+											format-style="currency"
+											currency-code={currencyIsoCode}
+										></lightning-formatted-number>
+									</div>
+									<div class="justify">
+										<div class="slds-p-right_x-small"><b>SKU:</b></div>
+										<div>
+											{cartItem.conversion.Sku}
+										</div>
+									</div>
+								</div>
+								<div if:false={cartItem.isWav} class="justify slds-m-top_small">
+									<div class="slds-p-right_x-small"><b>Price per Unit:</b></div>
+									<div>
+										<lightning-formatted-number
+											value={cartItem.UnitAdjustedPrice}
+											format-style="currency"
+											currency-code={currencyIsoCode}
+										></lightning-formatted-number>
+									</div>
+								</div>
+							</div>
+							<!-- /Product Details -->
+
+
+							<!-- Just for alignment -->
+							<div if:true={cartItem.isConfiguration} class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+							</div>
+
+							<!-- Quantity Input -->
+							<div if:false={cartItem.isConfiguration} class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+								<div class="qty-input slds-align_absolute-center">
+									<lightning-input
+										type="number"
+										label=""
+										max="100000"
+										value={cartItem.Quantity}
+										class="max-width"
+										data-cart-item-id={cartItem.Id}
+										data-product-id={cartItem.Product2Id}
+										onblur={updateCartItem}
+									></lightning-input>
+								</div>
+							</div>
+							<!-- /Quantity Input -->
+
+							<!-- Price -->
+							<div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+								<div class="slds-text-align_center">
+									<lightning-formatted-number
+										class="total-line-price"
+										value={cartItem.TotalPrice}
+										format-style="currency"
+										currency-code={currencyIsoCode}
+									></lightning-formatted-number>
+								</div>
+							</div>
+							<!-- /Price -->
+
+							<!-- Delete Button -->
+							<div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12 slds-text-align_right">
+								<div class="slds-p-around_x-small">
+									<lightning-button-icon
+										icon-name="utility:close"
+										alternative-text="Delete Item"
+										variant="bare"
+										data-unique-id={cartItem.uniqueId}
+										onclick={deleteCartItem}
+									></lightning-button-icon>
+								</div>
+							</div>
+							<!-- /Delete Button -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

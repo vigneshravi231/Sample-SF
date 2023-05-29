@@ -1,0 +1,12 @@
+
+.active-page {
+    font-weight: bold;
+}
+
+.inactive-pages {
+    cursor: pointer;
+}
+
+.m-left4 {
+    margin-left: 4px;
+}

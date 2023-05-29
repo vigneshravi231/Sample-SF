@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Order_Integration_Complete__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>For orders that are created in Epicor indicates that all order lines were already created and the order summary can be created for it</description>
+    <externalId>false</externalId>
+    <inlineHelpText>For orders that are created in Epicor indicates that all order lines were already created and the order summary can be created for it</inlineHelpText>
+    <label>Order Integration Complete</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

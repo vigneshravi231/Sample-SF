@@ -1,0 +1,14 @@
+
+
+.flex-container {
+  display: flex;
+  width: 100%;
+}
+
+.flex-align-items-end {
+  align-items: flex-end;
+}
+
+.flex-item {
+  flex: 1;
+}

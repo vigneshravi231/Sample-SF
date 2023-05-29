@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Total_Not_On_Hold_Inventory__c</fullName>
+    <description>BC-351 sum of inventory items that are not on application hold (e.g. not part of wav configuration)</description>
+    <externalId>false</externalId>
+    <inlineHelpText>BC-351 sum of inventory items that are not on application hold (e.g. not part of wav configuration)</inlineHelpText>
+    <label>Total Not On Hold Inventory</label>
+    <summarizedField>PortalInventoryDetail__c.Available_Inventory__c</summarizedField>
+    <summaryFilterItems>
+        <field>PortalInventoryDetail__c.Application_Hold__c</field>
+        <operation>equals</operation>
+        <value>False</value>
+    </summaryFilterItems>
+    <summaryForeignKey>PortalInventoryDetail__c.PortalInventory__c</summaryForeignKey>
+    <summaryOperation>sum</summaryOperation>
+    <trackTrending>false</trackTrending>
+    <type>Summary</type>
+</CustomField>

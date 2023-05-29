@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Entitlement_Job_CRON__c</fullName>
+    <defaultValue>&apos;0 0 * * * ?&apos;</defaultValue>
+    <description>BC-230 CRON expression that drives times when Product Entitlement Job runs. CRON info https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>BC-230 CRON expression that drives times when Product Entitlement Job runs. CRON info https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_scheduler.htm</inlineHelpText>
+    <label>Entitlement Job CRON</label>
+    <length>255</length>
+    <required>true</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

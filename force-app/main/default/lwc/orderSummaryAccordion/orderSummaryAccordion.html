@@ -1,0 +1,24 @@
+
+<!-- Order Summary Accordion -->
+<template>
+	<ul class="slds-accordion">
+		<li class="slds-accordion__list-item">
+			<section class="slds-accordion__section slds-is-open slds-border_bottom slds-p-bottom_medium">
+				<div class="slds-accordion__summary">
+					<h2 class="slds-accordion__summary-heading">
+						<div class="pointer" onclick={handleToggleClick}>
+							<lightning-icon icon-name="utility:chevronright" class={classes.chevronUp} size="xx-small"></lightning-icon>
+							&nbsp;
+							<lightning-icon icon-name="utility:chevrondown" class={classes.chevronDown} size="xx-small"></lightning-icon>
+							&nbsp;
+							<span class="slds-accordion__summary-content">({itemNumbers}) &nbsp;Order Items</span>
+						</div>
+					</h2>
+				</div>
+				<div class={classes.body}>
+					<slot name="body"></slot>
+				</div>
+			</section>
+		</li>
+	</ul>
+</template>

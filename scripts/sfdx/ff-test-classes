@@ -1,0 +1,27 @@
+#!/bin/bash
+cd_into_git_parent(){
+  TEMP_PWD=`pwd`
+
+  while ! [ -d .git ]; do
+    cd ..
+  done
+
+  OLDPWD=$TEMP_PWD
+}
+
+cd_into_git_parent
+
+touched_classes=$(git log --name-only --format="" --grep="BC" | grep -i  'test.cls$' | sort -u)
+
+existing_classes=""
+
+for cls in $touched_classes; do
+  #echo $cls
+  if [ -e $cls ]; then
+    existing_classes+="$cls "
+  fi
+done
+
+class_names=$(echo $existing_classes | xargs basename -a -s ".cls" | paste -sd",")
+
+echo $class_names

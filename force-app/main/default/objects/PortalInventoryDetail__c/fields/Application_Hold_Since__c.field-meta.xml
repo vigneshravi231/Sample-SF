@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Application_Hold_Since__c</fullName>
+    <description>BC-351 timestamp since when the inventory is on application hold</description>
+    <externalId>false</externalId>
+    <inlineHelpText>BC-351 timestamp since when the inventory is on application hold</inlineHelpText>
+    <label>Application Hold Since</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>DateTime</type>
+</CustomField>

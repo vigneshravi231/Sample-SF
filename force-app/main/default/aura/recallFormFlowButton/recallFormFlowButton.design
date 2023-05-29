@@ -1,0 +1,4 @@
+
+<design:component label="Asset 360 Recall">
+  <design:attribute label="recordId" name="recordId" default="{!recordId}"></design:attribute>
+</design:component>

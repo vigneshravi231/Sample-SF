@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Conversion__c</fullName>
+    <externalId>false</externalId>
+    <label>Conversion</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Chrysler CompanionVan (CV) 2020-2021</fullName>
+                <default>false</default>
+                <label>Chrysler CompanionVan (CV) 2020-2021</label>
+            </value>
+            <value>
+                <fullName>Chrysler Pacifica/Voyager Power Infloor (XI) 2017-2021</fullName>
+                <default>false</default>
+                <label>Chrysler Pacifica/Voyager Power Infloor (XI) 2017-2021</label>
+            </value>
+            <value>
+                <fullName>Chrysler Pacifica/Voyager Manual Rear Entry (V7) 2017-2021</fullName>
+                <default>false</default>
+                <label>Chrysler Pacifica/Voyager Manual Rear Entry (V7) 2017-2021</label>
+            </value>
+            <value>
+                <fullName>Chrysler Voyager ADA Short Cut (VA) 2020-2021</fullName>
+                <default>false</default>
+                <label>Chrysler Voyager ADA Short Cut (VA) 2020-2021</label>
+            </value>
+            <value>
+                <fullName>Chrysler Voyager ADA Long Cut (V3) 2020-2021</fullName>
+                <default>false</default>
+                <label>Chrysler Voyager ADA Long Cut (V3) 2020-2021</label>
+            </value>
+            <value>
+                <fullName>Chrysler Voyager ADA Side Entry (E3) 2020-2021</fullName>
+                <default>false</default>
+                <label>Chrysler Voyager ADA Side Entry (E3) 2020-2021</label>
+            </value>
+            <value>
+                <fullName>Toyota Sienna Hybrid Power Foldout (XT) 2021</fullName>
+                <default>false</default>
+                <label>Toyota Sienna Hybrid Power Foldout (XT) 2021</label>
+            </value>
+            <value>
+                <fullName>Honda Power Infloor (XI) 2018-2022</fullName>
+                <default>false</default>
+                <label>Honda Power Infloor (XI) 2018-2022</label>
+            </value>
+            <value>
+                <fullName>Traverse Power Infloor (XI) 2020-2021</fullName>
+                <default>false</default>
+                <label>Traverse Power Infloor (XI) 2020-2021</label>
+            </value>
+            <value>
+                <fullName>Dodge/Chrysler Companion Van (CV) 2013-2020</fullName>
+                <default>false</default>
+                <label>Dodge/Chrysler Companion Van (CV) 2013-2020</label>
+            </value>
+            <value>
+                <fullName>Dodge/Chrysler Manual Rear Entry (V7) 2013-2020</fullName>
+                <default>false</default>
+                <label>Dodge/Chrysler Manual Rear Entry (V7) 2013-2020</label>
+            </value>
+            <value>
+                <fullName>Dodge/Chrysler Power Foldout (XT) 2013-2020</fullName>
+                <default>false</default>
+                <label>Dodge/Chrysler Power Foldout (XT) 2013-2020</label>
+            </value>
+            <value>
+                <fullName>Dodge/Chrysler ADA Side Entry (E3/E5)</fullName>
+                <default>false</default>
+                <label>Dodge/Chrysler ADA Side Entry (E3/E5)</label>
+            </value>
+            <value>
+                <fullName>Chrysler Pacifica/Voyager Power Foldout (E2) 2017-2021</fullName>
+                <default>false</default>
+                <label>Chrysler Pacifica/Voyager Power Foldout (E2) 2017-2021</label>
+            </value>
+            <value>
+                <fullName>Chrysler Pacifica/Voyager Power Foldout (XT) 2017-2021</fullName>
+                <default>false</default>
+                <label>Chrysler Pacifica/Voyager Power Foldout (XT) 2017-2021</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

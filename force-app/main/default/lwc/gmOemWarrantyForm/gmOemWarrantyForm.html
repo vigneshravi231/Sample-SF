@@ -1,0 +1,185 @@
+
+<!-- GM OEM Warranty Form -->
+<template>
+
+  <template if:true={success}>
+    <div style="min-height: 350px">
+      <div class="slds-text-heading_large slds-align_absolute-center">
+        GM OEM Warranty Restart Form successfully submitted!&nbsp;
+      </div>
+      <lightning-layout class="slds-align_absolute-center mediumLargePadding">
+        <lightning-layout-item padding="horizontal-medium">
+          <lightning-button label="Submit Another Form" onclick={newForm}></lightning-button>
+        </lightning-layout-item>
+        <lightning-layout-item padding="horizontal-medium">
+          <lightning-button label="View Open Cases" onclick={navigateToOpenCases}></lightning-button>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+  </template>
+
+  <template if:true={isLoading}>
+    <lightning-spinner variant="brand" size="medium" alternative-text="Loading..."></lightning-spinner>
+  </template>
+  <template if:false={success}>
+    <lightning-record-edit-form object-api-name="Case"
+                                onsubmit={onSubmit}
+                                onsuccess={onSuccess}
+                                onerror={onError}
+                                onload={onLoad}
+                                density="comfy"
+                                record-type-id={recordTypeId}>
+      <lightning-messages>
+      </lightning-messages>
+
+      <div class="slds-box slds-m-bottom_large">
+        <c-customer-care-box-header title="Eligibility">
+          <lightning-input-field field-name="GM_OEM_Eligibility__c" variant="label-hidden" slot="body" required class="slds-m-right_large slds-m-"></lightning-input-field>
+        </c-customer-care-box-header>
+
+        <c-customer-care-box-header title="Vehicle Information">
+          <lightning-layout slot="body" multiple-rows pull-to-boundary="medium">
+            <lightning-layout-item size="12" padding="horizontal-medium">
+              <lightning-input-field field-name="Vehicle_VIN__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-medium">
+              <div class="color-brand slds-text-heading_small slds-brand slds-m-top_small slds-m-horizontal_xx-small">
+                Date and Mileage at time of first retail sale or when vehicle was placed into service by a GM authorized Sample or political subdivision:
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-medium">
+              <div class="slds-m-bottom_xx-small slds-m-horizontal_xx-small" style="font-size: 11px">
+                IMPORTANT: In order to be eligible, the vehicle must have less than&nbsp;
+                <span class="underline">3,000 miles</span>
+                , and the date must be within
+                &nbsp;<span class="underline">two</span>
+                &nbsp;years of the original Vehicle Build Date
+              </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="horizontal-medium">
+              <lightning-input-field field-name="Vehicle_In_Service_Date__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="horizontal-medium">
+              <lightning-input-field field-name="Vehicle_Mileage__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-medium">
+              <lightning-input label="Is the Vehicle Sold by GM Dealer?"
+                               class="slds-m-top_small slds-m-horizontal_xx-small"
+                               type="checkbox"
+                               checked={isSoldByGM}
+                               onchange={handleInput}></lightning-input>
+            </lightning-layout-item>
+          </lightning-layout>
+        </c-customer-care-box-header>
+      </div>
+
+
+      <template if:true={isSoldByGM}>
+        <div class="slds-box slds-m-bottom_large">
+          <c-customer-care-box-header title="Dealer Information">
+            <lightning-layout slot="body" multiple-rows pull-to-boundary="medium">
+              <lightning-layout-item size="12" padding="horizontal-medium">
+                <div class="color-brand slds-text-heading_small slds-brand slds-m-horizontal_xx-small">
+                  (When vehicle is sold by GM Dealer)
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item size="12" padding="horizontal-medium">
+                <div class="slds-m-bottom_xx-small">
+                  Mobility Dealers,&nbsp;
+                  <span class="underline">Do Not Use</span>
+                  &nbsp;This Section
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="GM_Business_Associate_Code__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="Selling_Dealer_Name__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="Selling_Dealer_Rep_Name__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="Selling_Dealer_Email__c" required></lightning-input-field>
+              </lightning-layout-item>
+            </lightning-layout>
+          </c-customer-care-box-header>
+        </div>
+      </template>
+
+
+      <template if:false={isSoldByGM}>
+        <div class="slds-box slds-m-bottom_large">
+          <c-customer-care-box-header title="Authorized Sample/Retailer Information">
+            <lightning-layout slot="body" multiple-rows pull-to-boundary="medium">
+              <lightning-layout-item size="12" padding="horizontal-medium">
+                <div class="slds-m-bottom_xx-small">
+                  Mobility Dealers, USE this section to input your dealership information
+                </div>
+              </lightning-layout-item>
+              <lightning-layout-item size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="GM_Requestor_Name__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="GM_Requestor_Email__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="12" padding="horizontal-medium">
+                <lightning-input-field field-name="Sample_Retail_Business_Name__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="12" padding="horizontal-medium">
+                <lightning-input-field field-name="Sample_Business_Associate_Code__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="12" padding="horizontal-medium">
+                <lightning-input-field field-name="Dealer_Street_Address__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+                <lightning-input-field field-name="Dealer_City__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="3" large-device-size="3" medium-device-size="3" small-device-size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="Dealer_State__c" required></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item size="4" large-device-size="4" medium-device-size="4" small-device-size="6" padding="horizontal-medium">
+                <lightning-input-field field-name="Dealer_Zip_Code__c" required></lightning-input-field>
+              </lightning-layout-item>
+            </lightning-layout>
+          </c-customer-care-box-header>
+        </div>
+      </template>
+
+
+      <div class="slds-box">
+        <c-customer-care-box-header title="Customer Information">
+          <lightning-layout slot="body" multiple-rows pull-to-boundary="medium">
+            <lightning-layout-item size="12" padding="horizontal-medium">
+              <lightning-input-field field-name="Customer_Name__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-medium">
+              <lightning-input-field field-name="Customer_Email__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="horizontal-medium">
+              <lightning-input-field field-name="Address__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="5" large-device-size="5" medium-device-size="5" small-device-size="12" padding="horizontal-medium">
+              <lightning-input-field field-name="City__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="3" large-device-size="3" medium-device-size="3" small-device-size="6" padding="horizontal-medium">
+              <lightning-input-field field-name="State__c" required></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="4" large-device-size="4" medium-device-size="4" small-device-size="6" padding="horizontal-medium">
+              <lightning-input-field field-name="ZipPostCode__c" required></lightning-input-field>
+            </lightning-layout-item>
+          </lightning-layout>
+        </c-customer-care-box-header>
+      </div>
+      <div class="slds-text-heading_medium slds-m-vertical_large">
+        Please contact&nbsp;
+        <a href="mailto:WAVINSIDESALES@SampleAbility.com" target="_blank">WAVINSIDESALES@SampleAbility.com</a>
+        &nbsp;for any questions.
+      </div>
+      <div class="slds-align_absolute-center">
+        <lightning-button label="Submit GM OEM Warranty Restart Form" type="submit"></lightning-button>
+      </div>
+
+    </lightning-record-edit-form>
+  </template>
+</template>

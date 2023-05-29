@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recalled_Asset__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>If this claim is related to a recall, please select the appropriate asset/recall combination.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>If this claim is related to a recall, please select the appropriate asset/recall combination.</inlineHelpText>
+    <label>Recalled Asset</label>
+    <referenceTo>Recallable__c</referenceTo>
+    <relationshipLabel>Cases</relationshipLabel>
+    <relationshipName>Cases</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Configuration_Smart_String__c</fullName>
+    <description>BC-257 add field to store webconfigurator values</description>
+    <externalId>false</externalId>
+    <inlineHelpText>BC-257 add field to store webconfigurator values</inlineHelpText>
+    <label>Configuration Smart String</label>
+    <length>1000</length>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
+</CustomField>

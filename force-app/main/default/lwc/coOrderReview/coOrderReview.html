@@ -1,0 +1,421 @@
+
+<!-- Co Order Review -->
+<template>
+	<c-spinner if:true={isLoading}></c-spinner>
+	<lightning-layout multiple-rows>
+		<lightning-layout-item class="order-review-layout" padding="around-small" size="12" small-device-size="12" medium-device-size="12">
+			<div>
+				<!-- Desktop -->
+				<table class="slds-table slds-table_cell-buffer slds-no-row-hover fixed mobile-hide" aria-label="Review Order Items">
+					<thead class="slds-p-bottom_small">
+						<tr class="slds-line-height_reset">
+							<th scope="col" class="product-col" if:true={splitPossible}>
+								<!-- Placeholder -->
+							</th>
+
+							<th scope="col" class="product-col">Products in cart</th>
+							<th scope="col">
+								<div class="slds-cell-wrap">
+									<!-- Image placeholder -->
+								</div>
+							</th>
+							<th scope="col">
+								<div class="slds-cell-wrap">SKU</div>
+							</th>
+							<template if:true={props.isLineLevelShipping}>
+								<th scope="col">
+									<div class="">Ship To</div>
+								</th>
+							</template>
+							<!--/Line Item Shipping -->
+							<th scope="col" class="qty-col">
+								<div class="slds-cell-wrap slds-text-align_center">Qty</div>
+							</th>
+							<th scope="col" class="inventory-col">
+								<div class="slds-cell-wrap slds-text-align_center">Inventory</div>
+							</th>
+							<th scope="col" class="total-col">
+								<div class="slds-cell-wrap slds-text-align_center">Total</div>
+							</th>
+						</tr>
+					</thead>
+					<tbody class="item-table">
+						<template for:each={cartItems} for:item="item">
+							<tr class="slds-hint-parent slds-border_top" if:false={item.splitItem} key={item.Id}>
+								<td if:true={splitPossible}>
+									<div class="slds-cell-wrap slds-text-align_center">
+										<lightning-button
+											if:true={item.canBeSplit}
+											onclick={handleItemSplit}
+											data-item-id={item.Id}
+											disabled={item.disableSplit}
+											label="Split Line"
+										></lightning-button>
+									</div>
+								</td>
+
+								<td>
+									<div class="slds-cell-wrap image-container">
+										<img src={item.imageUrl} alt="Product Image" class="product-image" />
+									</div>
+								</td>
+								<template if:false={item.isWav}>
+									<td>
+										<div class="slds-cell-wrap">{item.description}</div>
+									</td>
+									<td>
+										<div class="slds-cell-wrap">{item.name}</div>
+									</td>
+								</template>
+								<template if:true={item.isWav}>
+									<td>
+										<div class="slds-cell-wrap">{item.chassis.Name}</div>
+										<div class="slds-cell-wrap">{item.conversion.Name}</div>
+									</td>
+									<td>
+										<div class="slds-cell-wrap">{item.chassis.Sku}</div>
+										<div class="slds-cell-wrap">{item.conversion.Sku}</div>
+									</td>
+								</template>
+								<!-- Line Item Shipping-->
+								<template if:true={props.isLineLevelShipping}>
+									<td>
+										<div class="">
+											<template if:true={hasShippingOptions}>
+												<div class="white-space-normal hide-combobox-label">
+													<lightning-combobox
+														if:false={item.isWav}
+														name="shippingOptions"
+														label=""
+														data-item-id={item.Id}
+														value={item.ShippingAddress.Id}
+														options={item.shippingOptions}
+														onchange={handleShippingSelection}
+													></lightning-combobox>
+													<lightning-combobox
+														if:true={item.isWav}
+														name="shippingOptions"
+														label=""
+														data-item-id={item.Id}
+														value={item.chassis.ShippingAddress.Id}
+														options={item.shippingOptions}
+														onchange={handleWavShippingSelection}
+													></lightning-combobox>
+												</div>
+
+												<c-add-one-time-shipping-address item={item}></c-add-one-time-shipping-address>
+											</template>
+											<template if:false={hasShippingOptions}>No shipping options found.</template>
+										</div>
+									</td>
+								</template>
+								<!--/Line Item Shipping-->
+								<td>
+									<div class="slds-cell-wrap slds-text-align_center">{item.Quantity}</div>
+								</td>
+								<td>
+									<div class="slds-cell-wrap slds-text-align_center">{item.Product_Total_Inventory__c}</div>
+								</td>
+								<td>
+									<div class="slds-cell-wrap slds-text-align_center">
+										<lightning-formatted-number
+											value={item.TotalLineAmount}
+											format-style="currency"
+											currency-code="USD"
+										></lightning-formatted-number>
+									</div>
+								</td>
+							</tr>
+
+							<!-- Potential split items -->
+							<template for:each={item.splitItems} for:item="splitItem">
+								<tr class="slds-hint-parent expanded slds-border_top" key={splitItem.UniqueId}>
+									<td>
+										<div class="slds-cell-wrap image-container">
+											<lightning-button-icon
+												icon-name="utility:close"
+												onclick={removeSplitItem}
+												variant="bare"
+												data-item-id={item.Id}
+												data-split-id={splitItem.UniqueId}
+												alternative-text="Remove"
+												title="Remove"
+											></lightning-button-icon>
+										</div>
+									</td>
+									<td>
+									</td>
+									<td>
+										<div class="slds-cell-wrap">{item.Product_Description__c}</div>
+									</td>
+									<td>
+										<div class="slds-cell-wrap">{item.Product_Name__c}</div>
+									</td>
+									<td>
+										<div class="">
+											<template if:true={hasShippingOptions}>
+												<div class="white-space-normal hide-combobox-label">
+													<lightning-combobox
+														name="shippingOptions"
+														label=""
+														data-item-id={item.Id}
+														data-split-id={splitItem.UniqueId}
+														value={splitItem.ShippingAddress.Id}
+														options={splitItem.shippingOptions}
+														onchange={handleShippingSelection}
+													></lightning-combobox>
+												</div>
+
+												<c-add-one-time-shipping-address item={splitItem}></c-add-one-time-shipping-address>
+											</template>
+											<template if:false={hasShippingOptions}>No shipping options found.</template>
+										</div>
+									</td>
+									<td>
+										<div class="slds-text-align_center hide-combobox-label">
+											<lightning-button-icon
+												icon-name="utility:dash"
+												class="slds-p-right_xx-small"
+												alternative-text="Deduct"
+												title="Deduct"
+												variant="bare"
+												data-item-id={item.Id}
+												data-split-id={splitItem.UniqueId}
+												onclick={deductSplitItem}
+												disabled={splitItem.DisableDeduct}
+											></lightning-button-icon>
+
+											<input
+												type="number"
+												min="1"
+												class="quantity-input"
+												data-item-id={item.Id}
+												data-split-id={splitItem.UniqueId}
+												value={splitItem.Quantity}
+												onchange={handleSplitItemQuantityChange}
+											/>
+
+											<lightning-button-icon
+												icon-name="utility:add"
+												class="slds-p-left_xx-small"
+												alternative-text="Add"
+												title="Add"
+												variant="bare"
+												data-item-id={item.Id}
+												data-split-id={splitItem.UniqueId}
+												onclick={addSplitItem}
+												disabled={item.disableAdd}
+											></lightning-button-icon>
+										</div>
+									</td>
+									<td>
+									</td>
+									<td>
+										<div class="slds-cell-wrap slds-text-align_center">
+											<lightning-formatted-number
+												value={splitItem.TotalLineAmount}
+												format-style="currency"
+												currency-code="USD"
+											></lightning-formatted-number>
+										</div>
+									</td>
+								</tr>
+							</template>
+						</template>
+						<tr>
+							<td colspan="4">
+								<div class="slds-text-align_right slds-m-top_medium">
+									<span class="slds-text-title_bold slds-text-heading_medium">Subtotal:</span>
+								</div>
+							</td>
+							<td colspan="1">
+								<div class="slds-text-align_center slds-m-top_medium">
+									<span class="slds-text-title_bold slds-text-heading_medium">
+										<lightning-formatted-number
+											value={props.cart.TotalProductAmount}
+											format-style="currency"
+											currency-code="USD"
+										></lightning-formatted-number>
+									</span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- /Desktop -->
+				<!-- Mobile -->
+				<div class="product-container-mobile remove-box-padding-h-1">
+					<div
+						class="slds-hint-parent mobile-show slds-text-align_center product-box"
+						for:each={cartItems}
+						for:item="item"
+						key={item.Id}
+					>
+						<div class="slds-border_bottom main-cart-item">
+							<div class="slds-grid slds-wrap slds-p-around_small mobile-cart-item-container">
+								<div class="slds-col margin-auto slds-size_4-of-12 slds-small-size_6-of-12">
+									<img src={item.imageUrl} alt="Product Image" class="product-image" />
+								</div>
+
+								<div
+									class="slds-col margin-auto slds-text-align_left slds-p-left_small slds-size_8-of-12 slds-small-size_6-of-12"
+								>
+									<div>
+										<b>{item.Product_Description__c}</b>
+									</div>
+
+									<div class="">{item.Product_Name__c}</div>
+
+									<div class="">{item.Quantity}</div>
+
+									<div class="">
+										<lightning-formatted-number
+											value={item.TotalLineAmount}
+											format-style="currency"
+											currency-code="USD"
+										></lightning-formatted-number>
+									</div>
+
+									<!-- Line Item Shipping-->
+									<template if:true={props.isLineLevelShipping}>
+										<div class="slds-m-top_x-small">
+											<template if:true={hasShippingOptions}>
+												<div class="white-space-normal hide-combobox-label">
+													<lightning-combobox
+														if:false={item.isWav}
+														name="shippingOptions"
+														label=""
+														data-item-id={item.Id}
+														value={item.ShippingAddress.Id}
+														options={item.shippingOptions}
+														placeholder="Shipping"
+														onchange={handleShippingSelection}
+													></lightning-combobox>
+													<lightning-combobox
+														if:true={item.isWav}
+														name="shippingOptions"
+														label=""
+														data-item-id={item.Id}
+														value={item.chassis.ShippingAddress.Id}
+														options={item.shippingOptions}
+														onchange={handleWavShippingSelection}
+													></lightning-combobox>
+												</div>
+												<div class="slds-text-align_right">
+													<c-add-one-time-shipping-address item={item}></c-add-one-time-shipping-address>
+												</div>
+											</template>
+											<template if:false={hasShippingOptions}>No shipping options found.</template>
+										</div>
+									</template>
+									<!--/Line Item Shipping-->
+
+									<div class="slds-m-top_x-small slds-text-align_right" if:true={item.canBeSplit}>
+										<a if:true={item.canBeSplit} onclick={handleItemSplit} data-item-id={item.Id}>Split Line</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Potential Order item Splits -->
+
+						<div
+							class="slds-border_bottom expanded split-item"
+							for:each={item.splitItems}
+							for:item="splitItem"
+							key={splitItem.UniqueId}
+						>
+							<div class="slds-grid slds-wrap slds-p-around_small mobile-cart-item-container">
+								<div class="slds-col margin-auto slds-size_4-of-12 slds-small-size_6-of-12">
+									<img src={item.imageUrl} alt="Product Image" class="product-image" />
+								</div>
+
+								<div
+									class="slds-col margin-auto slds-text-align_left slds-p-left_small slds-size_8-of-12 slds-small-size_6-of-12"
+								>
+									<div>
+										<b>{item.Product_Description__c}</b>
+									</div>
+
+									<div class="">{item.Product_Name__c}</div>
+
+									<div class="">
+										<lightning-formatted-number
+											value={splitItem.TotalLineAmount}
+											format-style="currency"
+											currency-code="USD"
+										></lightning-formatted-number>
+									</div>
+
+									<!-- Line Item Shipping-->
+									<div class="slds-m-top_x-small">
+										<template if:true={hasShippingOptions}>
+											<div class="white-space-normal hide-combobox-label">
+												<lightning-combobox
+													name="shippingOptions"
+													label=""
+													data-item-id={item.Id}
+													data-split-id={splitItem.UniqueId}
+													value={splitItem.ShippingAddress.Id}
+													options={splitItem.shippingOptions}
+													onchange={handleShippingSelection}
+													placeholder="Shipping"
+												></lightning-combobox>
+											</div>
+											<div class="slds-text-align_right">
+												<c-add-one-time-shipping-address item={item}></c-add-one-time-shipping-address>
+											</div>
+										</template>
+
+										<template if:false={hasShippingOptions}>No shipping options found.</template>
+									</div>
+									<!--/Line Item Shipping-->
+
+									<div class="slds-m-top_x-small hide-combobox-label">
+										<lightning-button-icon
+											icon-name="utility:dash"
+											class="slds-p-right_xx-small"
+											alternative-text="Deduct"
+											title="Deduct"
+											variant="bare"
+											data-item-id={item.Id}
+											data-split-id={splitItem.UniqueId}
+											onclick={deductSplitItem}
+											disabled={splitItem.DisableDeduct}
+										></lightning-button-icon>
+
+										<input
+											type="number"
+											min="1"
+											class="quantity-input"
+											data-item-id={item.Id}
+											data-split-id={splitItem.UniqueId}
+											value={splitItem.Quantity}
+											onchange={handleSplitItemQuantityChange}
+										/>
+
+										<lightning-button-icon
+											icon-name="utility:add"
+											class="slds-p-left_xx-small"
+											alternative-text="Add"
+											title="Add"
+											variant="bare"
+											data-item-id={item.Id}
+											data-split-id={splitItem.UniqueId}
+											onclick={addSplitItem}
+											disabled={item.disableAdd}
+										></lightning-button-icon>
+									</div>
+
+									<div class="slds-m-top_x-small slds-text-align_right">
+										<a onclick={removeSplitItem} data-item-id={item.Id} data-split-id={splitItem.UniqueId}>Remove</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Mobile -->
+			</div>
+		</lightning-layout-item>
+	</lightning-layout>
+</template>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LiveChatButton xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoGreeting>Welcome! Thank you for contacting our Vehicle Support Chat. How may I help you?</autoGreeting>
+    <chatPage>VehicleSupportChatWindow</chatPage>
+    <customAgentName>Vehicle Support</customAgentName>
+    <deployments/>
+    <enableQueue>true</enableQueue>
+    <isActive>true</isActive>
+    <label>Vehicle Support Chat Button</label>
+    <offlineImage>VehicleSupportChatOffline</offlineImage>
+    <onlineImage>VehicleSupportOnline</onlineImage>
+    <optionsCustomRoutingIsEnabled>false</optionsCustomRoutingIsEnabled>
+    <optionsHasChasitorIdleTimeout>false</optionsHasChasitorIdleTimeout>
+    <optionsHasInviteAfterAccept>false</optionsHasInviteAfterAccept>
+    <optionsHasInviteAfterReject>false</optionsHasInviteAfterReject>
+    <optionsHasRerouteDeclinedRequest>false</optionsHasRerouteDeclinedRequest>
+    <optionsIsAutoAccept>false</optionsIsAutoAccept>
+    <optionsIsInviteAutoRemove>false</optionsIsInviteAutoRemove>
+    <perAgentQueueLength>10</perAgentQueueLength>
+    <postChatPage>CustomerPostChat</postChatPage>
+    <preChatFormPage>VehicleSupportPreChat</preChatFormPage>
+    <routingType>Choice</routingType>
+    <site>LiveAgent</site>
+    <skills>
+        <skill>Vehicle_Support</skill>
+    </skills>
+    <type>Standard</type>
+    <windowLanguage>en_US</windowLanguage>
+</LiveChatButton>

@@ -1,0 +1,6 @@
+Dear {!Case.Contact},   
+
+Thank you for submitting a MAP Request. Case #{!Case.CaseNumber}: "{!Case.Subject}" has been created.  
+
+Thank you,   
+{!Organization.Name}

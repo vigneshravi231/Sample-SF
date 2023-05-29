@@ -1,0 +1,85 @@
+<apex:page showHeader="false"> 
+<!-- This script takes the endpoint URL parameter passed from the deployment 
+  page and makes it the action for the form -->
+    <style type="text/css">
+        body{
+            background-color: #EFEFEF;
+        }
+        .PreForm{
+            font-family: Arial Narrow;
+            font-size: 16px;
+            margin: 10px;
+            text-align: center;
+        }
+        input{
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+            margin-right: 20px;
+        }
+        textarea {
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+        }
+        input#prechat_submit {
+            display: block;
+            margin: auto;
+        }
+        .PreInputs{
+            text-align: left;
+            font-weight: bold;
+        }
+    </style>
+    
+    <script type="text/javascript">
+        (function() { 
+            function handlePageLoad() {
+                var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+                document.getElementById('prechatForm').setAttribute('action',
+                decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+            } 
+            if (window.addEventListener) {
+                window.addEventListener('load', handlePageLoad, false);
+            } 
+            else { 
+                window.attachEvent('onload', handlePageLoad, false);
+            }
+        })(); 
+    </script>
+
+    <form method='post' id='prechatForm' class="PreForm"> 
+        <h1 style="font-size:18px">Welcome! Please enter your name so we may serve you better.</h1> <br/> <br/>
+        <div class="PreInputs">
+            <t>First name: </t><br/>
+            <input type='text' name='liveagent.prechat:FirstNameDetail' id='customField1' /><br />
+            
+            <t>Last name: </t><br/>
+            <input type='text' name='liveagent.prechat:LastNameDetail' id='customField2' required="true"/><br />
+            
+            <t>Email: </t><br/>
+            <input type='email' name='liveagent.prechat:EmailDetail' id='customField3' required="true"/><br />
+
+            <t>How can we help you today?</t><br />
+            <textarea name='liveagent.prechat:Question' id='customField4'/><br />
+
+            <!-- Map liveagent.prechat:FirstNameDetail and liveagent.prechat:LastNameDetail
+                custom detail to Contact's field FirstName and LastName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map:Contact" value="FirstName,FirstNameDetail;LastName,LastNameDetail;Email,EmailDetail" />
+            <!-- Specify to query for a matching Contact records FirstName field based on
+            the value of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Contact" value="Email,true" />
+            <!-- Return results only if there is an exact match of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Contact" value="Email,true" />
+            <!-- If no match in search, create a new Contact record with the mapped value
+            of firstname and last name -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Contact" value="FirstName,true;LastName,true;Email,true" />
+            <!-- If a new Contact record has been created, open it as a subtab -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Contact" value="true" />
+            <!-- Save the Contact id to transcript's field ContactId -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Contact" value="ContactId" />
+            <br/>
+            <input type='submit' value='Request Chat' id='prechat_submit' onclick="setVisitorName();" />
+        </div> 
+    </form> 
+</apex:page>

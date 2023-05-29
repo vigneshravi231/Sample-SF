@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomPermission xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>See orders, but cannot see invoices
+All orders require approval
+Must have option to have an approver assigned to that buyer, otherwise default to User Admin for that account
+Will not do any user admin abilities nor requisition approvals</description>
+    <isLicensed>false</isLicensed>
+    <label>Buyer Persona 2</label>
+</CustomPermission>

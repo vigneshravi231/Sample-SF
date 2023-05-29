@@ -1,0 +1,67 @@
+
+<!-- Wav List View -->
+<template>
+	<lightning-spinner if:true={isLoading}></lightning-spinner>
+
+	<!-- Header -->
+	<lightning-layout>
+		<lightning-layout-item flexibility="auto" padding="horizontal-small">
+			<c-customer-care-box-header title="Available WAV Stock">
+				<span slot="actions">
+					<lightning-button label="Dealer Locate Case" onclick={openDealerLocateModal}></lightning-button>&nbsp;
+					<lightning-button label="Customer Supplied Chassis Form" onclick={openCaseModal}></lightning-button>
+				</span>
+			</c-customer-care-box-header>
+		</lightning-layout-item>
+	</lightning-layout>
+
+	<!-- Filters -->
+	<c-product-configurator configuration={configuratorFields} onconfigchange={handleConfigChange}></c-product-configurator>
+
+	<div>
+		<!-- Lists -->
+		<lightning-layout multiple-rows>
+			<!-- Converted Stock -->
+			<lightning-layout-item size="12" medium-device-size="6" small-device-size="12" padding="around-small">
+				<c-wav-stock-table
+					table-data={foundChassis.converted}
+					onrowevent={goToProductDetail}
+					table-title="Converted Stock"
+					button-label="View"
+				></c-wav-stock-table>
+				<c-pagination-bar
+					data-type="converted"
+					pagination={pagination.converted}
+					onpaginationchange={handlePaginationChange}
+				></c-pagination-bar>
+			</lightning-layout-item>
+
+			<!-- Unconverted Stock -->
+			<lightning-layout-item size="12" medium-device-size="6" small-device-size="12" padding="around-small">
+				<c-wav-stock-table
+					table-data={foundChassis.unconverted}
+					button-label="View"
+					table-title="Unconverted Stock"
+					onrowevent={goToProductDetail}
+				></c-wav-stock-table>
+				<c-pagination-bar
+					data-type="unconverted"
+					pagination={pagination.unconverted}
+					onpaginationchange={handlePaginationChange}
+				></c-pagination-bar>
+			</lightning-layout-item>
+		</lightning-layout>
+	</div>
+
+	<!-- Case Modal -->
+	<c-user-supplied-form-modal
+		show-modal={caseModalIsOpen}
+		onclosemodal={closeCaseModal}>
+	</c-user-supplied-form-modal>
+
+	<c-user-supplied-form-modal
+		show-modal={dealerLocateModalOpen}
+		onclosemodal={closeDealerLocateModal}
+		is-dealer-locate>
+	</c-user-supplied-form-modal>
+</template>

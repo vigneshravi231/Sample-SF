@@ -1,0 +1,24 @@
+
+
+.flexRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tripleColumn .flexRow {
+  max-width: 350px;
+}
+.tripleColumn > * {
+  min-width: 250px;
+}
+
+.doubleColumn .flexRow {
+  max-width: 250px;
+}
+
+.slds-card.noBorder {
+  border: none !important;
+}

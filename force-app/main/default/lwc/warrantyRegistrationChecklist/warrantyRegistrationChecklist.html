@@ -1,0 +1,187 @@
+
+<!-- Warranty Registration Checklist -->
+<template>
+    
+         <lightning-record-edit-form object-api-name="Entitlement"
+                                    onsubmit={onSubmit}>
+            
+            <!-- Error Handling -->
+            <lightning-messages></lightning-messages>
+            
+            <!-- Legal Confirmation Section -->
+            <div class="slds-box slds-m-vertical_medium">
+                <div class="legal slds-border_bottom slds-p-vertical_medium">
+                    <c-warranty-registration-agreement></c-warranty-registration-agreement>
+                </div>
+                <!-- /Legal Confirmation Section -->
+                <div class="slds-m-top_large">
+                    <div class="slds-text-heading_small">
+                        Will you be the Servicing Dealer?
+                    </div>
+                    <div class="slds-m-top_small">
+                        <lightning-input-field onchange={handleShowDependentField}
+                                               data-controllingfieldapiname="Is_Servicing_Dealer__c"
+                                               field-name="Is_Servicing_Dealer__c"></lightning-input-field>
+                    </div>
+                    <!-- Dependent Field Section -->
+                    <div if:true={showDependentFieldState.Is_Servicing_Dealer__c}>
+                        <lightning-input-field required="1true"
+                                               field-name="Servicing_Dealer__c"></lightning-input-field>
+                        <lightning-input-field required="1true"
+                                               field-name="Servicing_Dealer_Address__c"></lightning-input-field>
+                        <lightning-input-field required="1true"
+                                               field-name="Servicing_Dealer_Phone__c"></lightning-input-field>
+                        <lightning-input-field required="1true"
+                                               field-name="Service_Sales_Person__c"></lightning-input-field>
+                    </div>
+                    <!-- /Dependent Field Section -->
+                </div>
+            </div>
+            
+            <div class="slds-box" if:true={isChecklistRequired}>
+                <div>
+                    <span class="color-brand slds-text-heading_large slds-p-bottom_medium slds-brand">
+                        Vehicle Delivery Checklist
+                    </span>
+                    <div class="slds-float_right">
+                        <lightning-button variant="brand"
+                                          onclick={toggleCheckAll}
+                                          label="Check/Uncheck All"></lightning-button>
+                    </div>
+                </div>
+                
+                <!-- Main form fields -->
+                
+                <div class="warranty-reg-checkboxes">
+                    <!-- Column -->
+                    <div class="slds-m-bottom_medium flexContainer required-fix">
+                        <div class="flexChild">
+                            <div class="color-brand slds-text-heading_small slds-m-top_small slds-brand">
+                                Exterior
+                            </div>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkDamageFree__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkSpareTireJack__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkRemoteControl__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkMagneticEntry__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkPowerDoor__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkDoorAndRampExt__c"></lightning-input-field>
+                        </div>
+                        <div class="flexChild">
+                            <div class="color-brand slds-text-heading_small slds-m-top_medium slds-brand">
+                                Interior
+                            </div>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkGauges__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkInteriorSwitches__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkPowerDoor__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkTieDowns__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkRollTumble__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkSeatBelts__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkSampleController__c"></lightning-input-field>
+                        </div>
+                        <div class="flexChild">
+                            <div class="color-brand slds-text-heading_small slds-m-top_medium slds-brand">
+                                Additional
+                            </div>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkReviewManuals__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkToyotaExchange__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkServiceSchedule__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkWarrantyRepair__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkServiceHours__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkSignedRecord__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkCompleteWarranty__c"></lightning-input-field>
+                            <lightning-input-field required="true"
+                                                   data-id="checklistitem"
+                                                   field-name="chkAfterMarket__c"></lightning-input-field>
+                        </div>
+                    </div>
+                </div>
+                
+                <lightning-input-field field-name="chkComments__c"></lightning-input-field>
+            </div>
+            
+            <div class="slds-box slds-m-vertical_medium">
+                <c-warranty-registration-acknowledgement></c-warranty-registration-acknowledgement>
+                <div class="slds-m-top_large slds-text-align_right">
+                    <lightning-button variant="brand"
+                                      class="slds-m-top_small"
+                                      type="submit"
+                                      label="Submit Warranty Registration"></lightning-button>
+                </div>
+                <div class="slds-m-top_large slds-text-align_right">
+                    <div class="slds-text-color_error" for:each={errorList} for:item="error" key={error}>
+                        {error}
+                    </div>
+                </div>
+            </div>
+        
+            <c-modal-dialog show-modal={showSubmitModal}
+                            size="medium"
+                            onclosemodal={closeSubmitModal}>
+            
+            <!-- Modal Header -->
+            <span slot="header">Confirm Submission</span>
+        
+            <!-- Modal Body -->
+            <span slot="body">
+                <div class="slds-p-around_x-large">
+                    After the Warranty Registration is submitted you can no longer
+                    make any changes to it Please confirm that you want to proceed?
+                </div>
+            </span>
+            
+            <span slot="footer">
+                <lightning-button variant="brand"
+                                  type="button"
+                                  label="Cancel"
+                                  onclick={closeSubmitModal}></lightning-button>
+                <lightning-button variant="brand"
+                                  label="Submit"
+                                  onclick={submitWarrantyRegistration}
+                                  class="slds-m-left_medium"></lightning-button>
+            </span>
+        
+            </c-modal-dialog>
+    
+        </lightning-record-edit-form>
+
+</template>

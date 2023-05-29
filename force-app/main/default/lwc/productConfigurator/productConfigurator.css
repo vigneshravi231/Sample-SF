@@ -1,0 +1,9 @@
+
+
+.section:last-child {
+    border-bottom: solid 1px rgb(212, 212, 212);
+}
+
+.section-field:last-child {
+    padding-right: 0;
+}

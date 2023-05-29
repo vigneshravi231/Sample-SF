@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>Bus</fullName>
+        <default>false</default>
+        <label>Bus</label>
+    </customValue>
+    <customValue>
+        <fullName>Chevrolet</fullName>
+        <default>false</default>
+        <label>Chevrolet</label>
+    </customValue>
+    <customValue>
+        <fullName>Dodge</fullName>
+        <default>false</default>
+        <label>Dodge</label>
+    </customValue>
+    <customValue>
+        <fullName>Ford</fullName>
+        <default>false</default>
+        <label>Ford</label>
+    </customValue>
+    <customValue>
+        <fullName>Mercedes</fullName>
+        <default>false</default>
+        <label>Mercedes</label>
+    </customValue>
+    <customValue>
+        <fullName>Honda</fullName>
+        <default>false</default>
+        <label>Honda</label>
+    </customValue>
+    <masterLabel>Vehicle Make</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

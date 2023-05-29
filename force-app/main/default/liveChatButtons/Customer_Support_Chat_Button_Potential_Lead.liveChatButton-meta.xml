@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LiveChatButton xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoGreeting>Thank you for contacting SampleAbility Customer Service. How can I help you?</autoGreeting>
+    <chatPage>LiveAgentChatWindow_New</chatPage>
+    <customAgentName>Customer Support</customAgentName>
+    <deployments/>
+    <enableQueue>true</enableQueue>
+    <isActive>true</isActive>
+    <label>Customer Support Chat Button Potential Lead</label>
+    <offlineImage>offlineChat</offlineImage>
+    <onlineImage>onlineChat</onlineImage>
+    <optionsCustomRoutingIsEnabled>false</optionsCustomRoutingIsEnabled>
+    <optionsHasChasitorIdleTimeout>false</optionsHasChasitorIdleTimeout>
+    <optionsHasInviteAfterAccept>false</optionsHasInviteAfterAccept>
+    <optionsHasInviteAfterReject>false</optionsHasInviteAfterReject>
+    <optionsHasRerouteDeclinedRequest>false</optionsHasRerouteDeclinedRequest>
+    <optionsIsAutoAccept>false</optionsIsAutoAccept>
+    <optionsIsInviteAutoRemove>false</optionsIsInviteAutoRemove>
+    <overallQueueLength>10</overallQueueLength>
+    <preChatFormPage>CustomerPreChat_Lead_New</preChatFormPage>
+    <routingType>Choice</routingType>
+    <site>LiveAgent</site>
+    <skills>
+        <skill>Product_Specialists</skill>
+    </skills>
+    <type>Standard</type>
+    <windowLanguage>en_US</windowLanguage>
+</LiveChatButton>

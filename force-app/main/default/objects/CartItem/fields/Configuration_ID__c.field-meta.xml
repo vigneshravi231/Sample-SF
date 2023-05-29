@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Configuration_ID__c</fullName>
+    <description>BC-351 configuration ID from product webconfigurator</description>
+    <externalId>false</externalId>
+    <inlineHelpText>BC-351 configuration ID from product webconfigurator</inlineHelpText>
+    <label>Configuration ID</label>
+    <length>255</length>
+    <required>false</required>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

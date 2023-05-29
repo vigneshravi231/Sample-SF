@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>Back button from checkout</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Community Navigation Button</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="label" type="String" default="Label" />
+            <property name="page" type="String" default="Home" />
+            <property name="pageType" type="String" default="Standard" datasource="Object, Go Back"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

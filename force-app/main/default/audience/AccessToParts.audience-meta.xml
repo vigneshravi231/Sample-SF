@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Audience xmlns="http://soap.sforce.com/2006/04/metadata">
+    <audienceName>Access To Parts</audienceName>
+    <container>CustomerCare%2B</container>
+    <criteria>
+        <criterion>
+            <criteriaNumber>1</criteriaNumber>
+            <criterionValue>
+                <entityField>Contact.Account.$Account.Parts__c</entityField>
+                <entityType>User</entityType>
+                <fieldValue>true</fieldValue>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>FieldBased</type>
+        </criterion>
+    </criteria>
+    <formulaFilterType>AllCriteriaMatch</formulaFilterType>
+    <isDefaultAudience>false</isDefaultAudience>
+    <targets>
+        <target>
+            <groupName>dfe62417-d0f5-46c6-911b-2e851aa8cae5$#$d7858723-be7c-4342-b7b3-0ea06b2ff7cf</groupName>
+            <priority>1</priority>
+            <targetType>ExperienceVariation</targetType>
+            <targetValue>Asset_Detail_Tabs_Component</targetValue>
+        </target>
+    </targets>
+</Audience>

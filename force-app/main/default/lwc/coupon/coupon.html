@@ -1,0 +1,45 @@
+
+<!-- Coupon -->
+<template>
+	<div>
+		<div class="flex-container flex-align-items-end">
+			<div class="flex-item">
+				<lightning-input
+					type="text"
+					placeholder="Coupon Code"
+					onchange={validateInput}
+					max-length={maxLength}
+					value={couponCode}
+					label=""
+				></lightning-input>
+			</div>
+			<div class="slds-m-left_medium">
+				<lightning-button
+					variant="brand"
+					label="Apply Coupon"
+					title="Apply Coupon"
+					onclick={applyCoupon}
+					class="lightning-input-button-container"
+					disabled={invalidInput}
+				></lightning-button>
+			</div>
+		</div>
+		<template if:true={hasServerError}>
+			<div class="slds-m-top_x-small">
+				<span class="slds-text-color_error">{serverErrorMessage}</span>
+			</div>
+		</template>
+		<template class="applied-coupons-container" if:true={appliedCouponsList}>
+			<div
+				class="slds-m-top_x-small applied-coupon slds-p-top_x-small slds-border_top"
+				for:each={appliedCouponsList}
+				for:item="coupon"
+				key={coupon.Id}
+			>
+				<span class="slds-text-color_success">{coupon.Coupon__r.Coupon_Code__c} coupon applied</span>
+				<br />
+				<span class="slds-text-color_success">{coupon.Coupon__r.Coupon_Notes__c}</span>
+			</div>
+		</template>
+	</div>
+</template>

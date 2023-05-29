@@ -1,0 +1,204 @@
+<apex:page showHeader="false">
+    <script type='text/javascript'>
+        liveagent.addEventListener(liveagent.chasitor.Events.CHAT_REQUEST_SUCCESSFUL,myCallBack);
+        liveagent.addEventListener(liveagent.chasitor.Events.CHAT_ESTABLISHED,newagent);
+        liveagent.addEventListener(liveagent.chasitor.Events.AGENT_CHAT_TRANSFERRED,newagent);
+        function myCallBack() {
+            var details = liveagent.chasitor.getDetails();
+        }
+        function newagent() {
+            var details = liveagent.chasitor.getDetails();
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #E2E5E8;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        #waitingMessage {
+            color: #585858;
+            height: 100%;
+            width: 100%;
+            vertical-align: middle;
+            text-align: center;
+            display: none;
+        }
+        #liveAgentClientChat.liveAgentStateWaiting #waitingMessage { display: table; }
+        #liveAgentSaveButton{ 
+            display: block;
+            width: 72px;
+            height: 31px;
+            float: right; 
+        }
+        button.liveAgentChatElement.liveAgentEndButton {
+            display: block;
+            width: 65px;
+            height: 31px;
+            float: right;
+        }
+        .liveAgentChatInput {
+            height: 25px;
+            width: 75%;
+            border-width: 1px;
+            border-style: solid;
+            background: #fff;
+            border-radius: 10px;
+        }
+        .liveAgentSendButton {
+            width: 15%;
+            height: 31px;
+        }
+        #liveAgentChatLog {
+            border-color: #A7A9AD;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            padding: 10px;
+            height: 200px;
+            width: auto;
+            overflow-y: scroll;
+        }
+        .AgentImage{
+            text-align: center;
+            background-color: white;
+            margin: 5px;
+            border-radius: 10px;
+        }
+        #AgentImage{
+            border-radius: 10px;
+        }
+        .ButtonsDiv{
+            height: 45px;
+        }
+        #liveAgentClientChat {
+            margin: 15px;
+        }
+        .ChatInputs{
+            margin-top: 5px;
+        }
+        button#fileCancelButton {
+            border-radius: 10px;
+            margin-top: 16px;
+            height: 20px;
+            width: 19px;
+        }
+        span#fileDragLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #E2F3FB;
+            height: 18px;
+            width: 88%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+        }
+        span#fileDropLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #D4F5FF;
+            height: 18px;
+            width: 88%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+        }
+        .transferDiv {
+            display: block;
+            border: 2px solid #d1d2d3;
+            border-radius: 10px;
+            margin-top: 5px;
+            height: 20px;
+            background-color: white;
+            padding: 10px;
+        }
+        span#fileNameLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #BFFFB9;
+            height: 18px;
+            width: 70%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+            color: green;
+        }
+    </style>
+
+    <div >
+        <liveAgent:clientchat >
+            <div class="ButtonsDiv">
+                <liveAgent:clientChatEndButton label="End Chat" />
+            </div>
+
+            <div class="AgentImage">
+                <img id="AgentImage" src="{!$Resource.InsideSalesWindowImg}" height="200px"/>
+            </div>
+
+            <div class="ButtonsDiv">
+                <div style="text-align: center;">
+                    <img src="/resource/1443718598000/toggleButton" style="height:10px;" onclick="toggleImage();" />
+                </div>
+                <liveAgent:clientChatSaveButton label="Save Chat" />
+
+            </div>
+
+            <div id="prechatdata"></div>
+            <div>
+                <liveAgent:clientChatAlertMessage />
+                <liveAgent:clientChatStatusMessage />
+                <table id="waitingMessage" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>Please wait while you are connected to an available agent.</td>
+                    </tr>
+                </table>
+                <div>
+                    <liveAgent:clientChatLog />
+                </div>
+                <div class="ChatInputs">
+                    <liveagent:clientChatInput />
+                    <liveAgent:clientChatSendButton label="Send"/>
+                </div>
+                <div id="fileTransfer">
+                    <liveAgent:clientChatFileTransfer />
+                </div>
+            </div>
+        </liveAgent:clientchat>
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById("fileCancelButton").innerHTML = "X";
+        var toggle = false;
+        function toggleImage(){
+            if(!toggle){
+                document.getElementById("AgentImage").style.height = "0px";
+                toggle = true;
+            }
+            else{
+                document.getElementById("AgentImage").style.height = "200px";
+                toggle = false;
+            }
+        }
+
+        window.onbeforeunload = bunload;
+        function bunload(){
+            dontleave="This page is asking you to confirm that you want to leave - data you have entered may not be saved.";
+            return dontleave;
+        }
+
+        // document.getElementById("fileCancelButton").onclick = function(){
+        //  document.getElementById("fileTransfer").visibility = false;
+        // }
+
+            
+        </script>
+
+</apex:page>

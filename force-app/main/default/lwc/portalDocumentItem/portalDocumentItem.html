@@ -1,0 +1,26 @@
+
+<!-- Portal Document Item -->
+<template>
+  <div class="slds-box slds-p-around_medium">
+    <lightning-layout multiple-rows horizontal-align="center">
+      <lightning-layout-item size="12">
+        <div class="preview-image slds-align_absolute-center">
+          <img src={document.Document_URL__c} alt="Preview"/>
+        </div>
+      </lightning-layout-item>
+      <lightning-layout-item size="12">
+        <div class="slds-text-heading_medium slds-text-title_bold slds-align_absolute-center slds-m-top_small slds-m-bottom_medium">{document.Name}</div>
+      </lightning-layout-item>
+      <lightning-layout-item size="6">
+        <a href={document.Low_Res_Image_URL__c}
+           target="_blank"
+           class="slds-align_absolute-center slds-p-top_medium slds-p-right_medium slds-border_top slds-border_right">Low Res</a>
+      </lightning-layout-item>
+      <lightning-layout-item size="6">
+        <a href={document.High_Res_Image_URL__c}
+           target="_blank"
+           class="slds-align_absolute-center slds-p-top_medium slds-p-left_medium slds-border_top">High Res</a>
+      </lightning-layout-item>
+    </lightning-layout>
+  </div>
+</template>

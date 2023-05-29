@@ -1,0 +1,366 @@
+
+<!-- Recall Form Parts And Labor -->
+<template>
+  <div class="slds-has-divider_top-space"></div>
+
+  <template if:true={noClaimProducts}>
+    <div class="slds-text-align_center slds-text-heading_medium slds-text-title_bold color-brand slds-p-around_medium">
+      No Labor or Part Claims created.
+    </div>
+  </template>
+
+  <template if:true={hasLaborClaims}>
+
+    <div class="slds-text-align_center slds-text-heading_medium slds-text-title_bold color-brand slds-p-around_medium">
+      Warranty Labor Claims (Primary Labor Listed First)
+    </div>
+
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-bottom_medium">
+      <thead>
+      <tr class="slds-line-height_reset">
+        <th class="" scope="col">
+          <div class="slds-truncate" title="">&nbsp;</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="">&nbsp;</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Line Number">#</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Hours">Hours</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Labor Description">Labor Description</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Type">Type</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="System">System</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Symptom">Symptom</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Subsystem">Subsystem</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Root Cause">Root Cause</div>
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <template for:each={numberedLabor} for:item="row" for:index="index">
+          <tr class="slds-hint-parent" key={row.key}>
+            <td align="center">
+              <div class="slds-truncate">
+                <lightning-button-icon icon-name="action:close" data-row-value={index} onclick={deleteLabor}></lightning-button-icon>
+              </div>
+            </td>
+            <td align="center">
+              <div class="slds-truncate">
+                <lightning-button-icon icon-name="utility:edit" data-row-value={index} onclick={editLabor}></lightning-button-icon>
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate" title="Line Number">
+                {row.index}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Hours__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Labor_Description__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_1__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_2__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_3__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_4__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_5__c}
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+
+  </template>
+
+  <template if:true={hasPartClaims}>
+
+    <div class="slds-text-align_center slds-text-heading_medium slds-text-title_bold color-brand slds-m-around_medium">
+      Warranty Parts Claims (Primary Parts Listed First)<br>
+      Claimed parts must be held for 60 days
+    </div>
+
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-m-bottom_medium">
+      <thead>
+      <tr class="slds-line-height_reset">
+        <th class="" scope="col">
+          <div class="slds-truncate" title="">&nbsp;</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="">&nbsp;</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Line Number">#</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Quantity">Quantity</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Product Name">Product Name</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Product Description">Product Description</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Type">Type</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="System">System</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Symptom">Symptom</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Subsystem">Subsystem</div>
+        </th>
+        <th class="" scope="col">
+          <div class="slds-truncate" title="Root Cause">Root Cause</div>
+        </th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <template for:each={numberedParts} for:item="row" for:index="index">
+          <tr class="slds-hint-parent" key={row.key}>
+            <td align="center">
+              <div class="slds-truncate">
+                <lightning-button-icon icon-name="action:close" data-row-value={index} onclick={deleteParts}></lightning-button-icon>
+              </div>
+            </td>
+            <td align="center">
+              <div class="slds-truncate">
+                <lightning-button-icon icon-name="utility:edit" data-row-value={index} onclick={editParts}></lightning-button-icon>
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate" title="Line Number">
+                {row.index}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate" title="Line Number">
+                {row.Quantity__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Name}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Description}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_1__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_2__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_3__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_4__c}
+              </div>
+            </td>
+            <td>
+              <div class="slds-truncate">
+                {row.Topic_5__c}
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+
+  </template>
+  <lightning-layout pull-to-boundary="medium" multiple-rows>
+
+    <lightning-layout-item size="12" large-device-size="6" medium-device-size="12" small-device-size="12" padding="around-medium">
+      <div class="slds-box slds-p-around_medium">
+        <div class="slds-align_absolute-center" if:false={laborOpen}>
+          <lightning-button label="Add Labor" onclick={openLabor}></lightning-button>
+        </div>
+        <div if:true={laborOpen}>
+          <lightning-record-edit-form object-api-name="Claim_Product__c"
+                                      record-type-id={laborRecordTypeId}
+                                      onsubmit={addLabor}
+                                      density="comfy">
+            <div class="slds-p-around_small">
+              <div class="slds-text-title_bold slds-text-heading_medium">Add Labor</div>
+              <lightning-layout multiple-rows pull-to-boundary="small">
+                <lightning-layout-item size="4" padding="around-small">
+                  <lightning-input-field field-name="Hours__c" required value={currentLabor.Hours__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="8" padding="around-small">
+                  <lightning-input-field field-name="Labor_Description__c" required value={currentLabor.Labor_Description__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" padding="around-small">
+                  <lightning-input-field field-name="Topic_1__c" value={defaultTopic} required disabled></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" padding="around-small">
+                  <lightning-input-field field-name="Topic_2__c" required value={currentLabor.Topic_2__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" padding="around-small">
+                  <lightning-input-field field-name="Topic_3__c" required value={currentLabor.Topic_3__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="around-small">
+                  <lightning-input-field field-name="Topic_4__c" required value={currentLabor.Topic_4__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="around-small">
+                  <lightning-input-field field-name="Topic_5__c" value={currentLabor.Topic_5__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="around-small">
+                  <div class="slds-align_absolute-center" style="flex-direction: row">
+                    <template if:false={editingLabor}>
+                      <lightning-button label="Cancel" onclick={closeLabor}></lightning-button>
+                      <div class="slds-p-horizontal_small">&nbsp;</div>
+                      <lightning-button label="Save" type="submit"></lightning-button>
+                    </template>
+                    <template if:true={editingLabor}>
+                      <lightning-button label="Delete" onclick={closeLabor}></lightning-button>
+                      <div class="slds-p-horizontal_small">&nbsp;</div>
+                      <lightning-button label="Cancel" onclick={undoEditLabor}></lightning-button>
+                      <div class="slds-p-horizontal_small">&nbsp;</div>
+                      <lightning-button label="Save" type="submit"></lightning-button>
+                    </template>
+                  </div>
+                </lightning-layout-item>
+              </lightning-layout>
+            </div>
+          </lightning-record-edit-form>
+        </div>
+      </div>
+    </lightning-layout-item>
+
+    <lightning-layout-item size="12" large-device-size="6" medium-device-size="12" padding="around-medium">
+      <div class="slds-box slds-p-around_medium">
+        <div class="slds-align_absolute-center" if:false={partsOpen}>
+          <lightning-button label="Add Part" onclick={openPart}></lightning-button>
+        </div>
+        <div if:true={partsOpen}>
+          <lightning-record-edit-form object-api-name="Claim_Product__c"
+                                      record-type-id={partRecordTypeId}
+                                      onsubmit={addPart}
+                                      density="comfy">
+            <div class="slds-p-around_small">
+              <div class="slds-text-title_bold slds-text-heading_medium">Add Part</div>
+              <lightning-layout multiple-rows pull-to-boundary="small">
+                <lightning-layout-item size="6" padding="around-small">
+                  <lightning-input-field field-name="Quantity__c" required value={currentPart.Quantity__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="around-small">
+                  <lightning-input-field field-name="Product__c" required value={currentPart.Product__c} onchange={onProductUpdate}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="around-small">
+                  <lightning-input label="Product Description" value={currentPartDescription} read-only></lightning-input>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" padding="around-small">
+                  <lightning-input-field field-name="Topic_1__c" value={defaultTopic} required disabled></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" padding="around-small">
+                  <lightning-input-field field-name="Topic_2__c" required value={currentPart.Topic_2__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="4" padding="around-small">
+                  <lightning-input-field field-name="Topic_3__c" required value={currentPart.Topic_3__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="around-small">
+                  <lightning-input-field field-name="Topic_4__c" required value={currentPart.Topic_4__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="6" padding="around-small">
+                  <lightning-input-field field-name="Topic_5__c" value={currentPart.Topic_5__c}></lightning-input-field>
+                </lightning-layout-item>
+                <lightning-layout-item size="12" padding="around-small">
+                  <div class="slds-align_absolute-center" style="flex-direction: row">
+                    <template if:false={editingPart}>
+                      <lightning-button label="Cancel" onclick={closeParts}></lightning-button>
+                      <div class="slds-p-horizontal_small">&nbsp;</div>
+                      <lightning-button label="Save" type="submit"></lightning-button>
+                    </template>
+                    <template if:true={editingPart}>
+                      <lightning-button label="Delete" onclick={closeParts}></lightning-button>
+                      <div class="slds-p-horizontal_small">&nbsp;</div>
+                      <lightning-button label="Cancel" onclick={undoEditPart}></lightning-button>
+                      <div class="slds-p-horizontal_small">&nbsp;</div>
+                      <lightning-button label="Save" type="submit"></lightning-button>
+                    </template>
+                  </div>
+                </lightning-layout-item>
+              </lightning-layout>
+            </div>
+          </lightning-record-edit-form>
+        </div>
+      </div>
+    </lightning-layout-item>
+    <lightning-layout-item size="12" padding="around-medium">
+      <div>
+        <lightning-input label="I acknowledge that the information in this submission is correct."
+                         type="checkbox"
+                         data-id="checked"
+                         message-when-bad-input="You must confirm that you've read this statement."
+                         required>
+        </lightning-input>
+      </div>
+      <div class="slds-p-around_x-small">
+        <c-view-submission-acknowledgement></c-view-submission-acknowledgement>
+      </div>
+    </lightning-layout-item>
+
+  </lightning-layout>
+
+  <div style="display: flex; justify-content: end">
+    <div>
+      <lightning-button label="Save" variant="brand" onclick={saveCase} disabled={inputIsOpen}></lightning-button>
+      &nbsp;
+      <lightning-button label="Submit" variant="brand" onclick={nextScreen} disabled={inputIsOpen}></lightning-button>
+    </div>
+  </div>
+
+</template>

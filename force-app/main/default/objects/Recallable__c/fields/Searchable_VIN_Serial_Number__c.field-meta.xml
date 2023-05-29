@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Searchable_VIN_Serial_Number__c</fullName>
+    <description>Used to store last 8 characters of the VIN/SN &amp; aid in searching. Populated by Process Builder.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Used to store last 8 characters of the VIN/SN &amp; aid in searching. Populated by Process Builder.</inlineHelpText>
+    <label>Searchable VIN / Serial Number</label>
+    <length>8</length>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

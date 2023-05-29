@@ -1,0 +1,54 @@
+
+
+<!-- Configure B 2 B Account -->
+<template>
+
+  <div if:true={loading}>
+    <lightning-spinner alternative-text="Loading"
+                       variant="brand"
+                       size="medium">
+    </lightning-spinner>
+  </div>
+
+  <div>
+    <button class="slds-button slds-button_brand slds-button_stretch"
+            onclick={openModal}>
+      Configure Buyer Account
+    </button>
+  </div>
+
+  <div class="slds-m-top_x-small slds-text-color_error" if:true={serverError}>
+    Error retrieving account data
+  </div>
+
+  <!-- Buyer Account Config Modal -->
+  <c-modal-dialog show-modal={showModal} size="small" onclosemodal={closeModal}>
+    <!-- Modal Header -->
+    <span slot="header">Configure Buyer Account</span>
+
+    <!-- Modal Body -->
+    <span slot="body">
+			<c-buyer-account-configurator record-id={recordId}
+                                    portal-access-fields={portalAccessFields}
+                                    onclose_modal_refresh={handleConfigSuccess}
+                                    fields={fields}>
+      </c-buyer-account-configurator>
+		</span>
+
+    <span slot="footer">
+			<lightning-button variant="brand"
+                        class="slds-m-right_medium"
+                        type="button"
+                        label="Cancel"
+                        onclick={closeModal}>
+      </lightning-button>
+
+			<lightning-button variant="brand"
+                        type="button"
+                        label="Save"
+                        onclick={save}>
+      </lightning-button>
+		</span>
+  </c-modal-dialog>
+
+</template>

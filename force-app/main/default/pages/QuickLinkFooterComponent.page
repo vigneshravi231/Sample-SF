@@ -1,0 +1,129 @@
+<apex:page controller="QuickLink_Faq_Controller" showHeader="false" standardStylesheets="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
+  
+    
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <head>
+      <apex:includeScript value="/support/console/39.0/integration.js"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      
+       <script type='text/javascript'>
+            function toggleSection(elm){
+               // $("div").removeClass( "slds-section slds-is-open" ).addClass( "slds-section" );
+               $("div").removeClass( "slds-is-open" )
+                $('#' + elm).addClass("slds-is-open");
+            }
+            
+            function selectTab(elmnt) {
+                // slds-active
+                $(elmnt).parent("li").siblings(".slds-active").removeClass("slds-active");
+                $(elmnt).parent("li").addClass("slds-active");
+        
+                // tabindex
+                $(elmnt).parent("li").siblings().children("a").attr("tabindex", -1);
+                $(elmnt).attr("tabindex", 0);
+        
+                // aria-selected
+                $(elmnt).parent("li").siblings().children("a").attr("aria-selected", false);
+                $(elmnt).attr("aria-selected", true);
+        
+                // hiding previouly selected tab (slds-show/slds-hide)
+                $(elmnt).closest(".slds-tabs--scoped").children("div[role='tabpanel'].slds-show").addClass("slds-hide");
+                $(elmnt).closest(".slds-tabs--scoped").children("div[role='tabpanel'].slds-show").removeClass("slds-show");
+                // displaying newly selected tab (slds-show/slds-hide)
+                $(elmnt).closest(".slds-tabs--scoped").children("div[aria-labelledby='"+elmnt.id+"']").addClass("slds-show");
+                $(elmnt).closest(".slds-tabs--scoped").children("div[aria-labelledby='"+elmnt.id+"']").removeClass("slds-hide");
+            }
+        </script>
+    </head>
+
+    <style>
+        body{background-color: white;}
+    </style>
+
+    <body>
+          <apex:slds />
+          <!-- REQUIRED SLDS WRAPPER -->
+          <div class="slds-scope">
+            <div class="slds-grid">
+                <div class="slds-tabs--scoped">
+                
+                     <ul class="slds-tabs--scoped__nav" role="tablist">
+                      <li class="slds-tabs--scoped__item slds-text-title--caps slds-active slds-size--1-of-2 slds-text-align--center" title="Tab 1" role="presentation">
+                          <a class="slds-tabs--scoped__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-scoped-1" 
+                              id="tab-scoped-1__item" onClick='selectTab(this);'>
+                              <svg class="slds-button__icon" aria-hidden="true">
+                                  <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#link')}"></use>
+                              </svg>
+                              <span class="slds-truncate">{!$Label.QuickLink}</span>
+                          </a>
+                      </li>
+                      <li class="slds-tabs--scoped__item slds-text-title--caps slds-size--1-of-2 slds-text-align--center" title="Tab 2" role="presentation">
+                          <a class="slds-tabs--scoped__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-scoped-2" 
+                              id="tab-scoped-2__item" onclick='selectTab(this);'>
+                              <svg class="slds-button__icon" aria-hidden="true">
+                                  <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#questions_and_answers')}"></use>
+                              </svg>
+                              <span class="slds-truncate">{!$Label.QuickFAQ}</span>
+                          </a>
+                      </li>
+                     </ul>
+                 
+                     <div id="tab-scoped-1" class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="tab-scoped-1__item">
+                        <apex:variable var="lstLinks" value=""/>
+                        <apex:outputPanel layout="block" style="overflow:auto;height:340px">
+                            <table class="slds-table slds-table--bordered slds-table_cell-buffer">
+                                <tbody>
+                                    <apex:repeat value="{!links['QuickLinks']}" var="listValue">
+                                        <apex:repeat value="{!listValue}" var="linkObject" rows="1">
+                                            <apex:variable var="lstLinks" value="{!linkObject.id}"/>
+                                            <tr>
+                                                <th scope="row">
+                                                    <div class="slds-truncate">
+                                                        <a href="javascript:void(0);" role="presentation" class="slds-truncate" onclick="window.open('{!linkObject.URL__c}', '{!linkObject.Target_Window__c}')">{!linkObject.Name}</a><br />
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </apex:repeat>
+                                    </apex:repeat>
+                                    <apex:outputPanel id="linkPanel" rendered="{!lstLinks == ''}">{!$Label.NoRecords}</apex:outputPanel>
+                                </tbody>
+                            </table>
+                        </apex:outputPanel>
+                    </div>
+                    <div id="tab-scoped-2" class="slds-tabs--scoped__content slds-hide" role="tabpanel" aria-labelledby="tab-scoped-2__item">
+                        <apex:variable var="lstFaq" value=""/>
+                        <apex:outputPanel layout="block" style="overflow:auto;height:340px">
+                            <apex:repeat value="{!links['FAQ']}" var="listValue">
+                                  <apex:repeat value="{!listValue}" var="linkObject" rows="1">
+                                      <apex:variable var="lstFaq" value="{!linkObject.id}"/>
+                                       <div class="slds-section" id='{!linkObject.ID}'>
+                                          <h3 class="slds-section__title">
+                                            <button aria-controls="expando-unique-id" aria-expanded="false" class="slds-button slds-section__title-action" onclick="javascript: toggleSection('{!linkObject.ID}');">
+                                              <svg class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                                  <use xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/utility-sprite/svg/symbols.svg#switch')}"></use>
+                                              </svg>
+                                              <span class="slds-truncate" title="Section Title">{!linkObject.Name}</span>
+                                            </button>
+                                          </h3>
+                                          <div aria-hidden="false" class="slds-section__content" id="expando-unique-id">
+                                            <p>{!linkObject.Description__c}</p>
+                                          </div>
+                                        </div>
+                                  </apex:repeat>
+                             </apex:repeat>
+                             <apex:outputPanel id="linkFaq" rendered="{!lstFaq == ''}">
+                                 <table class="slds-table slds-table--bordered slds-table_cell-buffer">
+                                    <tbody>
+                                      {!$Label.NoRecords}
+                                      </tbody>
+                                </table>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                   </div>
+                </div>
+             </div>
+         </div>
+    </body>
+</html>
+</apex:page>

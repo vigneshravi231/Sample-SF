@@ -1,0 +1,65 @@
+
+
+<!-- Graph Gauge -->
+<template>
+    
+    <lightning-layout multiple-rows vertical-align="stretch">
+        <lightning-layout-item size="6" large-device-size="6" padding="around-small" medium-device-size="12" small-device-size="12">
+            <template if:true={loadedData}>
+                <div class="slds-box">
+                    <c-map-funds-available-gauge available-funds={availableFunds}
+                                                 funds-redeemed={fundsForTheYear}></c-map-funds-available-gauge>
+                </div>
+            </template>
+        </lightning-layout-item>
+        <lightning-layout-item size="6" large-device-size="6" padding="around-small" medium-device-size="12" small-device-size="12">
+            <div class="slds-box full-height">
+                <c-customer-care-box-header title="MAP Funds Bank">
+                    <lightning-button label="Make a MAP Request" slot="actions" onclick={startFlow}></lightning-button>
+                </c-customer-care-box-header>
+                <div>
+                    <span class="slds-text-heading_small">
+                        <strong>MAP Funds Remaining:</strong>&nbsp;
+                    </span>
+                    <div class="slds-m-top_x-small font-size-num">
+                        <lightning-formatted-number
+                                value={fundsRedeemed}
+                                format-style="currency"
+                                currency-code="USD"></lightning-formatted-number>
+                    </div>
+                </div>
+                <div class="slds-p-vertical_medium">
+                    <span class="slds-text-heading_small">
+                        <strong>MAP Funds for the Year ({currentYear}):</strong>&nbsp;
+                    </span>
+                    <div class="slds-m-top_x-small font-size-num">
+                        <lightning-formatted-number
+                                value={fundsForTheYear}
+                                format-style="currency"
+                                currency-code="USD"></lightning-formatted-number>
+                    </div>
+                </div>
+                <div>
+                    <span class="slds-text-heading_small">
+                        <strong>MAP Funds Used:</strong>&nbsp;
+                    </span>
+                    <div class="slds-m-top_x-small font-size-num">
+                        <lightning-formatted-number
+                                value={fundsUsed}
+                                format-style="currency"
+                                currency-code="USD"></lightning-formatted-number>
+                    </div>
+                </div>
+                <div class="slds-p-top_medium" if:true={expirationDate}>
+                    <span class="slds-text-heading_small">
+                        <strong>MAP Expiration Date:</strong>&nbsp;
+                    </span>
+                    <div class="slds-m-top_x-small font-size-num">
+                        <lightning-formatted-date-time value={expirationDate}></lightning-formatted-date-time>
+                    </div>
+                </div>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+    
+</template>

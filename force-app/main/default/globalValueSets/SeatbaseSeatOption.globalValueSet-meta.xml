@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GlobalValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customValue>
+        <fullName>10&quot; Lowered Floor</fullName>
+        <default>false</default>
+        <label>10&quot; Lowered Floor</label>
+    </customValue>
+    <customValue>
+        <fullName>14&quot; Lowered Floor</fullName>
+        <default>false</default>
+        <label>14&quot; Lowered Floor</label>
+    </customValue>
+    <customValue>
+        <fullName>Bolt-In Application</fullName>
+        <default>false</default>
+        <label>Bolt-In Application</label>
+    </customValue>
+    <customValue>
+        <fullName>Factory Manual Only</fullName>
+        <default>false</default>
+        <label>Factory Manual Only</label>
+    </customValue>
+    <customValue>
+        <fullName>Factory Manual Seat</fullName>
+        <default>false</default>
+        <label>Factory Manual Seat</label>
+    </customValue>
+    <customValue>
+        <fullName>Factory Power Seat</fullName>
+        <default>false</default>
+        <label>Factory Power Seat</label>
+    </customValue>
+    <customValue>
+        <fullName>High Line</fullName>
+        <default>false</default>
+        <label>High Line</label>
+    </customValue>
+    <customValue>
+        <fullName>Low Line</fullName>
+        <default>false</default>
+        <label>Low Line</label>
+    </customValue>
+    <customValue>
+        <fullName>NULL</fullName>
+        <default>false</default>
+        <label>N/A</label>
+    </customValue>
+    <customValue>
+        <fullName>Reduced Travel for Extra Cargo Space</fullName>
+        <default>false</default>
+        <label>Reduced Travel for Extra Cargo Space</label>
+    </customValue>
+    <customValue>
+        <fullName>Reduced Travel for Extra Seating</fullName>
+        <default>false</default>
+        <label>Reduced Travel for Extra Seating</label>
+    </customValue>
+    <customValue>
+        <fullName>Reduced Travel for Extra Seating + 180 Swivel</fullName>
+        <default>false</default>
+        <label>Reduced Travel for Extra Seating + 180 Swivel</label>
+    </customValue>
+    <customValue>
+        <fullName>Reduced Travel for Side Entry Lift</fullName>
+        <default>false</default>
+        <label>Reduced Travel for Side Entry Lift</label>
+    </customValue>
+    <customValue>
+        <fullName>Reduced Travel for Side Entry Lifts</fullName>
+        <default>false</default>
+        <label>Reduced Travel for Side Entry Lifts</label>
+    </customValue>
+    <customValue>
+        <fullName>Reduced Travel for Side Entry Lifts (w/Big Chairs)</fullName>
+        <default>false</default>
+        <label>Reduced Travel for Side Entry Lifts (w/Big Chairs)</label>
+    </customValue>
+    <customValue>
+        <fullName>Reduced Travel for Side Entry Lifts (w/Big Chairs) + 180 Swivel</fullName>
+        <default>false</default>
+        <label>Reduced Travel for Side Entry Lifts (w/Big Chairs) + 180 Swivel</label>
+    </customValue>
+    <customValue>
+        <fullName>Requires Purchasing Additional Rollx Components</fullName>
+        <default>false</default>
+        <label>Requires Purchasing Additional Rollx Components</label>
+    </customValue>
+    <customValue>
+        <fullName>Standard Length Rail</fullName>
+        <default>false</default>
+        <label>Standard Length Rail</label>
+    </customValue>
+    <customValue>
+        <fullName>Standard Length Rail + 180 Swivel</fullName>
+        <default>false</default>
+        <label>Standard Length Rail + 180 Swivel</label>
+    </customValue>
+    <customValue>
+        <fullName>With Lowered Driver Sliding Door</fullName>
+        <default>false</default>
+        <label>With Lowered Driver Sliding Door</label>
+    </customValue>
+    <customValue>
+        <fullName>Without Lowered Driver Sliding Door</fullName>
+        <default>false</default>
+        <label>Without Lowered Driver Sliding Door</label>
+    </customValue>
+    <masterLabel>Seatbase Seat Option</masterLabel>
+    <sorted>false</sorted>
+</GlobalValueSet>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>MAP_Balance_will_expire_in_30_days</fullName>
+        <description>MAP Balance will expire in 30 days</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>Sample@buyer.com</recipient>
+            <type>customerPortalUser</type>
+        </recipients>
+        <recipients>
+            <recipient>jclappsy@sampleCompanycorp.com.Samplemanager</recipient>
+            <type>customerPortalUser</type>
+        </recipients>
+        <senderAddress>mycommunity@Sampleability.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>unfiled$public/MAP_Balance_Expire_in_30_Days</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>Clear_MAP_Funds</fullName>
+        <description>Clears MAP funds after expiration date</description>
+        <field>MAP_Balance__c</field>
+        <name>Clear MAP Funds</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Clear_MAP_Funds_to_Zero</fullName>
+        <description>Clear MAP Funds</description>
+        <field>MAP_Funds__c</field>
+        <formula>0</formula>
+        <name>Clear MAP Funds to Zero</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+        <reevaluateOnChange>false</reevaluateOnChange>
+    </fieldUpdates>
+    <rules>
+        <fullName>MAP Funds Expire in 30 Days</fullName>
+        <active>true</active>
+        <criteriaItems>
+            <field>Account.MAP_Funds__c</field>
+            <operation>notEqual</operation>
+            <value>0</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>MAP_Balance_will_expire_in_30_days</name>
+                <type>Alert</type>
+            </actions>
+            <offsetFromField>Account.MAP_Expiration_Date__c</offsetFromField>
+            <timeLength>-30</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+        <workflowTimeTriggers>
+            <actions>
+                <name>Clear_MAP_Funds_to_Zero</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <offsetFromField>Account.MAP_Expiration_Date__c</offsetFromField>
+            <timeLength>0</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+</Workflow>

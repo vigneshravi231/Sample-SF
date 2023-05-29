@@ -1,0 +1,44 @@
+
+<!-- Download Quote -->
+<template>
+	<lightning-spinner variant="brand" if:true={isLoading}></lightning-spinner>
+	<div class="approval-grid slds-m-top_medium slds-m-bottom_medium">
+		<template if:true={canConvertQuote}>
+				<lightning-input
+					label="PO Number"
+					variant="label-hidden"
+					class="po-input"
+					placeholder="Enter PO Number..."
+					value={quotePoNumber}
+					onchange={quotePoNumberChanged}
+				></lightning-input>
+				<div class="approval-buttons">
+					<button
+						onclick={convertQuote}
+						type="button"
+						class="slds-button slds-button_brand slds-button_stretch"
+						disabled={convertQuoteDisabled}
+					>
+						Convert To Order
+					</button>
+					<button
+						onclick={rejectQuote}
+						type="button"
+						class="slds-button slds-button_brand slds-button_stretch"
+					>
+						Reject Quote
+					</button>
+				</div>
+		</template>
+		<div class="download-button slds-float_right">
+			<button
+				if:true={canDownloadQuote}
+				onclick={downloadQuote}
+				type="button"
+				class="slds-button slds-button_brand slds-button_stretch"
+			>
+				Download Quote
+			</button>
+		</div>
+	</div>
+</template>

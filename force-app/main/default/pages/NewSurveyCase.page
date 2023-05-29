@@ -1,0 +1,3 @@
+<apex:page standardController="Survey_Feedback__c" extensions="NewSurveyCaseController" action="{!redirectToNewCase}">
+	
+</apex:page>

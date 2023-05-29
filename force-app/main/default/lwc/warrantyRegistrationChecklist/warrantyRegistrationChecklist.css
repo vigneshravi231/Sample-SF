@@ -1,0 +1,30 @@
+
+
+p {
+  padding-bottom: 10px;
+}
+
+.color-brand {
+  color: var(--lwc-colorBrand);
+}
+
+.checkbox-element {
+  display: inline-block;
+  float: left;
+  white-space: nowrap !important;
+}
+
+.flexContainer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.flexChild {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.disclaimer {
+    font-size: 11px;
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>Navigates to the Saved Claims page in the community</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Saved Claims Button</masterLabel>
+    <targets>
+        <target>lightningCommunity__Page</target>
+    </targets>
+</LightningComponentBundle>

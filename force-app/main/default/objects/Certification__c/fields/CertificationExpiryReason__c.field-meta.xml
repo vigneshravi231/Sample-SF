@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>CertificationExpiryReason__c</fullName>
+    <description>This field captures the reason the certification status is set to &apos;Expired&apos;</description>
+    <externalId>false</externalId>
+    <label>Certification Expiry Reason</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <controllingField>Certification_Status__c</controllingField>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Did not Re-Certify within expiration date</fullName>
+                <default>false</default>
+                <label>Did not Re-Certify within expiration date</label>
+            </value>
+            <value>
+                <fullName>Terminated from employment</fullName>
+                <default>false</default>
+                <label>Terminated from employment</label>
+            </value>
+            <value>
+                <fullName>Did Not Pass Test</fullName>
+                <default>false</default>
+                <label>Did Not Pass Test</label>
+            </value>
+        </valueSetDefinition>
+        <valueSettings>
+            <controllingFieldValue>Expired</controllingFieldValue>
+            <valueName>Did not Re-Certify within expiration date</valueName>
+        </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>Expired</controllingFieldValue>
+            <valueName>Terminated from employment</valueName>
+        </valueSettings>
+    </valueSet>
+</CustomField>

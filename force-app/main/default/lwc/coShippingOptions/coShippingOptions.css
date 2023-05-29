@@ -1,0 +1,31 @@
+
+
+.shipping-table tr:first-child td {
+    padding-top: 18px;
+}
+
+.first-col {
+    color: #000;
+    padding-left: 0;
+}
+
+.image-container {
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    padding-right: 25px;
+    height: 100px;
+}
+
+.product-image {
+    max-width: 35px;
+}
+
+.checkout-shipping-methods {
+    border-bottom: solid 2px rgb(212, 212, 212);
+}
+
+.checkout-shipping-methods:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}

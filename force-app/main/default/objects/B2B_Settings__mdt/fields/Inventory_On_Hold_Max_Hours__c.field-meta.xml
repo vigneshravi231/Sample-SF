@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Inventory_On_Hold_Max_Hours__c</fullName>
+    <description>BC-351 indicates whats the max amount of hours an inventory can be put on hold for (e.g. as part of WAV configuration)</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>BC-351 indicates whats the max amount of hours an inventory can be put on hold for (e.g. as part of WAV configuration)</inlineHelpText>
+    <label>Inventory On Hold Max Hours</label>
+    <precision>18</precision>
+    <required>true</required>
+    <scale>0</scale>
+    <type>Number</type>
+    <unique>false</unique>
+</CustomField>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>RMA_Request</fullName>
+    <active>true</active>
+    <businessProcess>Master</businessProcess>
+    <label>RMA Request</label>
+    <picklistValues>
+        <picklist>Origin</picklist>
+        <values>
+            <fullName>Chat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Email</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Mail</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Phone</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Web</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Priority</picklist>
+        <values>
+            <fullName>Bid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>High</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Low</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Medium</fullName>
+            <default>true</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Reason</picklist>
+        <values>
+            <fullName>Existing problem</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>General%C2%A0Question</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Instructions not clear</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Invalid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>New problem</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Owner Inquiry</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Part Number</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>User didn%27t attend training</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Warranty Repair</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>Type</picklist>
+        <values>
+            <fullName>ADA Manual I-F Recall</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Address Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>ChairTopper %28B%26D%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chairtopper</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Chat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Click and Drive</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Customer Supplied</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Dealer Locate</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Design Features</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Feature Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Field Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>HighTower %28B%26D%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>In-House Repair</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Int%27l - Customer Disruptions</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Int%27l - Part Quality</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Lift</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NPS</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>NV 200</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>OEM Audit</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Other Products %28B%26D%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Part</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Parts Warranty</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre-Delivery Lift</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Pre-Delivery Vehicle</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Question</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Recall %28used to memorilize OEM %26 SampleAbility Recalls%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Seat</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Service</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Support</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Training Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Transfer Seat Base</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Turny %28B%26D%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>UWR %28B%26D%29</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Used Unconverted Request</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Vehicle</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WAV</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WAV - Bid</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>WC Survey</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

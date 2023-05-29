@@ -1,0 +1,44 @@
+
+
+<!-- Payment Purchase Order -->
+<template>
+
+  <lightning-layout multiple-rows>
+    <lightning-layout-item
+      size="6"
+      small-device-size="6"
+      medium-device-size="6">
+      <div if:true={purchaseOrderErrorMessage}
+           class="card-auth-error slds-scoped-notification slds-media slds-media_center slds-theme_error"
+           role="alert">
+        <div class="slds-media__figure">
+          <lightning-icon icon-name="utility:error"
+                          variant="error"
+                          size="small">
+          </lightning-icon>
+        </div>
+        <div class="slds-media__body">
+          <p>{purchaseOrderErrorMessage}</p>
+        </div>
+      </div>
+      <div class="slds-form-element">
+        <lightning-input
+          data-validate
+          data-purchase-order-number
+          class="purchaseOrderNumber"
+          onblur={handlePurchaseOrderNumberChange}
+          name="purchaseOrderNumber"
+          value={purchaseOrderNumber}
+          label={labels.PurchaseOrderNumberLabel}
+          placeholder={labels.PurchaseOrderNumberPlaceholder}
+          max-length="26"
+          required="true">
+        </lightning-input>
+      </div>
+      <!--  <div slot="actions" class="slds-m-top_small">-->
+      <!--    <lightning-button variant="brand" label={labels.SubmitLabel} title="PurchaseOrderSubmit" onclick={handleSubmit}></lightning-button>-->
+      <!--  </div>-->
+    </lightning-layout-item>
+  </lightning-layout>
+
+</template>

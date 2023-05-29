@@ -1,0 +1,17 @@
+
+<!-- Warranty Action Buttons -->
+<template>
+	<ul class="slds-has-block">
+		<li>
+			<a href="#" onclick={gotoDetails}>View Warranty Details</a>
+		</li>
+		<li>
+			<a if:false={downloadIsLoading} href="#" onclick={downloadPdf}>{downloadText}</a>
+			<span if:true={downloadIsLoading}>{previewText}</span>
+		</li>
+		<li>
+			<a if:false={previewUnavailable} href="#" onclick={previewPDF}>{previewText}</a>
+			<span if:true={previewUnavailable}>{previewText}</span>
+		</li>
+	</ul>
+</template>

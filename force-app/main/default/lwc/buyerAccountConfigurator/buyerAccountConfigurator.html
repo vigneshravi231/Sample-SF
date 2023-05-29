@@ -1,0 +1,264 @@
+
+
+<!-- Buyer Account Configurator -->
+<template>
+  <div class="slds-is-relative">
+
+    <div if:true={loading} class="slds-p-vertical_medium">
+      <lightning-spinner alternative-text="Loading"
+                         size="medium"
+                         variant="brand">
+      </lightning-spinner>
+    </div>
+
+    <div if:true={wireSuccess}>
+      <lightning-record-edit-form
+        object-api-name="Account"
+        record-id={recordId}>
+
+        <!-- Enable Buyer -->
+        <div class="slds-text-heading_small slds-border_bottom">
+          Enable Buyer Account
+        </div>
+
+        <div class="slds-p-vertical_medium">
+          <lightning-input type="checkbox"
+                           label="Buyer Enabled"
+                           onchange={enableBuyer}
+                           checked={buyerEnabled}>
+          </lightning-input>
+        </div>
+
+        <!-- Shipping / Billing -->
+        <div class="slds-text-heading_small slds-border_bottom">
+          Default Shipping/Billing
+        </div>
+
+        <!-- Billing -->
+        <div class="slds-grid slds-p-vertical_small address-input-container slds-wrap">
+          <div class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 address-input slds-p-right_small">
+            <div class="slds-p-bottom_small">
+              <lightning-input type="text"
+                               class="buyer-field"
+                               label="Billing Street"
+                               disabled={disableForm}
+                               onchange={handleFieldUpdate}
+                               data-field-name="BillingStreet"
+                               value={account.BillingStreet}>
+              </lightning-input>
+            </div>
+
+            <div class="slds-grid">
+              <div class="slds-col slds-size_1-of-2 slds-p-right_x-small">
+                <lightning-input type="text"
+                                 label="Billing City"
+                                 disabled={disableForm}
+                                 onchange={handleFieldUpdate}
+                                 data-field-name="BillingCity"
+                                 value={account.BillingCity}>
+                </lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-p-left_x-small">
+                <lightning-input-field  field-name="BillingState"
+                                        data-field-name="BillingState"
+                                        value={account.BillingState}
+                                        disabled={disableForm}
+                                        onchange={handleFieldUpdate}
+                                        variant="comfy">
+                </lightning-input-field>
+<!--                <lightning-combobox-->
+<!--                  name="state"-->
+<!--                  label="Billing State"-->
+<!--                  value={account.BillingState}-->
+<!--                  data-field-name="BillingState"-->
+<!--                  placeholder="Billing State"-->
+<!--                  options={getProvinceOptions}-->
+<!--                  disabled={disableForm}-->
+<!--                  onchange={handleFieldUpdate}></lightning-combobox>-->
+              </div>
+            </div>
+
+            <div class="slds-grid">
+              <div class="slds-col slds-size_1-of-2 slds-p-right_x-small">
+                <lightning-input type="text"
+                                 label="Billing Postal Code"
+                                 disabled={disableForm}
+                                 onchange={handleFieldUpdate}
+                                 data-field-name="BillingPostalCode"
+                                 value={account.BillingPostalCode}>
+                </lightning-input>
+              </div>
+
+              <div class="slds-col slds-size_1-of-2 slds-p-left_x-small">
+                <lightning-input-field  field-name="BillingCountry"
+                                        data-field-name="BillingCountry"
+                                        value={account.BillingCountry}
+                                        disabled={disableForm}
+                                        onchange={handleFieldUpdate}
+                                        variant="comfy">
+                </lightning-input-field>
+<!--                <lightning-combobox-->
+<!--                  name="state"-->
+<!--                  label="Billing Country"-->
+<!--                  value={account.BillingCountry}-->
+<!--                  data-field-name="BillingCountry"-->
+<!--                  placeholder="Billing Country"-->
+<!--                  options={getCountryOptions}-->
+<!--                  disabled={disableForm}-->
+<!--                  onchange={handleFieldUpdate}>-->
+<!--                </lightning-combobox>-->
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping-->
+          <div class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 address-input slds-p-right_small">
+            <div class="slds-p-bottom_small">
+              <lightning-input type="text"
+                               label="Shipping Street"
+                               disabled={disableForm}
+                               onchange={handleFieldUpdate}
+                               data-field-name="ShippingStreet"
+                               value={account.ShippingStreet}>
+              </lightning-input>
+            </div>
+
+            <div class="slds-grid">
+              <div class="slds-col slds-size_1-of-2 slds-p-right_x-small">
+                <lightning-input type="text"
+                                 label="Shipping City"
+                                 disabled={disableForm}
+                                 onchange={handleFieldUpdate}
+                                 data-field-name="ShippingCity"
+                                 value={account.ShippingCity}>
+                </lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-p-left_x-small">
+                <lightning-input-field  field-name="ShippingState"
+                                        data-field-name="ShippingState"
+                                        value={account.ShippingState}
+                                        disabled={disableForm}
+                                        onchange={handleFieldUpdate}
+                                        variant="comfy">
+                </lightning-input-field>
+
+<!--                <lightning-combobox-->
+<!--                  name="state"-->
+<!--                  label="Shipping State"-->
+<!--                  value={account.ShippingState}-->
+<!--                  data-field-name="ShippingState"-->
+<!--                  placeholder="Shipping State"-->
+<!--                  options={getProvinceOptions}-->
+<!--                  disabled={disableForm}-->
+<!--                  onchange={handleFieldUpdate}>-->
+<!--                </lightning-combobox>-->
+              </div>
+            </div>
+
+            <div class="slds-grid">
+              <div class="slds-col slds-size_1-of-2 slds-p-right_x-small">
+                <lightning-input type="text"
+                                 label="Shipping Postal Code"
+                                 disabled={disableForm}
+                                 onchange={handleFieldUpdate}
+                                 data-field-name="ShippingPostalCode"
+                                 value={account.ShippingPostalCode}>
+                </lightning-input>
+              </div>
+              <div class="slds-col slds-size_1-of-2 slds-p-left_x-small">
+                <lightning-input-field  field-name="ShippingCountry"
+                                        data-field-name="ShippingCountry"
+                                        value={account.ShippingCountry}
+                                        disabled={disableForm}
+                                        onchange={handleFieldUpdate}
+                                        variant="comfy">
+                </lightning-input-field>
+
+<!--                <lightning-combobox-->
+<!--                  name="state"-->
+<!--                  label="Shipping Country"-->
+<!--                  value={account.ShippingCountry}-->
+<!--                  data-field-name="ShippingCountry"-->
+<!--                  placeholder="Shipping Country"-->
+<!--                  options={getCountryOptions}-->
+<!--                  disabled={disableForm}-->
+<!--                  onchange={handleFieldUpdate}></lightning-combobox>-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Terms -->
+        <div class="slds-text-heading_small slds-border_bottom">
+          Payment Terms
+        </div>
+
+        <div class="slds-p-vertical_medium">
+          <lightning-input-field  field-name="acCore__PaymentTerm__c"
+                                  data-field-name="acCore__PaymentTerm__c"
+                                  disabled={disableForm}
+                                  onchange={handleFieldUpdate}
+                                  variant="comfy">
+          </lightning-input-field>
+        </div>
+
+        <!-- Default Price Book-->
+        <div class="slds-text-heading_small slds-border_bottom">
+          Add Customer Specific Price Book
+        </div>
+
+        <div class="slds-p-vertical_medium">
+          <lightning-input-field  field-name="Price_Book__c"
+                                  data-field-name="Price_Book__c"
+                                  disabled={disableForm}
+                                  onchange={handleFieldUpdate}
+                                  variant="comfy">
+          </lightning-input-field>
+        </div>
+
+        <!-- Portal Access -->
+        <div class="slds-text-heading_small slds-border_bottom">
+          Portal Access
+        </div>
+
+        <div class="slds-grid slds-p-vertical_small address-input-container slds-wrap">
+          <div class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-right_small portal-access">
+            <template for:each={portalAccessFieldsCol1} for:item="field">
+              <div key={field}>
+                <lightning-input-field  field-name={field}
+                                        disabled="true"
+                                        onchange={handleFieldUpdate}
+                                        data-field-name={field}
+                                        variant="comfy">
+                </lightning-input-field>
+              </div>
+
+            </template>
+          </div>
+
+          <div class="slds-col slds-small-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-right_small portal-access">
+            <template for:each={portalAccessFieldsCol2} for:item="field">
+              <div key={field}>
+                <lightning-input-field  field-name={field}
+                                        disabled="true"
+                                        onchange={handleFieldUpdate}
+                                        data-field-name={field}
+                                        variant="comfy">
+                </lightning-input-field>
+              </div>
+
+            </template>
+          </div>
+        </div>
+
+      </lightning-record-edit-form>
+    </div>
+
+    <template if:false={loading}>
+      <div if:false={wireSuccess}>
+        Error retrieving Account data
+      </div>
+    </template>
+
+  </div>
+</template>

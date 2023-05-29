@@ -1,0 +1,14 @@
+
+
+.fixed-height {
+    min-height: 342px;
+}
+
+.font-size-num {
+    font-size: 18px;
+    font-weight: normal !important;
+}
+
+.full-height {
+    height: 100%;
+}

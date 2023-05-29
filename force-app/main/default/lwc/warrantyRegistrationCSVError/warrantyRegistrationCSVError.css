@@ -1,0 +1,19 @@
+
+
+p {
+    padding-bottom: 10px;
+}
+
+.color-brand {
+    color: var(--lwc-colorBrand);
+}
+
+table {
+    border-bottom: none;
+}
+
+.empty-margin {
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+

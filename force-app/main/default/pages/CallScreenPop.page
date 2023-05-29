@@ -1,0 +1,139 @@
+<apex:page sidebar="false" standardStylesheets="true" showHeader="false" controller="CallScreenPopController" action="{!redirectToAdvance}">
+    <apex:form >
+    <apex:PageBlock id="callPageBlock">
+        <apex:pageblockButtons >
+            <apex:commandButton value="Add Contact" 
+            onclick="window.open('/001/e?RecordType=012110000005Emb&ent=Account&acc10={!callerId}')"/>
+            <apex:commandButton value="Add Call Record" 
+            onclick="{!addCallURL}"/>
+            <apex:commandButton value="Add Note to Contact"
+            onclick="window.open('/002/e?parent_id={!left(contactId,15)}&retURL={!contactId}&Title=Call from {!callerId}')" rendered="{!contactName!=null}"/>
+            <apex:commandButton value="Add Order/Opp"
+            onclick="window.open('/006/e?accid={!accountId}')"/>
+            <apex:commandButton value="Add Case"
+            onclick="{!AddCaseURL}"/>
+            <apex:commandButton value="Advanced Search Contact" action="{!advancedSearchContact}"/>
+        </apex:pageblockButtons>
+        <apex:pageMessages ></apex:pageMessages>    
+        
+        <!--Contact Information Section-->
+        <apex:pageBlockSection title="Call Information" id="callInfo" columns="2">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel style="font-size:16px;font-weight:bold" value="Caller Id:"/>
+                <apex:outputText style="font-size:16px;font-weight:bold" value="{!callerId}" />
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel style="font-size:16px" value="Contact:"/>
+                    <apex:outputText ><span style="font-size:16px;font-weight:bold">{!contactName}&nbsp;</span>
+                    <apex:outputLink value="/{!contactId}" target="_blank" rendered="{!contactId != null}">View</apex:outputLink>
+                </apex:outputText>
+            </apex:pageBlockSectionItem>
+            <!--Account Information Section-->
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel style="font-size:16px;font-weight:bold" value="Account:"/>
+                    <apex:outputText ><span style="font-size:16px;font-weight:bold">{!accountName}&nbsp;</span>
+                    <apex:outputLink value="/{!accountId}" rendered="{!accountId != null}" 
+                    target="_blank">View</apex:outputLink>
+                </apex:outputText>
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel style="font-size:16px;font-weight:bold" value="Customer ID:"/>
+                <apex:outputText style="font-size:16px;font-weight:bold" value="{!customerID}" />
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+        
+        <!--Dealer Location Section-->
+        <apex:pageBlockSection id="dealerLocation" title="Dealer Location">
+            <apex:pageBlockSectionItem >
+                <apex:outputPanel id="dealerLocation">
+                    <table class="list" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                       <tbody>
+                            <tr class="headerRow">
+                                <th>Location Name</th>
+                                <th>Dealer Number</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+
+                        <apex:repeat value="{!dealerLocations}" var="dl">
+                            <tr class="dataRow even first" onmouseover="if (window.hiOn){hiOn(this);}" onmouseout="if (window.hiOff){hiOff(this);}">
+                                <td><apex:outputText >{!dl.Name}</apex:outputText></td>
+                                <td><apex:outputText >{!dl.Customer_ID__c}</apex:outputText></td>
+                                <td align="center"><apex:commandButton value="View Location" onClick="window.open('/{!dl.Id}')"/>
+                                <td align="center">
+                                    <!-- Modified below 1 line by NSINGH S-583119 - Button disabled if no contact found -->
+                                    <apex:commandButton value="Link to Contact" action="{!linkToContact}" reRender="callPageBlock" oncomplete="location.reload();" disabled="{!contactId=null}">
+                                        <apex:param name="link" value="{!dl.Id}" assignTo="{!accId}"/>    
+                                    </apex:commandButton>
+                                        </td>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                        </tbody>
+                    </table>
+                </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+        <!--Cases Section-->
+        <apex:pageBlockSection id="casesHistory" title="Cases and History" columns="2">
+            <apex:pageBlockSectionItem >
+                <apex:outputPanel >
+                    <h2>Cases</h2><br/>
+                    <table class="list" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                       <tbody>
+                            <tr class="headerRow">
+                                <th>Case Number</th>
+                                <th>Subject</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Added</th>
+                            </tr>
+                            <apex:repeat value="{!casesList}" var="case">
+                                <tr class="dataRow even first" onmouseover="if (window.hiOn){hiOn(this);}" onmouseout="if (window.hiOff){hiOff(this);}">
+                                    <td>
+                                        <apex:outputLink value="/{!case.Id}" rendered="{!case.Id != null}" 
+                                            target="_blank">{!case.CaseNumber}</apex:outputLink>
+                                    </td>
+                                    <td><apex:outputText >{!case.Subject}</apex:outputText></td>
+                                    <td><apex:outputText >{!case.Priority}</apex:outputText></td>
+                                    <td><apex:outputText >{!case.Status}</apex:outputText></td>
+                                    <td><apex:outputText >{!case.CreatedDate}</apex:outputText></td>
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+            <!--History Section-->
+            <apex:pageBlockSectionItem >
+                <apex:outputPanel title="History">
+                   <h2>History</h2>
+                    <table class="list" border="0" cellspacing="0" cellpadding="0" style="width:100%">
+                       <tbody>
+                            <tr class="headerRow">
+                                <th>Category</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Added</th>
+                                <th>Assigned User</th>
+                            </tr>
+                                <apex:repeat value="{!history}" var="task">
+                                    <tr>
+                                        <td><apex:outputText >{!task.Call_Category__c}</apex:outputText></td>
+                                        <td>
+                                            <apex:outputLink value="/{!task.Id}" rendered="{!task.Id != null}" 
+                                                target="_blank">{!task.Subject}</apex:outputLink>
+                                        </td>
+                                        <td><apex:outputText >{!task.Status}</apex:outputText></td>
+                                        <td><apex:outputText >{!task.CreatedDate}</apex:outputText></td>
+                                        <td><apex:outputText >{!taskToUser[task.Id]}</apex:outputText></td>
+                                    </tr>
+                                </apex:repeat>
+                        </tbody>
+                    </table>
+                </apex:outputPanel>
+            </apex:pageBlockSectionItem>
+        </apex:pageBlockSection>
+    </apex:PageBlock>
+    </apex:form>
+</apex:page>

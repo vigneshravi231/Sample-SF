@@ -1,0 +1,171 @@
+
+
+<apex:component id="OrderConfirmationEmail" controller="OrderConfirmationEmailController" access="global">
+
+  <apex:attribute id="cartId" assignTo="{!cartId}" name="webCartId" type="ID" description="The ID of the Cart that produced the order"/>
+
+  <table width="100%">
+
+    <tr>
+      <td style="padding: 16px 0;">
+        Order Detail
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div>
+          <table width="100%" style="padding: 16px; border: 1px solid #cccccc;">
+
+            <tr>
+              <td colspan="2">
+                <div style="padding-bottom: 16px; border-bottom: 1px solid rgb(212, 212, 212);"><b>Billing Address</b></div>
+                <br/>
+                <div>
+                  {!orderHeader.BillingStreet}<br/>
+                  {!orderHeader.BillingCity}, {!orderHeader.BillingState} {!orderHeader.BillingPostalCode}<br/>
+                  {!orderHeader.BillingCountry}
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div style="padding-bottom: 16px; border-bottom: 1px solid rgb(212, 212, 212)"><b>Payment Option</b></div>
+                <br/>
+                <div style="padding-top: 16px; padding-right: 16px;">
+                  {!paymentOption}
+                </div>
+              </td>
+
+              <td>
+                <div style="padding-bottom: 16px; border-bottom: 1px solid rgb(212, 212, 212)"><b>Purchase Order Number</b></div>
+                <br/>
+                <div style="padding-top: 16px; padding-right: 16px;">
+                  {!orderHeader.PoNumber}
+                </div>
+              </td>
+            </tr>
+
+          </table>
+
+
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 16px 0;">
+        Order Splits
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div>
+          <table width="100%" style="padding: 16px; border: 1px solid #cccccc;">
+
+            <apex:repeat value="{!summariesList}" var="summary">
+              <tr>
+                <td>
+                  <div>
+                    <div style="padding-bottom: 16px;">
+                      ({!summary.totalItems}) Order Items<br/>
+                    </div>
+                    <table width="100%">
+                      <tr>
+                        <td>
+                          <div>
+                            <b>Order Number:</b>&nbsp;{!summary.orderSummary.OrderNumber}
+                          </div>
+                          <div>
+                            <b>Order Type:</b>&nbsp;{!summary.deliveryGroup.Order_Type__c}
+                          </div>
+                          <div>
+                            <b>Delivery Address:</b><br/>
+                            {!summary.deliveryGroup.DeliverToStreet}, {!summary.deliveryGroup.DeliverToCity}, {!summary.deliveryGroup.DeliverToState} {!summary.deliveryGroup.DeliverToPostalCode}
+                          </div>
+                          <div>
+                            <b>Shipping Option:</b>&nbsp;{!summary.deliveryGroup.OrderDeliveryMethod.Name}
+                          </div>
+                        </td>
+
+                        <td>
+
+                          <apex:repeat value="{!summary.miscCharges}" var="charge">
+                            <div>
+                              <b>desc:</b> {!charge.Description} <b>code:</b> {!charge.Misc_Charge_Code__c}
+                              <b>amount:</b>&nbsp;
+                              <apex:outputText value="{0, Number, Currency}">
+                                <apex:param value="{!charge.TotalPrice}"/>
+                              </apex:outputText>
+                            </div>
+                          </apex:repeat>
+
+                          <div>
+                            <b>Subtotal:</b>&nbsp;
+                            <apex:outputText value="{0, Number, Currency}">
+                              <apex:param value="{!summary.orderSummary.TotalAdjustedProductAmount}"/>
+                            </apex:outputText>
+                          </div>
+
+                          <div>
+                            <b>Misc Charges:</b>&nbsp;
+                            <apex:outputText value="{0, Number, Currency}">
+                              <apex:param value="{!summary.totalMiscCharges}"/>
+                            </apex:outputText>
+                          </div>
+
+                          <div>
+                            <b>Total:</b>&nbsp;
+                            <apex:outputText value="{0, Number, Currency}">
+                              <apex:param value="{!summary.orderSummary.GrandTotalAmount}"/>
+                            </apex:outputText>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </apex:repeat>
+
+          </table>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding: 16px 0;">
+        Total Order Summary
+      </td>
+    </tr>
+
+    <tr>
+      <td align="right" style="padding: 16px; border: 1px solid #cccccc;">
+        <div>
+          <b>Subtotal:</b>&nbsp;
+          <apex:outputText value="{0, Number, Currency}">
+            <apex:param value="{!totalSubtotal}"/>
+          </apex:outputText>
+        </div>
+
+        <div>
+          <b>Misc Charges:</b>&nbsp;
+          <apex:outputText value="{0, Number, Currency}">
+            <apex:param value="{!totalMiscCharges}"/>
+          </apex:outputText>
+        </div>
+
+        <div>
+          <b>Total:</b>&nbsp;
+          <apex:outputText value="{0, Number, Currency}">
+            <apex:param value="{!totalGrandTotal}"/>
+          </apex:outputText>
+        </div>
+      </td>
+    </tr>
+
+  </table>
+
+</apex:component>

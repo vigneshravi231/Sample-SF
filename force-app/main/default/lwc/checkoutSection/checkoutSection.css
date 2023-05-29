@@ -1,0 +1,61 @@
+
+
+.checkout-number {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: 4.4px;
+    border: 2px solid var(--lwc-colorBrand);
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    margin-right: 15px;
+    background-color: var(--lwc-colorBrand);
+    display: inline-block;
+}
+
+.checkout-number-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.overflow-hidden {
+    overflow: auto;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.action {
+    font-size: .8125rem;
+}
+
+@media (max-width: 805px) {
+
+    .mobile-action {
+        margin-top: 11px;
+        float: none;
+    }
+
+}
+
+.mobile-break {
+    display: none;
+}
+
+@media (max-width: 805px) {
+
+    .mobile-break {
+        display: block;
+    }
+
+}
+
+.hide-number {
+    visibility: hidden;
+    width: 0;
+    padding-left: 0;
+    margin: 0;
+}

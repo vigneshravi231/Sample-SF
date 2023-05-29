@@ -1,0 +1,24 @@
+#!/bin/bash
+network_id=`sfdx force:data:soql:query -q "SELECT Id FROM Network WHERE Name = 'CustomerCare+'" --resultformat=csv | tail -n +2`
+
+echo $network_id
+
+query_topic(){
+  q="SELECT Id FROM Topic WHERE NetworkId = '$network_id' AND Name = '$1'"
+  sfdx force:data:soql:query -q "$q" --resultformat=csv | tail -n +2
+}
+
+general_topic_id=`query_topic 'General'`
+vehicle_topic_id=`query_topic 'Vehicle'`
+lift_topic_id=`query_topic 'Lift'`
+seating_topic_id=`query_topic 'Seating'`
+
+echo $general_topic_id
+echo $vehicle_topic_id
+echo $seating_topic_id
+echo $lift_topic_id
+
+sed -i "s/\/topic\/.*\/general/\/topic\/$general_topic_id\/general/g" ../../force-app/main/default/navigationMenus/*
+sed -i "s/\/topic\/.*\/vehicle/\/topic\/$vehicle_topic_id\/vehicle/g" ../../force-app/main/default/navigationMenus/*
+sed -i "s/\/topic\/.*\/lift/\/topic\/$lift_topic_id\/lift/g" ../../force-app/main/default/navigationMenus/*
+sed -i "s/\/topic\/.*\/seating/\/topic\/$seating_topic_id\/seating/g" ../../force-app/main/default/navigationMenus/*

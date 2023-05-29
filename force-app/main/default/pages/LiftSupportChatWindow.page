@@ -1,0 +1,283 @@
+<apex:page showHeader="false" controller="LiveAgentChatWindowUtility"> <!-- Added controller="LiveAgentChatWindowUtility" by Megha Chauhan| S-531404 -->
+    <script type='text/javascript'>
+        liveagent.addEventListener(liveagent.chasitor.Events.CHAT_REQUEST_SUCCESSFUL,myCallBack);
+        liveagent.addEventListener(liveagent.chasitor.Events.CHAT_ESTABLISHED,newagent);
+        liveagent.addEventListener(liveagent.chasitor.Events.AGENT_CHAT_TRANSFERRED,newagent);
+        function myCallBack() {
+            var details = liveagent.chasitor.getDetails();
+        }
+        function newagent() {
+            var details = liveagent.chasitor.getDetails();
+            getAgentPhoto(details);//Added by Megha Chauhan| S-531404
+        }
+        //Start - Added by Megha Chauhan| S-531404
+        
+       // var arrPhoto = [];
+       // arrPhoto['amiejoseph'] = '1511609429000/amiejoseph';
+       
+        function getAgentPhoto(details){
+            var newagentId;
+            for(var key in details) {                       
+                if (key == 'agent'){                    
+                    newagentId = details[key].userId;
+                }
+            }
+            console.log('newagentId>>'+newagentId);
+            if (newagentId != null ){               
+                Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.LiveAgentChatWindowUtility.getPhoto}',
+                newagentId, 
+                function(result, event){
+                    if (event.status) {
+                            console.log(result);
+                            if(document.getElementById(result) != null){
+                                //var photoPath = arrPhoto[result];
+                                document.getElementById("AgentImage").style.display = "none"; 
+                                document.getElementById(result).style.display = "block";
+                               // document.getElementById('agentPic').style.display = "block";
+                                //document.getElementById('agentPic').src = 'https://c.cs78.visual.force.com/resource/' + photoPath;
+                            }
+                    } else if (event.type === 'exception') {                       
+                            console.log(event.message);
+                    } else {
+                        console.log(event.message);
+                    }
+                }
+             );         
+            }
+        }
+        //End - Added by Megha Chauhan| S-531404
+    </script>
+    
+    <style>
+        body {
+            background-color: #E2E5E8;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        #waitingMessage {
+            color: #585858;
+            height: 100%;
+            width: 100%;
+            vertical-align: middle;
+            text-align: center;
+            display: none;
+        }
+        #liveAgentClientChat.liveAgentStateWaiting #waitingMessage { display: table; }
+        #liveAgentSaveButton{ 
+            display: block;
+            width: 72px;
+            height: 31px;
+            float: right; 
+        }
+        button.liveAgentChatElement.liveAgentEndButton {
+            display: block;
+            width: 65px;
+            height: 31px;
+            float: right;
+        }
+        .liveAgentChatInput {
+            height: 25px;
+            width: 75%;
+            border-width: 1px;
+            border-style: solid;
+            background: #fff;
+            border-radius: 10px;
+        }
+        .liveAgentSendButton {
+            width: 15%;
+            height: 31px;
+        }
+        #liveAgentChatLog {
+            border-color: #A7A9AD;
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            padding: 10px;
+            height: 200px;
+            width: auto;
+            overflow-y: scroll;
+        }
+        .AgentImage{
+            text-align: center;
+            background-color: white;
+            margin: 5px;
+            border-radius: 10px;
+        }
+        #AgentImage{
+            border-radius: 10px;
+        }
+        .ButtonsDiv{
+            height: 45px;
+        }
+        #liveAgentClientChat {
+            margin: 15px;
+        }
+        .ChatInputs{
+            margin-top: 5px;
+        }
+        button#fileCancelButton {
+            border-radius: 10px;
+            margin-top: 16px;
+            height: 20px;
+            width: 19px;
+        }
+        span#fileDragLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #E2F3FB;
+            height: 18px;
+            width: 88%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+        }
+        span#fileDropLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #D4F5FF;
+            height: 18px;
+            width: 88%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+        }
+        .transferDiv {
+            display: block;
+            border: 2px solid #d1d2d3;
+            border-radius: 10px;
+            margin-top: 5px;
+            height: 20px;
+            background-color: white;
+            padding: 10px;
+        }
+        span#fileNameLabel {
+            text-align: center;
+            float: left;
+            margin: 5px 0px 0px 0px;
+            font-size: 13px;
+            background-color: #BFFFB9;
+            height: 18px;
+            width: 70%;
+            border-radius: 10px;
+            border: 2px solid #c9c9c9;
+            padding: 10px;
+            color: green;
+        }
+    </style>
+
+    <div >
+        <liveAgent:clientchat >
+            <div class="ButtonsDiv">
+                <liveAgent:clientChatEndButton label="End Chat" />
+            </div>
+
+            <div class="AgentImage">
+                <img id="AgentImage" src="{!$Resource.LiftSupportWindowImg}" height="200px" style="display:block;"/>
+                <!--     Added style by Megha Chauhan| S-531404 above line-->
+                <!-- Start - Added Megha Chauhan| S-531404  -->
+                <img id="amiejoseph" src="{!$Resource.amiejoseph}" style="display:none;width: 100%;height: auto;" />
+                <img id="codyhudson" src="{!$Resource.codyhudson}" style="display:none;width: 100%;height: auto;" />
+                <img id="donreid" src="{!$Resource.donreid}" style="display:none;width: 100%;height: auto;" />
+                <img id="gusvasquez" src="{!$Resource.gusvasquez}" style="display:none;width: 100%;height: auto;" />
+                <img id="kylebrooks" src="{!$Resource.kylebrooks}" style="display:none;width: 100%;height: auto;" />
+                <img id="stevewattley" src="{!$Resource.stevewattley}" style="display:none;width: 100%;height: auto;" />
+                <!-- End - Added by Megha Chauhan| S-531404 -->
+            </div>
+
+            <div class="ButtonsDiv">
+                <div style="text-align: center;">
+                    <img src="/resource/1443718598000/toggleButton" style="height:10px;" onclick="toggleImage();" />
+                </div>
+                <liveAgent:clientChatSaveButton label="Save Chat" />
+
+            </div>
+
+            <div id="prechatdata"></div>
+            <div>
+                <liveAgent:clientChatAlertMessage />
+                <liveAgent:clientChatStatusMessage />
+                <table id="waitingMessage" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>Please wait while you are connected to an available agent.</td>
+                    </tr>
+                </table>
+                <div>
+                    <liveAgent:clientChatLog />
+                </div>
+                <div class="ChatInputs">
+                    <liveagent:clientChatInput />
+                    <liveAgent:clientChatSendButton label="Send"/>
+                </div>
+                <div id="fileTransfer">
+                    <liveAgent:clientChatFileTransfer />
+                </div>
+            </div>
+        </liveAgent:clientchat>
+    </div>
+
+    <script type="text/javascript">
+        document.getElementById("fileCancelButton").innerHTML = "X";
+        var toggle = false;
+        function toggleImage(){
+            if(!toggle){
+                //Added below line by Megha Chauhan| S-531404
+                if(document.getElementById("AgentImage").style.display == "block")
+                document.getElementById("AgentImage").style.height = "0px";
+                //Start - Added by Megha Chauhan| S-531404
+                else if(document.getElementById("amiejoseph").style.display == "block")
+                document.getElementById("amiejoseph").style.height = "0px";
+                else if(document.getElementById("codyhudson").style.display == "block")
+                document.getElementById("codyhudson").style.height = "0px";
+                else if(document.getElementById("donreid").style.display == "block")
+                document.getElementById("donreid").style.height = "0px";
+                else if(document.getElementById("gusvasquez").style.display == "block")
+                document.getElementById("gusvasquez").style.height = "0px";
+                else if(document.getElementById("kylebrooks").style.display == "block")
+                document.getElementById("kylebrooks").style.height = "0px";
+                else if(document.getElementById("stevewattley").style.display == "block")
+                document.getElementById("stevewattley").style.height = "0px";
+                //END - Added by Megha Chauhan| S-531404
+                toggle = true;
+            }
+            else{
+                //Added below line by Megha Chauhan| S-531404
+                if(document.getElementById("AgentImage").style.display == "block")
+                document.getElementById("AgentImage").style.height = "200px";
+                //Start - Added by Megha Chauhan| S-531404
+                else if(document.getElementById("amiejoseph").style.display == "block")
+                document.getElementById("amiejoseph").style.height = "200px";
+                else if(document.getElementById("codyhudson").style.display == "block")
+                document.getElementById("codyhudson").style.height = "200px";
+                else if(document.getElementById("donreid").style.display == "block")
+                document.getElementById("donreid").style.height = "200px";
+                else if(document.getElementById("gusvasquez").style.display == "block")
+                document.getElementById("gusvasquez").style.height = "200px";
+                else if(document.getElementById("kylebrooks").style.display == "block")
+                document.getElementById("kylebrooks").style.height = "200px";
+                else if(document.getElementById("stevewattley").style.display == "block")
+                document.getElementById("stevewattley").style.height = "200px";                
+                //End - Code added | Megha Chauhan| S-531404
+                toggle = false;
+            }
+        }
+
+        window.onbeforeunload = bunload;
+        function bunload(){
+            dontleave="This page is asking you to confirm that you want to leave - data you have entered may not be saved.";
+            return dontleave;
+        }
+
+        // document.getElementById("fileCancelButton").onclick = function(){
+        //  document.getElementById("fileTransfer").visibility = false;
+        // }
+
+            
+        </script>
+
+</apex:page>

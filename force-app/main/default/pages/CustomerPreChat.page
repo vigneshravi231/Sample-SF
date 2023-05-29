@@ -1,0 +1,146 @@
+<apex:page showHeader="false"> 
+<!-- This script takes the endpoint URL parameter passed from the deployment 
+  page and makes it the action for the form -->
+  <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-57PL2V');</script>
+    <!-- End Google Tag Manager -->
+
+    <style type="text/css">
+        body{
+            background-color: #EFEFEF;
+        }
+        .PreForm{
+            font-family: Arial Narrow;
+            font-size: 16px;
+            margin: 10px;
+            text-align: center;
+        }
+        input{
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+            margin-right: 20px;
+        }
+        <!-- Modified below CSS by NSINGH: 22/5/2018: S-554773 : added background color  -->
+        input#prechat_submit {
+            display: block;
+            margin: auto;
+            background-color: white;
+        }
+        .PreInputs{
+            text-align: left;
+            font-weight: bold;
+        }
+        select {
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+            height: 24px;
+            color: #000;
+        }
+        <!-- START - Added by NSINGH : 22/5/2018: S-554773 -->
+        input#prechat_submit[disabled]
+        {
+           color: grey;
+           background-color: #EFEFEF;
+        }
+        .terms{
+            font-weight:normal;
+        }
+        <!-- END - Added by NSINGH : 22/5/2018: S-554773 -->
+    </style>
+    
+    <script type="text/javascript">
+        (function() { 
+            function handlePageLoad() {
+                var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+                document.getElementById('prechatForm').setAttribute('action',
+                decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+            } 
+            if (window.addEventListener) {
+                window.addEventListener('load', handlePageLoad, false);
+            } 
+            else { 
+                window.attachEvent('onload', handlePageLoad, false);
+            }
+        })(); 
+    </script>
+    <!-- START - Added by NSINGH : 22/5/2018: S-554773 -->
+    <script type="text/javascript">
+        function goFurther(){
+        if (document.getElementById("chkAgree").checked == true)
+        document.getElementById("prechat_submit").disabled = false;
+        else
+        document.getElementById("prechat_submit").disabled = true;
+        }
+    </script>
+    <!-- END - Added by NSINGH : 22/5/2018: S-554773 -->
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-57PL2V"
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+        <form method='post' id='prechatForm' class="PreForm"> 
+            <h1 style="font-size:18px">Welcome! Please enter your name so we may serve you better.</h1> <br/> <br/>
+            <div class="PreInputs">
+
+                <t>First name: </t><br/>
+                <input type='text' name='liveagent.prechat:FirstNameDetail' id='customField1' /><br />
+                
+                <t>Last name: </t><br/>
+                <input type='text' name='liveagent.prechat:LastNameDetail' id='customField2' required="true"/><br />
+                
+                <t>Email: </t><br/>
+                <input type='email' name='liveagent.prechat:EmailDetail' id='customField3' required="true"/><br />
+                
+                <!--START: ADDED by Aarti Mathur for case#00233188 on 17-july-18-->
+                <t>Country: </t><br/>
+                <input type='text' name='liveagent.prechat:CountryDetail' id='customField5' required="true"/><br /> 
+                <!--ENDED: by Aarti Mathur for case#00233188 on 17-july-18-->
+                
+                <!-- START - NSINGH 5/14/2018 : S-554773-->
+                <br/>
+                <div class="terms">In connection with use of this chat function, SampleAbility generally obtains personal data.
+                This personal data will be transferred to the United States, and will be processed in accordance with (the from time to time) applicable data protection laws and SampleAbility’s <a href="https://www.Sampleability.com/privacy-policy/" target="_blank">Privacy Policy</a>
+                </div>
+                <br/>
+                <div class="terms">
+                If you consent to SampleAbility’s collection of your personal data for purposes of this chat function, click “I Agree”.
+                </div>
+                <br/>
+                <div style="position:relative;">
+                <input type="checkbox" id="chkAgree" onclick="goFurther()" name="chkAgree" style="width:25px; height:25px;"></input>
+                <label for="chkAgree" style="position: absolute;top: -11%;left: 28px; padding:10px;">I Agree</label> 
+                </div>
+                <!-- END - NSINGH 5/14/2018 : S-554773-->
+
+                <input type='hidden' name='liveagent.prechat:AccountRecordType' id='customField4' value="012j0000000uaPyAAI"/><br />
+
+                <!-- Map liveagent.prechat:FirstNameDetail and liveagent.prechat:LastNameDetail
+                    custom detail to Account's field FirstName and LastName -->
+                <input type="hidden" name="liveagent.prechat.findorcreate.map:Account" value="FirstName,FirstNameDetail;LastName,LastNameDetail;Email_Address__c,EmailDetail;RecordTypeId,AccountRecordType;PersonMailingCountry,CountryDetail" /> <!--MODIFIED by Aarti Mathur for case#00233188 on 17-july-18 added PersonMailingCountry-->
+                <!-- Specify to query for a matching Account records FirstName field based on
+                the value of FirstName -->
+                <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Account" value="Email_Address__c,true" />
+                <!-- Return results only if there is an exact match of FirstName -->
+                <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Account" value="Email_Address__c,true" />
+                <!-- If no match in search, create a new Account record with the mapped value
+                of firstname and last name -->
+                <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Account" value="FirstName,true;LastName,true;Email_Address__c,true;RecordTypeId,true;PersonMailingCountry,true" /> <!--MODIFIED by Aarti Mathur for case#00233188 on 17-july-18 added PersonMailingCountry-->
+                <!-- If a new Account record has been created, open it as a subtab -->
+                <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Account" value="true" />
+                <!-- Save the Account id to transcript's field AccountId -->
+                <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Account" value="AccountId" />
+                <br/>
+                <!-- Modified below line by NSINGH: 5/14/2018 : S-554773 : disabled="true" -->
+                <input type='submit' value='Request Chat' id='prechat_submit' onclick="setVisitorName();" disabled="true" />
+            </div> 
+        </form> 
+    </body>
+</apex:page>

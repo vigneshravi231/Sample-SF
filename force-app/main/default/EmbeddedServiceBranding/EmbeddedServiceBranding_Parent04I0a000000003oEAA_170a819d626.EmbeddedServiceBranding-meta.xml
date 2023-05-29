@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmbeddedServiceBranding xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contrastInvertedColor>#ffffff</contrastInvertedColor>
+    <contrastPrimaryColor>#FE8045</contrastPrimaryColor>
+    <embeddedServiceConfig>SampleAbility</embeddedServiceConfig>
+    <font>Arial</font>
+    <height>0</height>
+    <masterLabel>EmbeddedServiceBranding_Parent04I0a000000003oEAA_170a819d626</masterLabel>
+    <navBarColor>#FE8045</navBarColor>
+    <navBarTextColor>#ffffff</navBarTextColor>
+    <primaryColor>#FE8045</primaryColor>
+    <secondaryColor>#FE8045</secondaryColor>
+    <secondaryNavBarColor>#cb2b19</secondaryNavBarColor>
+    <width>0</width>
+</EmbeddedServiceBranding>

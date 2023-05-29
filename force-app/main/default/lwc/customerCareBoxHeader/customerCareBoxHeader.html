@@ -1,0 +1,21 @@
+
+
+<!-- Customer Care Box Header -->
+<template>
+    
+    <div class={sldsBox}>
+        <div>
+            <div class="color-brand slds-text-heading_large slds-p-bottom_large slds-brand inline-block">
+                {title}
+            </div>
+            <div class="slds-text-align_right slds-m-top_vertical slds-float_right slds-text-align_right">
+                <slot name="actions"></slot>
+            </div>
+        </div>
+        <div>&nbsp;</div>
+        <div>
+            <slot name="body"></slot>
+        </div>
+    </div>
+
+</template>

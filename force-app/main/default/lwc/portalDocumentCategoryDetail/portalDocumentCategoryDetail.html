@@ -1,0 +1,70 @@
+
+
+<!-- Portal Document Category Detail -->
+<template>
+  <div class="brand-color slds-text-heading_large slds-p-bottom_medium slds-brand slds-text-align_center slds-p-vertical_xx-large">
+    {categoryName}:&nbsp;{subcategoryName}
+  </div>
+  <template if:false={hasDocuments}>
+    <div class="slds-text-title_bold slds-text-heading_medium slds-align_absolute-center">This category has no documents.</div>
+  </template>
+  <template if:true={hasDocuments}>
+    <template if:false={categoryInfo.Display_as_Table__c}>
+
+      <lightning-layout multiple-rows pull-to-boundary="medium">
+        <template for:each={portalDocuments} for:item="document">
+          <lightning-layout-item size="12"
+                                 large-device-size="4"
+                                 medium-device-size="6"
+                                 small-device-size="12"
+                                 padding="around-medium"
+                                 key={document.Id}>
+            <c-portal-document-item document={document}></c-portal-document-item>
+          </lightning-layout-item>
+        </template>
+      </lightning-layout>
+
+    </template>
+
+    <template if:true={categoryInfo.Display_as_Table__c}>
+
+      <template if:true={hasColumnData}>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" aria-label="Example table of Opportunities with striped rows">
+          <thead>
+            <tr class="slds-line-height_reset">
+              <template for:each={columnHeaders} for:item="header">
+                <th class="" scope="col" key={header}>
+                  <div class="slds-truncate" title={header}>{header}</div>
+                </th>
+              </template>
+            </tr>
+          </thead>
+          <tbody>
+            <template for:each={columnData} for:item="row">
+              <tr class="slds-hint-parent" key={row.Id}>
+                <template for:each={row.data} for:item="element">
+
+                  <template if:true={element.link}>
+                    <th scope="row" key={element.id}>
+                      <div class="slds-truncate" title={element.label}>
+                        <a href={element.value}>{element.label}</a>
+                      </div>
+                    </th>
+                  </template>
+
+                  <template if:false={element.link}>
+                    <td key={element.id}>
+                      <div class="slds-truncate" title={element.label}>{element.label}</div>
+                    </td>
+                  </template>
+
+                </template>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </template>
+
+    </template>
+  </template>
+</template>

@@ -1,0 +1,44 @@
+
+<aura:component implements="forceCommunity:availableForAllPageTypes, lightning:availableForFlowScreens" access="global">
+
+  <!-- Attributes -->
+  <aura:attribute name="isOpen" type="Boolean" default="false" access="private"/>
+  <aura:attribute name="displayButton" type="Boolean" default="false" access="private"/>
+  <aura:attribute name="buttonLabel" type="String" default=""/>
+  <aura:attribute name="modalTitle" type="String" default=""/>
+  <aura:attribute name="recordId" type="String" default=""/>
+  <aura:attribute name="recordData" type="Object"/>
+
+  <aura:if isTrue="{!v.recordId}">
+    <force:recordData aura:id="recordLoader"
+                      fields="Status,RecordType.Name"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.recordData}"/>
+  </aura:if>
+
+  <!-- Body -->
+  <aura:if isTrue="{!v.recordId == '' || and(v.recordData.Status == 'Rejected', v.recordData.RecordType.Name == 'Warranty Claim')}">
+    <div style="display: flex; justify-content: flex-end">
+      <lightning:button label="{!v.buttonLabel}" onclick="{!c.initFlow}"/>
+    </div>
+  </aura:if>
+
+  <aura:if isTrue="{!v.isOpen}">
+    <div>
+      <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_large">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <lightning:buttonIcon variant="bare-inverse" iconName="utility:close" class="slds-modal__close" onclick="{!c.closeFlowModal}"/>
+            <h2 class="slds-modal__title slds-hyphenate">{!v.modalTitle}</h2>
+          </header>
+          <div class="slds-modal__content slds-p-bottom_medium slds-is-relative">
+            <lightning:flow aura:id="flowData" onstatuschange="{!c.closeModalOnFinish}"/>
+          </div>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+  <!-- /Body -->
+
+</aura:component>

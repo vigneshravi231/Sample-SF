@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Terms__c</fullName>
+    <externalId>false</externalId>
+    <label>Terms</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>TCF (Floorplan)</fullName>
+                <default>false</default>
+                <label>TCF (Floorplan)</label>
+            </value>
+            <value>
+                <fullName>CIA (Sending payment prior to shipment)</fullName>
+                <default>false</default>
+                <label>CIA (Sending payment prior to shipment)</label>
+            </value>
+            <value>
+                <fullName>Net 30 (Customer Supplied)</fullName>
+                <default>false</default>
+                <label>Net 30 (Customer Supplied)</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

@@ -1,0 +1,26 @@
+<apex:page showHeader="true" controller="UpdateCertificationStatus" sidebar="true">
+	<apex:form >
+		<apex:outputPanel id="msg"><apex:pageMessages /></apex:outputPanel>
+		<apex:pageBlock title="Training Members" id="fullB">
+			<apex:pageBlockTable value="{!memberWrapList}" var="trainingMem" title="Training Members">
+				<apex:column >
+					<apex:facet name="header">
+						<apex:inputCheckbox id="chkbox" value="{!selectCheck}">
+							<apex:actionSupport event="onclick" action="{!selectAll}" reRender="fullB, msg"/>
+						</apex:inputCheckbox>
+					</apex:facet>
+					<apex:inputCheckbox value="{!trainingMem.isSelected}"/>
+				</apex:column>
+				<apex:column value="{!trainingMem.tm.OnsiteTrainee__c}"/>
+				<apex:column headerValue="Dealer Name" value="{!trainingMem.tm.Certification__r.Dealership__c}"/>
+				<apex:column value="{!trainingMem.tm.CertificationType__c}"/>
+				<apex:column value="{!trainingMem.tm.Certified__c}"/>
+			</apex:pageBlockTable>
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton value="Set Certification Complete" action="{!certificationComplete}" reRender="fullB, msg"/>
+				<apex:commandButton value="Save" action="{!save}" reRender="fullB, msg"/>
+				<apex:commandButton value="Cancel" action="{!cancel}" reRender="fullB, msg"/>
+			</apex:pageBlockButtons>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

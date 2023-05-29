@@ -1,0 +1,28 @@
+
+
+<!-- Saved Claims Empty State -->
+<template>
+  <div if:true={noPausedFlows}>
+    <div class="slds-card__header slds-grid">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__body">
+          <h2 class="slds-card__header-title">
+            <span class="slds-text-heading_small slds-truncate">
+              <div class="slds-grid">
+                <span class="slds-card__header-link slds-truncate pausedFlowsTitle" style="font-weight: bold">
+                  Saved Claims
+                </span>
+                <span class="slds-no-flex">
+                  &nbsp;(0)
+                </span>
+              </div>
+            </span>
+          </h2>
+        </div>
+        <div class="slds-no-flex">
+          <lightning-button-icon icon-name="utility:refresh" onclick={refreshPage}></lightning-button-icon>
+        </div>
+      </header>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Hold__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>BC-658 lookup to case for which hold was requested</description>
+    <externalId>false</externalId>
+    <inlineHelpText>lookup to case for which hold was requested</inlineHelpText>
+    <label>Case Hold</label>
+    <referenceTo>Case</referenceTo>
+    <relationshipLabel>Inventory Items On Hold</relationshipLabel>
+    <relationshipName>InventoryItemHold</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

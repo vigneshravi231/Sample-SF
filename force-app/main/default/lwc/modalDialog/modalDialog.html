@@ -1,0 +1,47 @@
+
+<!-- Modal Dialog -->
+<template>
+
+  <template if:true={showModal}>
+
+    <section role="dialog" tabindex="-1" class={modalClass}>
+
+      <div class="slds-modal__container">
+
+        <header class="slds-modal__header">
+
+          <!-- To force selection hideCloseButton - true on parent -->
+          <lightning-button-icon if:false={hideCloseButton}
+                                 class="slds-modal__close"
+                                 title="Close"
+                                 icon-name="utility:close"
+                                 icon-class="slds-button_icon-inverse"
+                                 onclick={handleDialogClose}></lightning-button-icon>
+
+          <h2 class="slds-text-heading_medium slds-hyphenate header-slot">
+            <slot name="header"></slot>
+          </h2>
+
+          <p class="slds-m-top_x-small modal-hidden">
+            <slot name="subheader"></slot>
+          </p>
+
+        </header>
+
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+          <slot name="body"></slot>
+        </div>
+
+        <footer class="slds-modal__footer modal-hidden">
+          <slot name="footer"></slot>
+        </footer>
+
+      </div>
+
+    </section>
+
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+  </template>
+
+</template>

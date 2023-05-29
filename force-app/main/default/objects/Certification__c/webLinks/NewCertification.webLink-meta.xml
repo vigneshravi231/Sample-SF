@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>NewCertification</fullName>
+    <availability>online</availability>
+    <description>New Certification override</description>
+    <displayType>massActionButton</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>New Certification</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <requireRowSelection>false</requireRowSelection>
+    <url>/a0H/e?
+CF00N11000001egkK={!Contact.Name}
+&amp;CF00N11000001egkK_lkid={!Contact.Id}
+&amp;CF00N11000001egkF={!Account.Name}
+&amp;CF00N11000001egkF_lkid={!Account.Id}
+&amp;retURL={!Contact.Id}
+&amp;ent={!$ObjectType.Certification__c}</url>
+</WebLink>

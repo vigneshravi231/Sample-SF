@@ -1,0 +1,11 @@
+<!--
+ - Created by Slav on 06.03.2020.
+ -->
+
+<aura:component description="Community [New Case] Action" implements="forceCommunity:availableForAllPageTypes">
+        <footer class="slds-text-align_right">
+                <lightning:button label="New Lift Technical" title="Create Lift Technical" onclick="{! c.createLift }"/>
+                <lightning:button label="New Vehicle Technical" title="Create Vehicle Technical" onclick="{! c.createVehicle }"/>
+                <lightning:button label="New Click and Drive" title="Create Click and Drive" onclick="{! c.createClickDrive }"/>
+        </footer>
+</aura:component>

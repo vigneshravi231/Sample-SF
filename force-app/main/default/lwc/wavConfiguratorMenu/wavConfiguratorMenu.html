@@ -1,0 +1,30 @@
+
+<!-- Wav Configurator Menu -->
+<template>
+	<div class="slds-m-bottom_medium" if:true={currentProduct}>
+		<div class="slds-box">
+			<div class="product-image-container slds-text-align_center">
+				<img src={currentProduct.imageUrl} alt="Product Image" class="product-image" />
+			</div>
+			<h3 class="info-header" style="margin-top: 0">Product Information:</h3>
+			<b>Name:&nbsp;</b>
+			{currentProduct.fields.Name}
+			<br />
+			<b>Year:&nbsp;</b>
+			{currentProduct.fields.Vehicle_Year__c}
+			<br />
+			<b>Make:&nbsp;</b>
+			{currentProduct.fields.Vehicle_Make__c}
+			<br />
+			<b>Model:&nbsp;</b>
+			{currentProduct.fields.Vehicle_Model__c}
+			<br />
+			<b>Trim:&nbsp;</b>
+			{currentProduct.fields.Vehicle_Trim__c}
+			<br />
+			<b>Color:&nbsp;</b>
+			{currentProduct.fields.Vehicle_Color__c}
+			<br />
+		</div>
+	</div>
+</template>

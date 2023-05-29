@@ -1,0 +1,75 @@
+
+<!-- Request Hold Modal -->
+<template>
+	<c-modal-dialog size="medium">
+		<div slot="header">Chassis Hold Request</div>
+
+		<div slot="body" class="slds-is-relative">
+			<lightning-spinner variant="brand" if:true={isLoading}></lightning-spinner>
+
+			<lightning-record-edit-form
+				object-api-name="Case"
+				onsubmit={onCaseSubmit}
+				density="comfy"
+				onload={onLoad}
+				onsuccess={onSuccess}
+				onerror={onError}
+				record-type-id={recordTypeId}
+			>
+				<lightning-layout multiple-rows pull-to-boundary="medium">
+					<lightning-layout-item
+						size="6"
+						large-device-size="6"
+						medium-device-size="6"
+						small-device-size="12"
+						padding="horizontal-medium"
+					>
+						<lightning-input
+							type="number"
+							required
+							id="case-quantity"
+							label={quantityLabel}
+							max={stock}
+							value={requestedQuantity}
+							onblur={updateQuantity}
+						></lightning-input>
+					</lightning-layout-item>
+
+					<lightning-layout-item
+						size="6"
+						large-device-size="6"
+						medium-device-size="12"
+						small-device-size="12"
+						padding="horizontal-medium"
+					>
+						<lightning-input-field disabled field-name="Chassis_PN__c" value={chassisPartNumber}></lightning-input-field>
+					</lightning-layout-item>
+
+					<lightning-layout-item size="12" padding="horizontal-medium">
+						<div class="slds-form-element">
+							<label class="slds-form-element__label" for="case-description">
+								<abbr title="required" class="slds-required">*</abbr>
+								Reason for Hold
+							</label>
+							<div class="slds-form-element__control">
+								<textarea
+									id="case-description"
+									onkeyup={handleReasonForHoldChange}
+									placeholder=""
+                  required
+									class="slds-textarea"
+								></textarea>
+							</div>
+						</div>
+					</lightning-layout-item>
+
+					<lightning-layout-item size="12" padding="horizontal-medium">
+						<div style="display: flex; justify-content: flex-end">
+							<lightning-button label="Submit" type="submit" disabled={disableSubmit}></lightning-button>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</lightning-record-edit-form>
+		</div>
+	</c-modal-dialog>
+</template>

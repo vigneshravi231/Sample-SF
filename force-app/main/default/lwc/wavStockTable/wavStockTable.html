@@ -1,0 +1,92 @@
+
+<!-- Wav Stock Table -->
+<template>
+	<div class="slds-card__header slds-p-bottom_xxx-small slds-box">
+		<header class="slds-media slds-media_center slds-has-flexi-truncate">
+			<div class="slds-media__body">
+				<h2 class="slds-card__header-title slds-m-bottom_medium" style="margin: auto 0">
+					<div class="color-brand slds-text-heading_large slds-p-bottom_large slds-brand slds-float_left">
+						{tableTitle}
+					</div>
+				</h2>
+				<div>
+					<slot name="header"></slot>
+					<div if:false={resultsExist} class="slds-m-around_x-large slds-text-align_center">
+						No results available.
+					</div>
+					<table class="slds-table slds-table_cell-buffer slds-table_bordered" if:true={resultsExist}>
+						<thead>
+							<tr class="slds-line-height_reset">
+								<th class="" scope="col">
+									<div class="slds-truncate">Year</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate">Make</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate">Model</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate">Conversion</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate">Miles</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate">Price</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate">Color</div>
+								</th>
+								<th class="" scope="col">
+									<div class="slds-truncate">Qty</div>
+								</th>
+								<th><!-- Action Col --></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="slds-hint-parent" for:each={tableData} for:item="data" key={data.Id}>
+								<td>
+									<div class="slds-truncate">{data.Product__r.Year__c}</div>
+								</td>
+								<td>
+									<div class="slds-truncate">{data.Product__r.Make__c}</div>
+								</td>
+								<td>
+									<div class="slds-truncate">{data.Product__r.Model__c}</div>
+								</td>
+								<td>
+									<div class="slds-truncate">{data.Conversion_Type__c}</div>
+								</td>
+								<td>
+									<div class="slds-truncate">{data.Miles__c}</div>
+								</td>
+								<td>
+									<lightning-formatted-number value={data.price} format-style="currency" currency-code="USD">
+									</lightning-formatted-number>
+								</td>
+								<td>
+									<div class="slds-truncate">{data.Product__r.Exterior_Color__c}</div>
+								</td>
+								<td>
+									<div class="slds-truncate">{data.Total_Not_On_Hold_Inventory__c}</div>
+								</td>
+								<td class="slds-text-align_right">
+									<div class="slds-truncate">
+										<lightning-button
+											label={buttonLabel}
+											data-inventory-id={data.Id}
+											data-product-id={data.Product__r.Id}
+											variant="base"
+											onclick={handleRowEvent}
+										></lightning-button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</header>
+	</div>
+</template>

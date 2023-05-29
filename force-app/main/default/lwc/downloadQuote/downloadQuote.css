@@ -1,0 +1,23 @@
+
+.approval-grid {
+    display: grid;
+    column-gap: 1rem;
+    grid-template-columns: 2fr 2fr 1fr;
+    grid-template-areas:
+        'po-input approval-buttons download-button';
+    flex-grow: 1;
+    align-items: center;
+}
+
+.po-input {
+    grid-area: po-input;
+}
+
+.approval-buttons {
+    grid-area: approval-buttons;
+    display: flex;
+}
+
+.download-button {
+    grid-area: download-button;
+}

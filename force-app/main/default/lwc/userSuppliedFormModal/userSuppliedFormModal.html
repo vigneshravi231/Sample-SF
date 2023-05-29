@@ -1,0 +1,249 @@
+
+<!-- User Supplied Form Modal -->
+<template>
+	<c-modal-dialog show-modal={showModal} size="medium">
+		<div slot="header">Submit a Case</div>
+		<div slot="body" class="slds-p-around_medium slds-is-relative">
+			<lightning-spinner variant="brand" if:true={submittingCase}></lightning-spinner>
+			<lightning-record-edit-form
+				object-api-name="Case"
+				onsubmit={onCaseSubmit}
+				density="comfy"
+				onsuccess={onSuccess}
+				onerror={onError}
+				record-type-id={recordTypeId}
+			>
+				<lightning-messages></lightning-messages>
+				<lightning-layout multiple-rows pull-to-boundary="medium">
+					<lightning-layout-item size="6" padding="horizontal-medium">
+						<lightning-combobox
+							label="Account Number"
+							options={accountOptions}
+							onchange={onAccountNumberChange}
+							value={selectedAccountId}
+							disabled={hasOneAccount}
+						></lightning-combobox>
+					</lightning-layout-item>
+					<lightning-layout-item size="6" padding="horizontal-medium">
+						<lightning-input label="Account Name" read-only value={preloadedData.accountName}></lightning-input>
+					</lightning-layout-item>
+
+					<template if:false={isDealerLocate}>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input label="Dealer Rep Name" read-only value={preloadedData.dealerRepName}></lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input label="Dealer Rep Email" read-only value={preloadedData.dealerRepEmail}></lightning-input>
+						</lightning-layout-item>
+						<lightning-layout-item size="8" padding="horizontal-medium">
+							<lightning-input-field field-name="Vehicle_VIN__c" value={fullVin}></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="4" padding="horizontal-medium">
+							<lightning-input-field field-name="PO_Number__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="This_Unit_Is__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Delivery_Date_Needed__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<lightning-combobox
+								label="Ship To Address"
+								options={shippingAddresses}
+								disabled={noShippingAddresses}
+								onchange={onShippingAddressChange}
+							></lightning-combobox>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Shipping_Method__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Terms__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Conversion__c" value={conversion}></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Seating__c" value={seating}></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Flooring__c" value={flooring}></lightning-input-field>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-p-horizontal_xx-small slds-p-vertical_medium" style="display: flex; flex-direction: row; align-items: center">
+								<div class="slds-p-right_medium">
+									<lightning-input-field field-name="Should_Sample_Pick_Up__c" variant="label-hidden" onchange={onChangeSamplePickup}></lightning-input-field>
+								</div>
+								<div class="slds-text-align_left slds-text-title_bold">
+									Are we picking up the vehicle?
+								</div>
+							</div>
+						</lightning-layout-item>
+
+					</template>
+
+					<template if:true={SamplePickup}>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-text-align_center slds-text-heading_medium slds-p-bottom_small" style="font-weight: bold">
+								PLEASE CHECK TO ACKNOWLEDGE THE FOLLOWING (IF APPLICABLE):
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-p-horizontal_xx-small slds-p-bottom_medium" style="display: flex; flex-direction: row; align-items: center">
+								<div class="slds-p-right_medium">
+									<lightning-input-field field-name="Aftermarket_Items_Removed__c" variant="label-hidden"></lightning-input-field>
+								</div>
+								<div>
+									<div class="slds-text-title_bold">
+										All aftermarket equipment that the customer wants to keep has been removed prior to pick-up
+									</div>
+									<div class="slds-text-body_regular" style="font-style: italic">
+										* Please note that aftermarket equipment received at Sample will not be returned (i.e. mud flaps,
+										running boards, trailer hitches, etc.)
+									</div>
+								</div>
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-p-horizontal_xx-small" style="display: flex; flex-direction: row; align-items: center">
+								<div class="slds-p-right_medium">
+									<lightning-input-field field-name="Keep_Center_Seat_Console__c" variant="label-hidden"></lightning-input-field>
+								</div>
+								<div class="slds-text-align_left slds-text-title_bold">
+									Customer wishes to keep center seats and/or console&nbsp;
+									<span class="slds-text-color_error" style="text-decoration: underline">
+										N/A ON 2018-2019 HONDAS
+									</span>
+								</div>
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-p-left_x-large slds-p-bottom_medium slds-p-right_xx-small">
+								<div class="slds-p-left_x-small">
+									<lightning-input-field field-name="Center_Seats__c"></lightning-input-field>
+								</div>
+								<div class="slds-p-left_small" style="font-style: italic">
+									*Do&nbsp;<b>NOT</b>&nbsp;remove on Rear Entry conversion on Honda/Dodge/Chrysler if OEM seats are being reinstalled.
+								</div>
+								<div class="slds-p-left_x-small">
+									<lightning-input-field field-name="Console__c"></lightning-input-field>
+								</div>
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-p-horizontal_xx-small" style="display: flex; flex-direction: row; align-items: center">
+								<div class="slds-p-right_medium">
+									<lightning-input-field field-name="Need_Power_Door_Upgrade__c" variant="label-hidden"></lightning-input-field>
+								</div>
+								<div class="slds-text-align_left slds-text-title_bold">
+									This unit has manual doors that need to be upgraded to power doors (Dodge/Chrysler only)
+								</div>
+							</div>
+							<div class="slds-p-left_x-large slds-p-bottom_medium slds-p-right_xx-small">
+								<div class="slds-p-left_small" style="font-style: italic">
+									*If door is being upgraded, please supply key codes:
+								</div>
+								<div class="slds-p-left_x-small">
+									<lightning-input-field field-name="Door_Key_Codes__c"></lightning-input-field>
+								</div>
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-p-horizontal_xx-small" style="display: flex; flex-direction: row; align-items: center">
+								<div class="slds-p-right_medium">
+									<lightning-input-field field-name="Has_Locking_Lug_Nuts__c" variant="label-hidden"></lightning-input-field>
+								</div>
+								<div class="slds-text-align_left slds-text-title_bold">
+									This unit has locking lug nuts
+								</div>
+							</div>
+							<div class="slds-p-left_x-large slds-p-bottom_medium slds-p-right_xx-small">
+								<div class="slds-p-left_x-small">
+									<lightning-input-field field-name="Tool_to_remove_lug_nuts__c"></lightning-input-field>
+								</div>
+								<div class="slds-p-left_small" style="font-style: italic">
+									*Please note there will be a $50 fee if tool is not sent in glove box
+								</div>
+							</div>
+						</lightning-layout-item>
+
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-text-title_bold">
+								Location of Vehicle
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<lightning-input-field field-name="Dealer_Street_Address__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="7" padding="horizontal-medium">
+							<lightning-input-field field-name="Dealer_City__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="2" padding="horizontal-medium">
+							<lightning-input-field field-name="Dealer_State__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="3" padding="horizontal-medium">
+							<lightning-input-field field-name="Dealer_Zip_Code__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<lightning-input-field field-name="Vehicle_Availability_Date__c"></lightning-input-field>
+						</lightning-layout-item>
+					</template>
+
+					<template if:false={isDealerLocate}>
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<lightning-input-field field-name="Comments__c"></lightning-input-field>
+						</lightning-layout-item>
+					</template>
+
+					<template if:true={isDealerLocate}>
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-text-heading_small slds-p-top_medium">
+								Chassis/Conversions
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Chassis_Type_DL__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="6" padding="horizontal-medium">
+							<lightning-input-field field-name="Conversion_Type_DL__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<c-product-configurator configuration={configuration}
+																			is-dealer-locate
+																			onconfigchange={handleConfigChange}>
+							</c-product-configurator>
+						</lightning-layout-item>
+						<lightning-layout-item size="12" padding="horizontal-medium">
+							<div class="slds-text-heading_small slds-p-top_medium">
+								Colors/Packages
+							</div>
+						</lightning-layout-item>
+						<lightning-layout-item size="4" padding="horizontal-medium">
+							<lightning-input-field field-name="Chassis_Trim_Identifier__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="4" padding="horizontal-medium">
+							<lightning-input-field field-name="Chassis_Exterior_Color__c"></lightning-input-field>
+						</lightning-layout-item>
+						<lightning-layout-item size="4" padding="horizontal-medium">
+							<lightning-input-field field-name="Interior_Color__c"></lightning-input-field>
+						</lightning-layout-item>
+					</template>
+
+					<lightning-layout-item size="12" padding="around-medium">
+						<div class="slds-float_right">
+							<lightning-button label="Submit" type="submit"></lightning-button>
+						</div>
+					</lightning-layout-item>
+				</lightning-layout>
+			</lightning-record-edit-form>
+		</div>
+	</c-modal-dialog>
+</template>

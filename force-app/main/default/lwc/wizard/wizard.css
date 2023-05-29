@@ -1,0 +1,32 @@
+
+
+.slds-tabs_default__link {
+	font-size: 13px !important;
+	font-weight: normal !important;
+	cursor: auto;
+}
+
+.slds-tabs_default__item {
+	padding: 2px 10px 2px 10px;
+}
+
+.slds-tabs_default__item:hover::after,
+.slds-tabs--default__item:hover::after {
+	background-color: transparent;
+}
+
+.slds-tabs_default__item.slds-active::after,
+.slds-tabs_default__item.slds-is-active::after,
+.slds-tabs--default__item.slds-active::after,
+.slds-tabs--default__item.slds-is-active::after {
+	background-color: var(
+		--lwc-brandPrimary,
+		var(--lwc-brandPrimary, rgb(0, 99, 190))
+	);
+	height: calc(var(--lwc-borderWidthThin, 1px) + 2px);
+}
+
+.slds-card {
+	border: 0;
+	padding: 0;
+}

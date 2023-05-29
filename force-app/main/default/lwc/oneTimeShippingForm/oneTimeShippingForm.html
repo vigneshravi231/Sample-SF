@@ -1,0 +1,170 @@
+
+
+<!-- One Time Shipping Form -->
+<template>
+  <div class="slds-p-around_small slds-is-relative">
+
+    <div if:false={loaded}>
+      <lightning-spinner variant="brand" size="medium"> </lightning-spinner>
+    </div>
+
+    <!-- Terms Header -->
+    <div class="slds-m-bottom_large">
+      {termsTitle}
+      <ul class="terms-list">
+        <template for:each={termsBody} for:item="term" for:index="termIndex">
+          <li key={term}>
+            {term}
+          </li>
+        </template>
+      </ul>
+
+      <div class="slds-grid slds-m-top_medium">
+        <div>
+          <lightning-input type="checkbox"
+                           name="acceptTerms"
+                           variant="label-hidden"
+                           checked={acceptedTerms}
+                           onchange={handleTerms}
+                           label="">
+          </lightning-input>
+        </div>
+
+        <div>
+          <b>I adhere to the terms & conditions specified above</b>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /Terms Header -->
+
+  <!-- Form -->
+    <div class="slds-grid one-time-shipping-form">
+        <div class="slds-col slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-wrap slds-m-right_medium">
+          <div><b>SampleAbility Dealer Information</b></div>
+          <div>
+            <lightning-input type="text"
+                             name="dealerName"
+                             disabled="true"
+                             value={oneTimeShippingAddress.Dealer_Name__c}
+                             label="Dealer Name">
+            </lightning-input>
+
+            <lightning-input-address
+              class="input-address"
+              disabled="true"
+              address-label="Address"
+              street-label="Street"
+              city-label="City"
+              province-label="State"
+              postal-code-label="Zip Code"
+              street={oneTimeShippingAddress.Dealer_Street__c}
+              city={oneTimeShippingAddress.Dealer_City__c}
+              province={oneTimeShippingAddress.Dealer_State__c}
+              country={oneTimeShippingAddress.Country}
+              postal-code={oneTimeShippingAddress.Dealer_PostalCode__c}>
+            </lightning-input-address>
+
+            <lightning-input type="email"
+                             class="required-one-time-shipping-field"
+                             name="email"
+                             value={oneTimeShippingAddress.Email__c}
+                             data-field-name="Email__c"
+                             onchange={handleFieldChange}
+                             onblur={validateForm}
+                             label="Confirmation Email">
+            </lightning-input>
+
+            <lightning-input type="text"
+                             class="required-one-time-shipping-field"
+                             required="true"
+                             name="authorizedBy"
+                             max-length="255"
+                             value={oneTimeShippingAddress.Authorized_By__c}
+                             data-field-name="Authorized_By__c"
+                             onchange={handleFieldChange}
+                             onblur={validateForm}
+                             label="Authorized By">
+            </lightning-input>
+
+            <lightning-input type="text"
+                             class="required-one-time-shipping-field"
+                             required="true"
+                             name="corporateTitle"
+                             max-length="255"
+                             value={oneTimeShippingAddress.Corporate_Title__c}
+                             data-field-name="Corporate_Title__c"
+                             onchange={handleFieldChange}
+                             onblur={validateForm}
+                             label="Corporate Title">
+            </lightning-input>
+
+            <lightning-input type="date"
+                             disabled="true"
+                             name="date"
+                             value={oneTimeShippingAddress.One_Time_Shipping_Date__c}
+                             label="Date">
+            </lightning-input>
+
+          </div>
+        </div>
+
+        <div class="slds-col slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-wrap">
+          <div><b>Drop Ship Address Information</b></div>
+          <div>
+            <lightning-input type="text"
+                             class="required-one-time-shipping-field"
+                             required="true"
+                             name="Company Name"
+                             max-length="255"
+                             data-field-name="DropShip_Company_Name__c"
+                             value={oneTimeShippingAddress.DropShip_Company_Name__c}
+                             onchange={handleFieldChange}
+                             onblur={validateForm}
+                             label="Company Name">
+            </lightning-input>
+
+            <div>
+              <lightning-input-address
+                class="input-address address-required-one-time-shipping-field"
+                required="true"
+                address-label="Address"
+                street-label="Street"
+                city-label="City"
+                province-label="State"
+                country-label="Country"
+                postal-code-label="Zip Code"
+                street={oneTimeShippingAddress.Street}
+                city={oneTimeShippingAddress.City}
+                province={oneTimeShippingAddress.State}
+                postal-code={oneTimeShippingAddress.PostalCode}
+                country={oneTimeShippingAddress.Country}
+                province-options={getProvinceOptions}
+                country-options={countryOptions}
+                onblur={validateForm}
+                onchange={handleDropShipAddressChange}>
+              </lightning-input-address>
+            </div>
+
+            <lightning-input type="tel"
+                             class="required-one-time-shipping-field"
+                             name="phone"
+                             required="true"
+                             value={oneTimeShippingAddress.DropShip_Phone__c}
+                             data-field-name="DropShip_Phone__c"
+                             onchange={handlePhoneInput}
+                             onblur={validateForm}
+                             pattern="^\(\d{3}\)\s\d{3}-\d{4}$"
+                             message-when-pattern-mismatch="Not a valid phone number"
+                             message-when-value-missing="Phone number is required"
+                             label="Phone">
+            </lightning-input>
+
+          </div>
+        </div>
+    </div>
+  <!-- /Form -->
+  </div>
+
+</template>

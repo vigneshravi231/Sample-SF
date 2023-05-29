@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>51.0</apiVersion>
+    <description>Displays the user supplied form in a modal</description>
+    <isExposed>true</isExposed>
+    <masterLabel>User Supplied Form Modal</masterLabel>
+</LightningComponentBundle>

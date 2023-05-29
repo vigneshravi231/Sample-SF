@@ -1,0 +1,4 @@
+
+<design:component label="Warranty Claims List">
+  <design:attribute label="Record Id" name="recordId" default="{!recordId}"></design:attribute>
+</design:component>

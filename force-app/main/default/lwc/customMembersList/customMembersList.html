@@ -1,0 +1,217 @@
+
+<!-- Custom Members List -->
+<template>
+  <lightning-spinner if:true={isLoading}></lightning-spinner>
+  <div class="slds-card noBorder">
+    <div class="slds-card__header slds-p-bottom_xxx-small">
+      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+        <div class="slds-media__body">
+          <h2 class="slds-card__header-title" style="margin: auto 0">Members</h2>
+        </div>
+        <div class="slds-no-flex">
+          <button class="slds-button slds-button_neutral" onclick={addMember}>Add Member</button>
+        </div>
+      </header>
+    </div>
+    <div class="slds-border_top">
+      <template if:true={displayData}>
+        <lightning-datatable
+          key-field="Id"
+          data={displayData}
+          columns={columns}
+          default-sort-direction={defaultSortDirection}
+          sorted-direction={sortDirection}
+          sorted-by={sortedBy}
+          onsort={onHandleSort}
+          onrowaction={handleRowAction}
+          hide-checkbox-column>
+        </lightning-datatable>
+      </template>
+      <c-pagination-bar pagination={pagination} onpaginationchange={handlePaginationChange}></c-pagination-bar>
+    </div>
+  </div>
+
+  <c-modal-dialog show-modal={showRecordEditForm} onclosemodal={closeRecordEditModal} size="medium">
+
+    <div slot="header">
+      {recordEditFormHeader}
+    </div>
+
+    <div slot="body" class="slds-is-relative">
+      <lightning-spinner if:true={editFormLoading}></lightning-spinner>
+      <lightning-record-edit-form object-api-name="User"
+                                  record-id={selectedRecordId}
+                                  data-id="user"
+                                  onload={onLoad}
+                                  onsubmit={onSubmit}
+                                  onsuccess={onSuccess}
+                                  onerror={onError}
+                                  density="comfy">
+        <lightning-messages></lightning-messages>
+
+        <lightning-layout multiple-rows pull-to-boundary="medium">
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <div class="slds-text-heading_small">Basic Information</div>
+          </lightning-layout-item>
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <div class="slds-m-vertical_x-small slds-m-horizontal_xx-small">
+              <lightning-button label="Create Contact" onclick={openContactForm}></lightning-button>
+            </div>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="FirstName" value={userFirstName}></lightning-input-field>
+            <lightning-input-field field-name="LastName" value={userLastName}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="Email" value={userEmail}></lightning-input-field>
+            <lightning-input-field field-name="Alias" value={userAlias}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="ContactId" value={selectedContactId} onchange={onContactSelect} required></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="Username" value={userUsername}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-combobox label="Profile"
+                                options={profileOptions}
+                                onchange={onProfileSelect}
+                                value={selectedProfileId}
+                                required></lightning-combobox>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="B2B_Buyer_Persona__c" required></lightning-input-field>
+          </lightning-layout-item>
+
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <div class="slds-text-heading_small">Language And Locale Settings</div>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="TimeZoneSidKey"></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="LocaleSidKey"></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="EmailEncodingKey"></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="LanguageLocaleKey"></lightning-input-field>
+          </lightning-layout-item>
+
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <div class="slds-text-heading_small">Chatter Settings</div>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="DigestFrequency"></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="DefaultGroupNotificationFrequency"></lightning-input-field>
+          </lightning-layout-item>
+        </lightning-layout>
+
+        <lightning-input-field field-name="Created_Via_Customer_Care_Store__c" value={valueTrue} class="slds-hidden"></lightning-input-field>
+        <input type="submit" class="hidden user"/>
+      </lightning-record-edit-form>
+
+    </div>
+
+    <div slot="footer">
+      <lightning-button label="Cancel" onclick={closeRecordEditModal}></lightning-button>&nbsp;
+      <lightning-button label="Save" onclick={submitRecordEditForm}></lightning-button>
+    </div>
+
+  </c-modal-dialog>
+
+  <c-modal-dialog show-modal={createContactFormOpen} onclosemodal={closeContactForm} size="medium">
+    <div slot="header">
+      Create New Contact
+    </div>
+
+    <div slot="body" class="slds-is-relative">
+      <lightning-spinner if:true={contactFormLoading}></lightning-spinner>
+      <lightning-record-edit-form object-api-name="Contact"
+                                  data-id="contact"
+                                  onload={onContactLoad}
+                                  onsubmit={onContactSubmit}
+                                  onsuccess={onContactSuccess}
+                                  onerror={onContactError}
+                                  density="comfy">
+        <lightning-messages></lightning-messages>
+
+        <lightning-layout multiple-rows pull-to-boundary="medium">
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <div class="slds-text-heading_small">Contact Information</div>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="Name"></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="Email" required></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <div class="slds-text-heading_small">Dealer Information</div>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="Title" required></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="6" padding="horizontal-medium">
+            <lightning-input-field field-name="Dealer_ID__c" value={dealerId}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <div class="slds-text-heading_small">Address Information</div>
+          </lightning-layout-item>
+          <lightning-layout-item size="12" padding="horizontal-medium">
+            <lightning-input-field field-name="MailingStreet" value={defaultShippingAddress.Street}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="8" padding="horizontal-medium">
+            <lightning-input-field field-name="MailingCity" value={defaultShippingAddress.City}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="4" padding="horizontal-medium">
+            <lightning-input-field field-name="MailingState" value={defaultShippingAddress.State}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="8" padding="horizontal-medium">
+            <lightning-input-field field-name="MailingPostalCode" value={defaultShippingAddress.PostalCode}></lightning-input-field>
+          </lightning-layout-item>
+          <lightning-layout-item size="4" padding="horizontal-medium">
+            <lightning-input-field field-name="MailingCountry" value={defaultShippingAddress.Country}></lightning-input-field>
+          </lightning-layout-item>
+        </lightning-layout>
+
+        <input type="submit" class="hidden contact"/>
+      </lightning-record-edit-form>
+    </div>
+
+    <div slot="footer">
+      <lightning-button label="Cancel" onclick={closeContactForm}></lightning-button>&nbsp;
+      <lightning-button label="Save" onclick={submitContactForm}></lightning-button>
+    </div>
+  </c-modal-dialog>
+
+  <c-modal-dialog show-modal={showPermissionsBox} onclosemodal={closePermissionsModal}>
+    <div slot="header">
+      Manage Permissions
+    </div>
+    <div slot="body" class="slds-p-around_small">
+      <lightning-dual-listbox name="permissions"
+                              label="Select which permissions to assign."
+                              source-label="Available"
+                              selected-label="Selected"
+                              options={permissionOptions}
+                              onchange={onPermissionSetChange}
+                              value={currentPermissions}>
+      </lightning-dual-listbox>
+    </div>
+    <div slot="footer">
+      <lightning-button label="Cancel" onclick={closePermissionsModal}></lightning-button>&nbsp;
+      <lightning-button label="Save" onclick={savePermissionChanges}></lightning-button>
+    </div>
+  </c-modal-dialog>
+
+  <c-add-account-relation-modal></c-add-account-relation-modal>
+
+</template>

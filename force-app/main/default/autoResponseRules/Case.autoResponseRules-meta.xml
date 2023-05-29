@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoResponseRule>
+        <fullName>Dealer Community Case Response</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Customer Support,Lift Technical,Vehicle Technical,Customer Supplied,Address Request,GM OEM Warranty Restart,FCA Retail Customer Warranty Start,Chassis Hold</value>
+            </criteriaItems>
+            <notifyCcRecipients>false</notifyCcRecipients>
+            <senderEmail>customervoice@Sampleability.com</senderEmail>
+            <senderName>SampleAbility Customer Voice</senderName>
+            <template>unfiled$public/Dealer_Community_New_Case_Email</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Click and Drive</value>
+            </criteriaItems>
+            <notifyCcRecipients>false</notifyCcRecipients>
+            <replyToEmail>customervoice@Sampleability.com</replyToEmail>
+            <senderEmail>customervoice@Sampleability.com</senderEmail>
+            <senderName>SampleAbility Customer Voice (customervoice@Sampleability.com)</senderName>
+            <template>unfiled$public/Click_and_Drive_Case</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Warranty Claim</value>
+            </criteriaItems>
+            <notifyCcRecipients>false</notifyCcRecipients>
+            <replyToEmail>test@test.com.Sampletest</replyToEmail>
+            <senderEmail>customervoice@Sampleability.com</senderEmail>
+            <senderName>Salesforce Admin</senderName>
+            <template>unfiled$public/SUPPORTWebtoCaseemailresponseSAMPLE</template>
+        </ruleEntry>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>MAP Request</value>
+            </criteriaItems>
+            <notifyCcRecipients>false</notifyCcRecipients>
+            <replyToEmail>test@test.com.Sample</replyToEmail>
+            <senderEmail>customervoice@Sampleability.com</senderEmail>
+            <senderName>Salesforce Admin</senderName>
+            <template>unfiled$public/MAP_Confirmation</template>
+        </ruleEntry>
+    </autoResponseRule>
+</AutoResponseRules>

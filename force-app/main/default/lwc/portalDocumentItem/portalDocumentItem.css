@@ -1,0 +1,9 @@
+
+
+.preview-image img {
+    max-height: 180px;
+    min-height: 180px;
+    object-fit: contain;
+    height: auto;
+    width: auto;
+}

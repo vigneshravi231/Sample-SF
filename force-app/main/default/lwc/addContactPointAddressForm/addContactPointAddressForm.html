@@ -1,0 +1,54 @@
+
+
+<!-- Add Contact Point Address Form -->
+<template>
+  <div class="slds-is-relative slds-p-around_x-large" if:false={loaded}>
+    <lightning-spinner variant="brand" size="medium" if:false={loaded}> </lightning-spinner>
+  </div>
+
+  <div if:true={addressError}>
+    <div class="slds-m-vertical_medium slds-text-color_error"
+         for:each={addressError}
+         for:item="error"
+         key={addressError} >
+      {error}
+    </div>
+  </div>
+
+  <div if:true={loaded}>
+    <div class="slds-m-bottom_small">
+      <lightning-input type="text" value={address.name}
+                       onchange={handleNameChange}
+                       required="true"
+                       label="Address Name"></lightning-input>
+    </div>
+    <div class="slds-m-bottom_small">
+      <lightning-input-address
+        class="input-address"
+        required="true"
+        address-label="Address"
+        street-label="Street"
+        city-label="City"
+        country-label="Country"
+        province-label="State"
+        postal-code-label="Postal Code"
+        street={address.street}
+        city={address.city}
+        country={address.country}
+        province={address.province}
+        postal-code={address.postalCode}
+        country-options={getCountryOptions}
+        province-options={getProvinceOptions}
+        onchange={handleChange} ></lightning-input-address>
+    </div>
+
+    <div class="slds-m-bottom_small">
+      <lightning-radio-group name="addressType"
+                             label="Address Type"
+                             options={addressTypeOption}
+                             value={address.addressType}
+                             onchange={handleTypeChange}
+                             type="radio"></lightning-radio-group>
+    </div>
+  </div>
+</template>

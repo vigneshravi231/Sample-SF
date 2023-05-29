@@ -1,0 +1,121 @@
+
+<!-- Asset Detail -->
+<template>
+	<div>
+		<div class="slds-m-bottom_medium header slds-border_bottom slds-p-bottom_small">
+			<div class="color-brand slds-p-bottom_large slds-brand" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between">
+				<div class="slds-text-heading_large">Viewing {VINorSerial}: {asset.VIN_Serial_Number__c}</div>
+				<div>
+					<template if:true={isLift}>
+						<lightning-button label="New Lift Case" onclick={newLiftCase}></lightning-button>&nbsp;
+					</template>
+					<template if:true={isVehicle}>
+						<lightning-button label="New Vehicle Case" onclick={newVehicleCase}></lightning-button>&nbsp;
+					</template>
+					<lightning-button label="View Claims" onclick={navigateToClaims}></lightning-button>&nbsp;
+					<lightning-button label="Warranty Claim Form" onclick={startFlow}></lightning-button>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="slds-grid slds-grid_wrap">
+				<div class="slds-col slds-col_padded lds-size_1-of-1 slds-large-size_3-of-12">
+					<img width="1000px" class="slds-p-around_small" src={part.imageUrl} alt="" />
+				</div>
+				<div class="slds-col slds-col_padded lds-size_1-of-1 slds-large-size_3-of-12 details">
+					<h3 class="info-header" style="margin-top: 0">Asset Information</h3>
+					<b>{VINorSerial} #:&nbsp;</b>
+					{asset.VIN_Serial_Number__c}
+					<br />
+
+					<template if:true={asset.ProductName}>
+						<b>Product #:&nbsp;</b>
+						{asset.ProductName}
+						<br />
+					</template>
+
+					<b>Description:&nbsp;</b>
+					{asset.Product_Description__c}
+					<br />
+					<b>Purchase Date:&nbsp;</b>
+					<lightning-formatted-date-time
+						value={asset.PurchaseDate}
+						year="numeric"
+						month="numeric"
+						day="numeric"
+						time-zone="UTC"
+					></lightning-formatted-date-time>
+					<template if:true={asset.Manufacturing_Date__c}>
+						<br />
+						<b>Asset Manufacture Date:&nbsp;</b>
+						<lightning-formatted-date-time
+							value={asset.Manufacturing_Date__c}
+							year="numeric"
+							month="numeric"
+							day="numeric"
+							time-zone="UTC"
+						></lightning-formatted-date-time>
+					</template>
+					<template if:true={asset.Last_Recorded_Mileage__c}>
+						<br />
+						<b>Last Recorded Mileage:&nbsp;</b>
+						<lightning-formatted-number
+							value={asset.Last_Recorded_Mileage__c}
+						></lightning-formatted-number>
+					</template>
+					<br />
+					<template if:true={asset.showTitle}>
+						<a href={asset.TitleWebLink__c} target="_blank">View Title</a>
+						<br />
+					</template>
+					<template if:true={asset.showWindowSticker}>
+						<a href={asset.WinStickWebLink__c} target="_blank">View Window Sticker</a>
+						<br />
+					</template>
+				</div>
+				<div class="slds-col slds-col_padded lds-size_1-of-1 slds-large-size_3-of-12 details">
+					<h3 class="info-header" style="margin-top: 0">Recall Information</h3>
+					<div if:true={hasRecalls} key={recall.Id} for:each={recalls} for:item="recall">
+                        <b><lightning-formatted-date-time
+                                value={recall.CreatedDate}
+                                year="numeric"
+                                month="numeric"
+                                day="numeric"></lightning-formatted-date-time></b>&nbsp;
+                        <b>{recall.Recall_NHTSA__c}:</b>&nbsp;
+						{recall.Recall_Description__c}
+						<br />
+					</div>
+					<div if:false={hasRecalls}>
+						N/A
+					</div>
+				</div>
+				<div class="slds-col slds-col_padded lds-size_1-of-1 slds-large-size_3-of-12 details">
+					<h3 class="info-header" style="margin-top: 0">Warranty Information</h3>
+					<template if:false={isLoading}>
+						<div if:true={hasWarranty}>
+							<template if:true={hasAccessToWarranty}>
+								<b>Status:&nbsp;</b>
+								{asset.Status}
+								<br />
+								<b>Name:</b>
+								{warranty.Name}
+								<br /><br />
+								<c-warranty-action-buttons warranty-id={warranty.Id}></c-warranty-action-buttons>
+							</template>
+              <template if:false={hasAccessToWarranty}>
+								<b>Status:&nbsp;</b>Registered
+							</template>
+						</div>
+						<div if:false={hasWarranty}>
+							<span class="red-box">X</span>
+							<span class="slds-p-left_xx-small">
+								No registered warranty found. Please register using this&nbsp;
+								<a href="#" onclick={gotoWarrantyRegistration}>link</a>
+							</span>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

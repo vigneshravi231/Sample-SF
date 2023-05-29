@@ -1,0 +1,65 @@
+
+<!-- Custom Repair Tech Contact Lookup -->
+<template>
+  <div class="slds-combobox_container">
+    <div class={getDropdownClass}
+         aria-expanded={showResults}
+         aria-haspopup="listbox"
+         role="combobox">
+
+      <lightning-input type="search"
+                       class="searchRepair"
+                       disabled={disableSearch}
+                       name="search"
+                       label="Repairing Tech"
+                       required="true"
+                       value={contactName}
+                       onclick={handleOnClick}
+                       placeholder="Search Contacts..."
+                       onchange={handleContactSearch}>
+      </lightning-input>
+
+      <template if:true={showResults}>
+        <div>
+          <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid search-results-list dropdown-content"
+              tabindex="-1"
+              role="presentation">
+
+            <template if:true={isLoading}>
+              <div class="spinner">
+                <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+              </div>
+            </template>
+
+            <li class="slds-p-bottom_x-small input-padding">
+              <span class="font-weight-bold">Contact Search Results</span>
+            </li>
+
+            <template if:true={hasResults}>
+              <template for:each={contactList} for:item="contactObject" for:index="index">
+                <li key={contactObject.Id}
+                    data-index={index}
+                    onclick={selectContact}
+                    class="slds-dropdown-trigger_hover slds-p-vertical_small slds-text-body_small search-result-item input-padding">
+                  <div>
+                    {contactObject.Name}
+                  </div>
+                  <div class="slds-text-color_weak">
+                    {contactObject.Email}
+                  </div>
+                </li>
+              </template>
+            </template>
+            <template if:false={hasResults}>
+              <li class="slds-p-vertical_small slds-text-body_small input-padding no-results-item">
+                <div>
+                  No results found
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </template>
+    </div>
+  </div>
+</template>

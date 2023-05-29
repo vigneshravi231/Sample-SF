@@ -1,0 +1,33 @@
+
+
+<!-- Checkout Section -->
+<template>
+
+  <div class="slds-m-bottom_medium">
+    <div class="slds-text-heading_small slds-p-vertical_small">
+      <div>
+        <div class="checkout-number" if:true={stepNumber}>
+          <div class="checkout-number-inner">
+            {stepNumber}
+          </div>
+        </div>
+        <div if:false={stepNumber} class="hide-number checkout-number">
+          <div class="checkout-number-inner">
+            0 <!-- Spacing -->
+          </div>
+        </div>
+        <div class="inline-block slds-m-right_medium">
+          {stepTitle}
+        </div>
+        <br class="mobile-break"/>
+        <div class="slds-float_right inline-block mobile-action action">
+          <slot name="action"></slot>
+        </div>
+      </div>
+    </div>
+    <div class={boxClass}>
+      <slot name="body"></slot>
+    </div>
+  </div>
+
+</template>

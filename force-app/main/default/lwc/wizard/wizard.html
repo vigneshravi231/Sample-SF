@@ -1,0 +1,46 @@
+
+<!-- Wizard -->
+
+<template>
+	<div class="slds-card">
+		<slot name="header"></slot>
+
+		<div id="header" class="slds-card_header">
+			<div class="slds-text-align_center slds-p-around_small slds-text-heading_medium">
+				<slot name="header">{header}</slot>
+			</div>
+
+			<div class="slds-tabs_default slds-p-horizontal_medium" if:true={showTabs}>
+				<ul class="slds-tabs_default__nav" role="tablist">
+					<li class={step.class} for:each={flowSteps} for:item="step" key={step.name}>
+						<a class="slds-tabs_default__link">{step.label}</a>
+					</li>
+				</ul>
+			</div>
+
+			<lightning-progress-indicator
+				if:true={showProgressIndicator}
+				type={progressIndicatorType}
+				has-error={hasError}
+				variant={progressIndicatorVariant}
+				current-step={currentStep}
+			>
+				<template for:each={flow} for:item="step">
+					<lightning-progress-step
+						key={step.name}
+						label={step.label}
+						value={step.name}
+					></lightning-progress-step>
+				</template>
+			</lightning-progress-indicator>
+
+			<template if:true={hasError}>
+				<div class="slds-container_fluid slds-theme_error">
+					<span>{_errorMessages}</span>
+				</div>
+			</template>
+		</div>
+
+		<slot onslotchange={slotChange} onstepregistered={registerStep}></slot>
+	</div>
+</template>

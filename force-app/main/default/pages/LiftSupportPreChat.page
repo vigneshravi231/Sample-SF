@@ -1,0 +1,143 @@
+<apex:page showHeader="false"> 
+<!-- This script takes the endpoint URL parameter passed from the deployment 
+  page and makes it the action for the form -->
+    <style type="text/css">
+        body{
+            background-color: #EFEFEF;
+        }
+        .PreForm{
+            font-family: Arial Narrow;
+            font-size: 16px;
+            margin: 10px;
+            text-align: center;
+        }
+        input{
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+        }
+        textarea {
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+        }
+        input#prechat_submit {
+            display: block;
+            margin: auto;
+        }
+        .PreInputs{
+            text-align: left;
+            font-weight: bold;
+        }
+        select {
+            border-radius: 5px;
+            line-height: 1.5em;
+            margin-bottom: 10px;
+            height: 24px;
+            color: #000;
+        }
+    </style>
+
+    <script type="text/javascript">
+        (function() { 
+            function handlePageLoad() {
+               var endpointMatcher = new RegExp("[\\?\\&]endpoint=([^&#]*)");
+               document.getElementById('prechatForm').setAttribute('action',
+               decodeURIComponent(endpointMatcher.exec(document.location.search)[1]));
+            } if (window.addEventListener) {
+                      window.addEventListener('load', handlePageLoad, false);
+            } else { window.attachEvent('onload', handlePageLoad, false);
+        }})(); 
+    </script>
+    
+    <form method='post' id='prechatForm' class="PreForm"> 
+        <h1 style="font-size:18px">Welcome! Please enter your name  and e-mail address so we may serve you better. This information will be kept confidential.</h1> <br/> <br/>
+        <div class="PreInputs">
+
+            <t>First name: </t><br/>
+            <input type='text' name='liveagent.prechat:FirstNameDetail' id='customField1' /><br />
+            
+            <t>Last name: </t><br/>
+            <input type='text' name='liveagent.prechat:LastNameDetail' id='customField2' required="true"/><br />
+            
+            <t>Lift Model:</t><br/>
+            <input type='text' name='liveagent.prechat:LiftModel' id='LiftModel' /><br />
+            
+            <t>Lift Serial Number:</t><br/>
+            <input type='text' name='liveagent.prechat:LiftSerial' id='LiftSerial' /><br />
+            
+            <t>Email: </t><br/>
+            <input type='text' name='liveagent.prechat:EmailDetail' id='customField3' required="true"/><br />
+            
+            <t>Your location</t><br/>
+            <input type='text' name='liveagent.prechat:Loc' id='Loc' /><br />
+
+            <t>Your account number</t><br/>
+            <input type='text' name='liveagent.prechat:AccNum' id='customField13' /><br />
+            
+            <t>How can we help you today?</t><br />
+            <textarea name="liveagent.prechat:CaseOrigin" id="CaseOrigin"/><br />
+            <input type="hidden" name="liveagent.prechat:CaseType" id="CaseType"/>
+
+            <!-- Map liveagent.prechat:FirstNameDetail and liveagent.prechat:LastNameDetail
+                custom detail to Contact's field FirstName and LastName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map:Contact" value="FirstName,FirstNameDetail;LastName,LastNameDetail;Email,EmailDetail" />
+            <!-- Specify to query for a matching Contact records FirstName field based on
+            the value of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Contact" value="Email,true" />
+            <!-- Return results only if there is an exact match of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Contact" value="Email,true" />
+            <!-- If no match in search, create a new Contact record with the mapped value
+            of firstname and last name -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Contact" value="FirstName,true;LastName,true;Email,true" />
+            <!-- If a new Contact record has been created, open it as a subtab -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Contact" value="true" />
+            <!-- Save the Contact id to transcript's field ContactId -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Contact" value="ContactId" />
+
+
+            <!-- Map liveagent.prechat:FirstNameDetail and liveagent.prechat:LastNameDetail
+                custom detail to Account's field FirstName and LastName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map:Account" value="Customer_ID__c,AccNum" />
+            <!-- Specify to query for a matching Account records FirstName field based on
+            the value of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doFind:Account" value="Customer_ID__c,true" />
+            <!-- Return results only if there is an exact match of FirstName -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.isExactMatch:Account" value="Customer_ID__c,true" />
+            <!-- If a new Account record has been created, open it as a subtab -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Account" value="true" />
+            <!-- Save the Account id to transcript's field AccountId -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Account" value="AccountId" />
+
+
+            <!-- CASE FIELDS MAPPING AND CREATION -->
+            <input type="hidden" name="liveagent.prechat.findorcreate.map:Case"
+                   value="Lift_Model__c,LiftModel;Lift_Serial__c,LiftSerial;Description,CaseOrigin;Type,CaseType" />
+
+            <input type="hidden" name="liveagent.prechat.findorcreate.map.doCreate:Case"
+                   value="Vehicle_VIN__c,true;Lift_Model__c,true;Lift_Serial__c,true;Description,true;Type,true" />
+
+            <input type="hidden" name="liveagent.prechat.findorcreate.showOnCreate:Case" value="true" />
+
+            <input type="hidden" name="liveagent.prechat.findorcreate.saveToTranscript:Case" value="Case" />
+
+            <!-- Link the Contact to the Case -->
+            <input type= "hidden" name="liveagent.prechat.findorcreate.linkToEntity:Account" value="Case,AccountId" />
+            
+            <br/>
+            <input type='submit' value='Request Chat' onclick="setOrigin();" id='prechat_submit'/> 
+        </div> 
+        <script type="text/javascript">
+            function setOrigin(){
+                if( (document.getElementById("LiftModel").value == '' || document.getElementById("LiftModel").value == null) &&
+                    (document.getElementById("LiftSerial").value == '' || document.getElementById("LiftSerial").value == null)
+                    ){
+                    // do nothing
+                }
+                else{
+                    document.getElementById("CaseType").value = 'Chat';
+                }
+            }
+        </script> 
+    </form> 
+</apex:page>

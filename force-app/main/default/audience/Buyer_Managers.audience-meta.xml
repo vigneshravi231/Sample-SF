@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Audience xmlns="http://soap.sforce.com/2006/04/metadata">
+    <audienceName>Buyer Managers</audienceName>
+    <container>CustomerCare%2B</container>
+    <criteria>
+        <criterion>
+            <criteriaNumber>1</criteriaNumber>
+            <criterionValue>
+                <profile>customercare%2B buyer manager</profile>
+            </criterionValue>
+            <operator>Equal</operator>
+            <type>Profile</type>
+        </criterion>
+    </criteria>
+    <formulaFilterType>AllCriteriaMatch</formulaFilterType>
+    <isDefaultAudience>false</isDefaultAudience>
+    <targets>
+        <target>
+            <groupName>0a21af2a-c8ab-478d-a1c4-7a881aed7337$#$f0e32adc-9416-462b-add3-9f3490c940af</groupName>
+            <priority>1</priority>
+            <targetType>ExperienceVariation</targetType>
+            <targetValue>Home_Customizable_User_Profile_Menu_Component_Properties</targetValue>
+        </target>
+        <target>
+            <groupName>a7555b4e-f14d-453b-95fb-c7a9f82216c8$#$29bfb101-104d-4ab2-a690-f97e5f74cdde</groupName>
+            <priority>1</priority>
+            <targetType>ExperienceVariation</targetType>
+            <targetValue>Default_Customizable_User_Profile_Menu_Component_Properties</targetValue>
+        </target>
+    </targets>
+</Audience>

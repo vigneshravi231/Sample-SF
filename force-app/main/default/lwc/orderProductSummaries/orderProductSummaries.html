@@ -1,0 +1,103 @@
+<!-- Order Product Summaries -->
+<template>
+    
+    <header class="slds-p-around_x-small slds-text-title_caps slds-m-top_medium">
+        <h2>Order Items</h2>
+    </header>
+    
+    <div class="slds-box">
+        <lightning-layout multiple-rows if:true={productSummaryList}>
+            <lightning-layout-item padding="around-small" size="12" small-device-size="12" medium-device-size="12">
+                <div>
+                    <!-- Desktop -->
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover fixed mobile-hide" aria-label="Review Order Items">
+                        <thead class="slds-p-bottom_small">
+                        <tr class="slds-line-height_reset">
+                            <th scope="col" class="product-col">
+                                Products in cart
+                            </th>
+                            <th scope="col">
+                                <div class="slds-cell-wrap">
+                                    <!-- Image placeholder -->
+                                </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-cell-wrap">
+                                    SKU
+                                </div>
+                            </th>
+                            <th scope="col" class="qty-col">
+                                <div class="slds-cell-wrap slds-text-align_center">
+                                    Qty
+                                </div>
+                            </th>
+                            <th scope="col" class="total-col">
+                                <div class="slds-cell-wrap slds-text-align_center">
+                                    Total
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="item-table">
+                        <tr class="slds-hint-parent slds-border_top" for:each={productSummaryList} for:item="item" key={item.Id}>
+                            <td>
+                                <div class="slds-cell-wrap image-container">
+                                    <img src={item.imageUrl} alt="Product Image" class="product-image" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="slds-cell-wrap">
+                                    {item.Name}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="slds-cell-wrap">
+                                    {item.StockKeepingUnit}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="slds-cell-wrap slds-text-align_center">
+                                    {item.Quantity}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="slds-cell-wrap slds-text-align_center">
+                                    <lightning-formatted-number value={item.TotalPrice} format-style="currency" currency-code="USD">
+                                    </lightning-formatted-number>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- /Desktop -->
+                    <!-- Mobile -->
+                    <div class="product-container-mobile">
+                        <div class="slds-hint-parent mobile-show slds-text-align_center product-box" for:each={productSummaryList} for:item="item" key={item.Id}>
+                            <div class="slds-border_bottom slds-p-bottom_large">
+                                <div class="slds-cell-wrap image-container slds-m-top_large">
+                                    <img src={item.imageUrl} alt="Product Image" class="product-image" />
+                                </div>
+                                <div class="slds-m-top_x-small">
+                                    <b>Product Name</b> {item.Name}
+                                </div>
+                                <div class="slds-m-top_x-small">
+                                    <b>SKU</b> {item.StockKeepingUnit}
+                                </div>
+                                <div class="slds-m-top_x-small slds-text-align_center">
+                                    <b>Qty</b> {item.Quantity}
+                                </div>
+                                <div class="slds-cell-wrap slds-text-align_center slds-m-top_x-small">
+                                    <b>Total </b>
+                                    <lightning-formatted-number value={item.TotalPrice} format-style="currency" currency-code="USD">
+                                    </lightning-formatted-number>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Mobile -->
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+    
+</template>

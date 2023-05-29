@@ -1,0 +1,28 @@
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+
+  <!-- Handlers -->
+  <!-- <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> -->
+
+  <!-- Attributes -->
+  <aura:attribute name="isOpen" type="Boolean" default="false" access="private"/>
+  <!-- Body -->
+  <c:dashboardAnalytics onstartflow="{!c.initFlow}"/>
+  <aura:if isTrue="{!v.isOpen}">
+    <div>
+      <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header slds-modal__header_empty">
+            <lightning:buttonIcon variant="bare-inverse" iconName="utility:close" class="slds-modal__close" onclick="{!c.closeFlowModal}"/>
+          </header>
+          <div class="slds-modal__content slds-p-around_medium">
+            <lightning:flow aura:id="flowData" onstatuschange="{!c.closeModalOnFinish}" />
+          </div>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
+  <!-- /Body -->
+
+</aura:component>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Can_Convert_Quote__c</fullName>
+    <description>BC-617 indicates if a quote can be converted to order</description>
+    <externalId>false</externalId>
+    <formula>AND(
+  Is_Quote_Order__c,
+  ISPICKVAL(Type, &apos;Quote&apos;),
+  ISPICKVAL(Approval_Status__c, &apos;Pending&apos;),
+  NOT(ISBLANK(Quote_Number__c)),
+  TODAY() - 30 &lt; DATEVALUE(OrderedDate)
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <inlineHelpText>indicates if a quote can be converted to order</inlineHelpText>
+    <label>Can Convert Quote</label>
+    <trackHistory>false</trackHistory>
+    <type>Checkbox</type>
+</CustomField>

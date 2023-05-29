@@ -1,0 +1,41 @@
+
+<!-- My Assets -->
+<template>
+  <lightning-spinner if:true={isLoading}></lightning-spinner>
+
+  <div class="flex slds-m-bottom_medium slds-m-top_xx-small">
+    <div class="header">
+      <lightning-icon icon-name="standard:case" class="brandColor"></lightning-icon>
+      <div class="slds-text-heading_medium slds-m-left_small">My Assets</div>
+    </div>
+    <lightning-input
+      label=""
+      variant="label-hidden"
+      placeholder="Search by Asset Name, Vin or Product..."
+      value={query}
+      class="search slds-m-left_medium"
+      onchange={handleSearchQueryChange}
+      onkeydown={handleSearchQueryKeyPress}
+    >
+    </lightning-input>
+  </div>
+  <div class="slds-border_top" if:true={assetsExist}>
+    <lightning-datatable
+      key-field="Id"
+      resize-column-disabled
+      hide-checkbox-column
+      data={assets}
+      default-sort-direction="asc"
+      sorted-direction={sortDirection}
+      sorted-by={sortedBy}
+      columns={columns}
+      onsort={onHandleSort}
+    ></lightning-datatable>
+    <div>
+      <c-pagination-bar pagination={pagination} onpaginationchange={onPaginationChange}>
+      </c-pagination-bar>
+    </div>
+  </div>
+
+  <div class="slds-text-align_center slds-m-around_xx-large" if:false={assetsExist}>No Assets available for this seller</div>
+</template>
